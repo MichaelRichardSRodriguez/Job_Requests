@@ -1,0 +1,142 @@
+﻿@model Job_Requests.Models.JobRequest
+
+@{
+	ViewData["Title"] = "Manage Job Request";
+
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+	<div class="col-md-12">
+		<form id="jobRequestForm" asp-action="Manage">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="JobRequestId" />
+
+			<!-- Create 2 columns -->
+			<div class="row">
+				<!-- Left Column -->
+				<div class="col-md-6 col-12">
+					<!-- DepartmentId Display (Label Only) -->
+					<div class="form-group">
+						<label asp-for="DepartmentId" class="control-label"></label>
+						<select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId" disabled></select>
+						<span asp-validation-for="DepartmentId" class="text-danger"></span>
+					</div>
+
+					<!-- JobDescription Display (Label Only) -->
+					<div class="form-group">
+						<label class="control-label">Job Description</label>
+						<textarea asp-for="@Model.JobDescription" class="form-control" style="height:150px;" readonly></textarea>
+						<span asp-validation-for="JobDescription" class="text-danger"></span>
+					</div>
+
+					<!-- RequestDate Display (Label Only) -->
+					<div class="form-group">
+						<label class="control-label">Request Date</label>
+						<input asp-for="@Model.RequestDate" class="form-control" readonly />
+						<span asp-validation-for="RequestDate" class="text-danger"></span>
+					</div>
+
+					<!-- Status Field (Readonly) -->
+					<div class="form-group">
+						<label asp-for="Status" class="control-label">Current Status</label>
+						<select asp-for="Status" class="form-control" asp-items=" ViewBag.JobStatusList" disabled>
+							<option value="InProgress">InProgress</option>
+							<option value="Completed">Completed</option>
+							<option value="Cancelled">Cancelled</option>
+						</select>
+
+					</div>
+				</div>
+
+				<!-- Right Column -->
+				<div class="col-md-6 col-12">
+					<div class="form-group">
+						<label asp-for="Status" class="control-label">Update Status</label>
+						<select id="status" asp-for="Status" class="form-select" autofocus>
+							<option value="" selected disabled>-- Update Status --</option>
+							@if (Model.Status == JobStatusEnum.Pending)
+							{
+								<option value="InProgress">InProgress</option>
+								<option value="Cancelled">Cancelled</option>
+							}
+							else if (Model.Status == JobStatusEnum.Cancelled)
+							{
+								<option value="InProgress">InProgress</option>
+							}
+							else if (Model.Status == JobStatusEnum.Completed)
+							{
+								<option value="InProgress">InProgress</option>
+							}
+							else
+							{
+								<option value="Completed">Completed</option>
+								<option value="Cancelled">Cancelled</option>
+							}
+
+
+						</select>
+						<span asp-validation-for="Status" class="text-danger"></span>
+					</div>
+
+					<!-- FinalRemarks Field (Editable TextArea for Cancel/Complete Remarks) -->
+					<div class="form-group" id="remarksDiv">
+						<label asp-for="Remarks" class="control-label"></label>
+						<textarea id="remarks" asp-for="Remarks" class="form-control" style="height:150px;"></textarea>
+						<span asp-validation-for="Remarks" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Status Field (Editable Dropdown for Cancel/Complete) -->
+			<!-- Submit/Back Button -->
+			<div class="form-group justify-content-between mt-3">
+				<button type="submit" class="btn btn-success"> <i class="bi bi-floppy"></i> Submit</button>
+				<a asp-action="Index" class="btn btn-outline-dark"><i class="bi bi-arrow-left-square"></i> Back</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+
+  <script>
+        $(document).ready(function () {
+            // Check if remarks should be required based on the status
+            $('#status').change(function () {
+                // If the status is Cancelled or Completed, make Remarks required
+                if ($(this).val() === 'Cancelled' || $(this).val() === 'Completed') {
+                    $('#remarks').prop('required', true); // Make remarks required
+                    $('#remarks').attr('aria-required', 'true'); // Add aria-required attribute for accessibility
+
+                    // Clear any previous error message
+                    $('#remarks').next('span').text('');
+                } else {
+                    $('#remarks').prop('required', false); // Remove the required property
+                    $('#remarks').removeAttr('aria-required'); // Remove aria-required attribute
+
+                    // Clear any previous error message
+                    $('#remarks').next('span').text('');
+                }
+            });
+
+            // On form submission, check if remarks are required and not empty
+            $('#jobRequestForm').submit(function (event) {
+                var remarks = $('#remarks');
+                if (remarks.prop('required') && remarks.val().trim() === '') {
+                    // Display error message in the span associated with remarks
+                    $('#remarks').next('span').text('Remarks are required when the status is Cancelled or Completed.');
+                    $('#remarks').next('span').addClass('text-danger'); // Add red color for error
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        });
+    </script>
+}
+
