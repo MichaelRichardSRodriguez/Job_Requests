@@ -1,6 +1,77 @@
 ﻿@model Job_Requests.Models.Department
 
 @{
+    ViewData["Title"] = "Manage Department";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Manage">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DepartmentId" />
+            <input type="hidden" asp-for="Status" />
+
+            <div class="form-group">
+                <label asp-for="DepartmentName" class="control-label"></label>
+                <input asp-for="DepartmentName" class="form-control" readonly />
+                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentDescription" class="control-label"></label>
+                <textarea asp-for="DepartmentDescription" class="form-control" style="height:150px;" readonly></textarea>
+                <span asp-validation-for="DepartmentDescription" class="text-danger"></span>
+            </div>
+
+            <!-- Display Current Status -->
+            <div class="form-group">
+                <label class="control-label">Current Status:</label>
+                <p class="form-control-static">
+                    @if (Model.Status == RecordStatusEnum.Active)
+                    {
+						<span class="text-success"><strong>Active</strong></span>
+                    }
+                    else
+                    {
+						<span class="text-danger"><strong>Inactive</strong></span>
+                    }
+                </p>
+            </div>
+            <!-- Buttons -->
+            <div class="form-group justify-content-between mt-3">
+                @if (Model.Status == RecordStatusEnum.Active)
+                {
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-file-earmark-excel"></i>
+                        Deactivate
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check2-square"></i>
+                        Activate
+                    </button>
+                }
+
+                <a asp-action="Index" class="btn btn-outline-dark"><i class="bi bi-arrow-left-square"></i> Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<!-- OLD CODE --> 
+
+@* @model Job_Requests.Models.Department
+
+@{
 	ViewData["Title"] = "Manage Department";
 }
 
@@ -51,3 +122,4 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
 }
+ *@

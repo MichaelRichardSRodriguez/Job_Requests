@@ -2,6 +2,7 @@
 
 @{
 	ViewData["Title"] = "Manage Job Request";
+	var statusStyle = string.Empty;
 
 }
 
@@ -40,13 +41,33 @@
 
 					<!-- Status Field (Readonly) -->
 					<div class="form-group">
-						<label asp-for="Status" class="control-label">Current Status</label>
-						<select asp-for="Status" class="form-control" asp-items=" ViewBag.JobStatusList" disabled>
-							<option value="InProgress">InProgress</option>
-							<option value="Completed">Completed</option>
-							<option value="Cancelled">Cancelled</option>
-						</select>
+						<label class="control-label">Current Status:</label>
+						<p class="form-control-static">
 
+							@switch (Model.Status)
+							{
+								case JobStatusEnum.Pending:
+									statusStyle = "text-secondary";
+									break;
+								case JobStatusEnum.InProgress:
+									statusStyle = "text-primary";
+									break;
+								case JobStatusEnum.Completed:
+									statusStyle = "text-success";
+									break;
+								case JobStatusEnum.Cancelled:
+									statusStyle = "text-danger";
+									break;
+
+							}
+
+							<span class="@statusStyle">
+								<strong>
+									@Html.DisplayFor(model => model.Status)
+								</strong>
+							</span>
+
+						</p>
 					</div>
 				</div>
 

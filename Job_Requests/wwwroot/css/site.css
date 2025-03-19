@@ -22,7 +22,34 @@ body {
 }
 
 
+/* Customize the size and animation of Bootstrap tooltips */
+.tooltip-inner {
+    font-size: 1rem; /* Make the text larger */
+    padding: 10px 15px; /* Increase padding to make the tooltip box bigger */
+    animation: zoomIn 0.4s ease-in-out;
+}
 
 
+/* Slide-in from the top */
+.tooltip.bs-tooltip-top .tooltip-inner {
+    animation: zoomIn 0.4s ease-in-out;
+}
 
+@keyframes zoomIn {
+    from {
+        transform: scale(0.6);
+        opacity: 0;
+    }
 
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before,
+.tooltip.bs-tooltip-top .tooltip-arrow::before,
+.tooltip.bs-tooltip-start .tooltip-arrow::before,
+.tooltip.bs-tooltip-end .tooltip-arrow::before {
+    border-width: 7px; /* Adjust arrow size */
+}

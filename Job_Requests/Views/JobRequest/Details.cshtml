@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Job Request Details";
+    var statusStyle = string.Empty;
 }
 
 <h4>@ViewData["Title"]</h4>
@@ -31,7 +32,32 @@
             @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+
+
+            @switch (Model.Status)
+            {
+                case JobStatusEnum.Pending:
+                    statusStyle = "text-secondary";
+                    break;
+                case JobStatusEnum.InProgress:
+                    statusStyle = "text-primary";
+                    break;
+                case JobStatusEnum.Completed:
+                    statusStyle = "text-success";
+                    break;
+                case JobStatusEnum.Cancelled:
+                    statusStyle = "text-danger";
+                    break;
+
+            }
+
+            <span class="@statusStyle">
+                <strong>
+                    @Html.DisplayFor(model => model.Status)
+                </strong>
+            </span>
+
+
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Department)

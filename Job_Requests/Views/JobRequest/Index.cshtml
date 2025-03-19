@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<Job_Requests.Models.JobRequest>
+﻿@model IEnumerable<Job_Requests.Models.JobRequest>
 
 @{
 	ViewData["Title"] = "Job Requests";
@@ -31,10 +30,10 @@
 			<th>
 				@Html.DisplayNameFor(model => model.DateCompleted)
 			</th>
-			<th>
+			<th class="text-center">
 				@Html.DisplayNameFor(model => model.Status)
 			</th>
-			<th>Actions</th>
+			<th class ="text-center">Actions</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -53,7 +52,7 @@
 				<td>
 					@Html.DisplayFor(modelItem => item.DateCompleted)
 				</td>
-				<td>
+				<td class="text-center">
 
 					@switch (item.Status)
 					{
@@ -75,17 +74,39 @@
 					<span class="badge rounded-pill @statusStyle">
 						@Html.DisplayFor(modelItem => item.Status)
 					</span>
-					 
+
 				</td>
 
-				<td>
-					<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
-					<a asp-action="Details" asp-route-id="@item.JobRequestId" class="btn btn-primary btn-sm"><i class="bi bi-info-square"></i> Details</a>
-					<a asp-action="Manage" asp-route-id="@item.JobRequestId" class="btn btn-warning btn-sm"><i class="bi bi-gear"></i> Manage</a>
-					<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</a>
+				<td class="text-center">
+					@if (item.Status == JobStatusEnum.Pending)
+					{
+						<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-success" 
+							data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
+							<i class="bi bi-pencil-square"></i>
+						</a>
+					}
+					else
+					{
+						<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-success disabled">
+							<i class="bi bi-pencil-square"></i>
+						</a>
+					}
 
+					<a asp-action="Details" asp-route-id="@item.JobRequestId" class="btn btn-primary" 
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Show Details">
+						<i class="bi bi-info-square"></i>
+					</a>
+					<a asp-action="Manage" asp-route-id="@item.JobRequestId" class="btn btn-warning" 
+						data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
+						<i class="bi bi-gear"></i>
+					</a>
+					<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-danger" 
+						data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record">
+						<i class="bi bi-trash"></i>
+					</a>
 				</td>
 			</tr>
 		}
 	</tbody>
 </table>
+
