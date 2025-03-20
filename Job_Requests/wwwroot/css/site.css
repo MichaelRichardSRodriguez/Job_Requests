@@ -1,11 +1,11 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -18,7 +18,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: linear-gradient(90deg, rgba(173,178,212,1) 6%, rgba(199,217,221,1) 48%, rgba(213,229,213,1) 100%);
 }
 
 
@@ -53,3 +54,12 @@ body {
 .tooltip.bs-tooltip-end .tooltip-arrow::before {
     border-width: 7px; /* Adjust arrow size */
 }
+
+
+.card {
+    background-color: #EEF1DA;
+}
+
+/*.navbar {
+    background-color: #A7B57A;
+}*/

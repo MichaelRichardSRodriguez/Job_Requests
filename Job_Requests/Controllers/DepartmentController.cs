@@ -222,7 +222,7 @@ namespace Job_Requests.Controllers
 						// Handle the specific SQL exception for constraint violations, if needed
 						if (sqlEx.Number == 547)  // SQL error code for foreign key constraint violation
 						{
-							TempData["error"] = $"Cannot delete department because it is referenced by other records.";
+                            ViewBag.ReferencedDepartment = $"Cannot delete department because it is referenced by other records.";
 						}
 					}
                     else

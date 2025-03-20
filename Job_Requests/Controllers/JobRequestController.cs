@@ -245,11 +245,14 @@ namespace Job_Requests.Controllers
                     { 
                         jobRequestFromDb.DateCompleted = DateTime.Now;
                     }
-                    else
-                    {
-                        jobRequestFromDb.DateCompleted = null;
-						jobRequestFromDb.Remarks = null;
+					else 
+					{
+						jobRequestFromDb.DateCompleted = null;
+
+						if (jobRequest.Status == JobStatusEnum.InProgress)
+						    jobRequestFromDb.Remarks = null;
 					}
+
 
                     await _jobRequestService.UpdateJobRequestAsync(jobRequestFromDb);
 					TempData["success"] = "Job Request Updated Successfully.";
