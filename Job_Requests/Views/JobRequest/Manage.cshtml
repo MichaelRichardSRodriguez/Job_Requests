@@ -1,4 +1,4 @@
-﻿@model Job_Requests.Models.JobRequest
+﻿@model Job_Requests.Models.ViewModels.JobRequestVM
 
 @{
 	ViewData["Title"] = "Manage Job Request";
@@ -21,7 +21,7 @@
                     <form id="jobRequestForm" asp-action="Manage">
                         <!-- Validation Summary -->
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
-                        <input type="hidden" asp-for="JobRequestId" />
+                        <input type="hidden" asp-for="JobRequests.JobRequestId" />
 
                         <!-- Create 2 columns -->
                         <div class="row">
@@ -29,16 +29,16 @@
                             <div class="col-md-6 col-12 mb-4">
                                 <!-- DepartmentId Display (Label Only) -->
                                 <div class="form-group">
-                                    <label asp-for="DepartmentId" class="control-label fw-bold"></label>
-                                    <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId" disabled></select>
-                                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                                    <label asp-for="JobRequests.DepartmentId" class="control-label fw-bold"></label>
+                                    <select asp-for="JobRequests.DepartmentId" class="form-control" asp-items="@Model.Departments" disabled></select>
+                                    <span asp-validation-for="JobRequests.DepartmentId" class="text-danger"></span>
                                 </div>
 
                                 <!-- JobDescription Display (Label Only) -->
                                 <div class="form-group">
                                     <label class="control-label fw-bold">Job Description</label>
-                                    <textarea asp-for="JobDescription" class="form-control" style="height:150px;" readonly></textarea>
-                                    <span asp-validation-for="JobDescription" class="text-danger"></span>
+                                    <textarea asp-for="JobRequests.JobDescription" class="form-control" style="height:150px;" readonly></textarea>
+                                    <span asp-validation-for="JobRequests.JobDescription" class="text-danger"></span>
                                 </div>
 
                                 <div class="row">
@@ -46,8 +46,8 @@
                                         <!-- RequestDate Display (Label Only) -->
                                         <div class="form-group">
                                             <label class="control-label fw-bold">Request Date</label>
-                                            <input asp-for="RequestDate" class="form-control" readonly />
-                                            <span asp-validation-for="RequestDate" class="text-danger"></span>
+                                            <input asp-for="JobRequests.RequestDate" class="form-control" readonly />
+                                            <span asp-validation-for="JobRequests.RequestDate" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-5">
@@ -56,7 +56,7 @@
                                             <label class="control-label fw-bold">Current Status:</label>
                                             <p class="form-control-static">
 
-                                                @switch (Model.Status)
+                                                @switch (Model.JobRequests.Status)
                                                 {
                                                     case JobStatusEnum.Pending:
                                                         statusStyle = "badge bg-secondary text-white";
@@ -74,7 +74,7 @@
 
                                                 <span class="@statusStyle w-100">
                                                     <strong>
-                                                        @Html.DisplayFor(model => model.Status)
+                                                        @Html.DisplayFor(model => model.JobRequests.Status)
                                                     </strong>
                                                 </span>
                                             </p>
@@ -87,19 +87,19 @@
                             <div class="col-md-6 col-12 mb-4">
                                 <!-- Status Field (Update) -->
                                 <div class="form-group">
-                                    <label asp-for="Status" class="control-label fw-bold">Update Status</label>
-                                    <select id="status" asp-for="Status" class="form-select" autofocus>
+                                    <label asp-for="JobRequests.Status" class="control-label fw-bold">Update Status</label>
+                                    <select id="status" asp-for="JobRequests.Status" class="form-select" autofocus>
                                         <option value="" selected disabled>-- Update Status --</option>
-                                        @if (Model.Status == JobStatusEnum.Pending)
+                                        @if (Model.JobRequests.Status == JobStatusEnum.Pending)
                                         {
                                                 <option value="InProgress">InProgress</option>
                                                 <option value="Cancelled">Cancelled</option>
                                         }
-                                        else if (Model.Status == JobStatusEnum.Cancelled)
+                                        else if (Model.JobRequests.Status == JobStatusEnum.Cancelled)
                                         {
                                                 <option value="InProgress">InProgress</option>
                                         }
-                                        else if (Model.Status == JobStatusEnum.Completed)
+                                        else if (Model.JobRequests.Status == JobStatusEnum.Completed)
                                         {
                                                 <option value="InProgress">InProgress</option>
                                         }
@@ -109,14 +109,14 @@
                                                 <option value="Cancelled">Cancelled</option>
                                         }
                                     </select>
-                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                    <span asp-validation-for="JobRequests.Status" class="text-danger"></span>
                                 </div>
 
                                 <!-- Final Remarks (Editable TextArea for Cancel/Complete Remarks) -->
                                 <div class="form-group" id="remarksDiv">
-                                    <label asp-for="Remarks" class="control-label fw-bold"></label>
-                                    <textarea id="remarks" asp-for="Remarks" class="form-control" style="height:150px;"></textarea>
-                                    <span asp-validation-for="Remarks" class="text-danger"></span>
+                                    <label asp-for="JobRequests.Remarks" class="control-label fw-bold"></label>
+                                    <textarea id="remarks" asp-for="JobRequests.Remarks" class="form-control" style="height:150px;"></textarea>
+                                    <span asp-validation-for="JobRequests.Remarks" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-﻿@model Job_Requests.Models.JobRequest
+﻿@model Job_Requests.Models.ViewModels.JobRequestVM
 
 @{
     ViewData["Title"] = "Edit Job Request";
@@ -17,21 +17,23 @@
                     <!-- Job Request Form -->
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
-                        <input type="hidden" asp-for="JobRequestId" />
+                        <input type="hidden" asp-for="JobRequests.JobRequestId" />
+                        <input type="hidden" asp-for="JobRequests.DepartmentId" />
+                        <input type="hidden" asp-for="JobRequests.Status" />
 
                         <!-- Department Dropdown -->
                         <div class="form-group mb-4">
-                            <label asp-for="DepartmentId" class="form-label fw-bold">Department</label>
-                            <select asp-for="DepartmentId" class="form-select form-control-lg" asp-items="ViewBag.DepartmentId" disabled>
+                            <label asp-for="JobRequests.DepartmentId" class="form-label fw-bold">Department</label>
+                            <select asp-for="JobRequests.DepartmentId" class="form-control form-control-lg" asp-items="@Model.Departments" disabled>
                             </select>
-                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            <span asp-validation-for="JobRequests.DepartmentId" class="text-danger"></span>
                         </div>
 
                         <!-- Job Description Textarea -->
                         <div class="form-group mb-4">
-                            <label asp-for="JobDescription" class="form-label fw-bold">Job Description</label>
-                            <textarea asp-for="JobDescription" class="form-control form-control-lg" style="height:200px;" autofocus></textarea>
-                            <span asp-validation-for="JobDescription" class="text-danger"></span>
+                            <label asp-for="JobRequests.JobDescription" class="form-label fw-bold">Job Description</label>
+                            <textarea asp-for="JobRequests.JobDescription" class="form-control form-control-lg" style="height:200px;" autofocus></textarea>
+                            <span asp-validation-for="JobRequests.JobDescription" class="text-danger"></span>
                         </div>
 
 
@@ -39,9 +41,9 @@
                             <div class="col-7">
                                 <!-- Request Date Input -->
                                 <div class="form-group mb-4">
-                                    <label asp-for="RequestDate" class="form-label fw-bold">Request Date</label>
-                                    <input asp-for="RequestDate" class="form-control" readonly />
-                                    <span asp-validation-for="RequestDate" class="text-danger"></span>
+                                    <label asp-for="JobRequests.RequestDate" class="form-label fw-bold">Request Date</label>
+                                    <input asp-for="JobRequests.RequestDate" class="form-control" readonly/>
+                                    <span asp-validation-for="JobRequests.RequestDate" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-5">
@@ -49,7 +51,7 @@
                                 <div class="form-group mb-4">
                                     <label class="control-label fw-bold">Current Status:</label>
                                     <p class="form-control-static form-control-lg">
-                                        @switch (Model.Status)
+                                        @switch (Model.JobRequests.Status)
                                         {
                                             case JobStatusEnum.Pending:
                                                 statusStyle = "badge bg-secondary text-white";
@@ -65,7 +67,7 @@
                                                 break;
                                         }
                                         <span class="@statusStyle w-100">
-                                            <strong>@Html.DisplayFor(model => model.Status)</strong>
+                                            <strong>@Html.DisplayFor(model => model.JobRequests.Status)</strong>
                                         </span>
                                     </p>
                                 </div>
@@ -90,7 +92,6 @@
         </div>
     </div>
 </div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

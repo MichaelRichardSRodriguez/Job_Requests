@@ -68,5 +68,24 @@ namespace Job_Requests.DataAccess.Repositories
             return await _dbSet.AnyAsync(expression);
         }
 
+        public async Task<T> GetRecordAsync(Expression<Func<T, bool>>? filter = null, bool tracked = false, params string[]? includeProperties)
+        {
+            IQueryable<T> query = tracked ? _dbSet : _dbSet.AsNoTracking();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach(var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return await query.FirstOrDefaultAsync(); ;
+        }
     }
 }

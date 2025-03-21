@@ -1,4 +1,4 @@
-﻿@model Job_Requests.Models.JobRequest
+﻿@model Job_Requests.Models.ViewModels.JobRequestVM
 
 @{
     ViewData["Title"] = "Delete Job Request";
@@ -17,34 +17,38 @@
                     <!-- Job Request Details -->
                     <dl class="row mb-4">
                         <dt class="col-sm-3 fw-bold">
-                            @Html.DisplayNameFor(model => model.Department)
+                            @Html.DisplayNameFor(model => model.JobRequests.Department)
                         </dt>
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.Department.DepartmentDescription)
+@*                             @{
+                                var department = Model.Departments.FirstOrDefault(d => d.Value == Model.JobRequests.DepartmentId.ToString());
+                            }
+                            @department?.Text *@
+                            @Html.DisplayFor(model => model.JobRequests.Department.DepartmentName)
                         </dd>
                         <dt class="col-sm-3 fw-bold">
-                            @Html.DisplayNameFor(model => model.JobDescription)
+                            @Html.DisplayNameFor(model => model.JobRequests.JobDescription)
                         </dt>
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.JobDescription)
+                            @Html.DisplayFor(model => model.JobRequests.JobDescription)
                         </dd>
                         <dt class="col-sm-3 fw-bold">
-                            @Html.DisplayNameFor(model => model.RequestDate)
+                            @Html.DisplayNameFor(model => model.JobRequests.RequestDate)
                         </dt>
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.RequestDate)
+                            @Html.DisplayFor(model => model.JobRequests.RequestDate)
                         </dd>
                         <dt class="col-sm-3 fw-bold">
-                            @Html.DisplayNameFor(model => model.DateCompleted)
+                            @Html.DisplayNameFor(model => model.JobRequests.DateCompleted)
                         </dt>
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.DateCompleted)
+                            @Html.DisplayFor(model => model.JobRequests.DateCompleted)
                         </dd>
                         <dt class="col-sm-3 fw-bold">
-                            @Html.DisplayNameFor(model => model.Status)
+                            @Html.DisplayNameFor(model => model.JobRequests.Status)
                         </dt>
                         <dd class="col-sm-9">
-                            @Html.DisplayFor(model => model.Status)
+                            @Html.DisplayFor(model => model.JobRequests.Status)
                         </dd>
                     </dl>
 
@@ -52,7 +56,7 @@
                     <h5 class="text-danger">Are you sure you want to delete this Job Request?</h5>
 
                     <form asp-action="Delete">
-                        <input type="hidden" asp-for="DepartmentId" />
+                        <input type="hidden" asp-for="JobRequests.DepartmentId" />
                         <div class="d-flex justify-content-between mt-4">
                             <!-- Delete Button with Icon -->
                             <button type="submit" class="btn btn-danger w-45 shadow">

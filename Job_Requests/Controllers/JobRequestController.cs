@@ -42,7 +42,18 @@ namespace Job_Requests.Controllers
                 return NotFound();
             }
 
-            return View(jobRequest);
+            var departments = await _departmentService.GetDepartmentsAsync();
+            JobRequestVM jobRequestVM = new()
+            {
+                JobRequests = jobRequest,
+                Departments = departments.Select(d => new SelectListItem
+                {
+                    Text = d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                })
+            };
+
+            return View(jobRequestVM);
         }
 
         // GET: JobRequest/Create
@@ -94,27 +105,27 @@ namespace Job_Requests.Controllers
         {
 
             var jobRequest = await _jobRequestService.GetJobRequestByIdAsync(id);
+
             if (jobRequest == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
+
+			var departments = await _departmentService.GetDepartmentsAsync();
+			JobRequestVM jobRequestVM = new()
+            {
+                JobRequests = jobRequest,
+                Departments = departments.Select(d => new SelectListItem
+                {
+                    Text= d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                })
+            };
 
 
-            // Convert Enum to SelectListItem
-            var statusList = Enum.GetValues(typeof(JobStatusEnum))
-                                 .Cast<JobStatusEnum>()
-                                 .Select(s => new SelectListItem
-                                 {
-                                     Text = s.ToString(),
-                                     Value = ((int)s).ToString()
-                                 })
-                                 .ToList();
+            //ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
 
-            // Pass the list to the view via ViewBag
-            ViewBag.JobStatusList = statusList;
-
-            return View(jobRequest);
+            return View(jobRequestVM);
         }
 
         // POST: JobRequest/Edit/5
@@ -122,9 +133,9 @@ namespace Job_Requests.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, JobRequest jobRequest)
+        public async Task<IActionResult> Edit(int id, JobRequestVM jobRequestVM)
         {
-            if (id != jobRequest.JobRequestId)
+            if (id != jobRequestVM.JobRequests.JobRequestId)
             {
                 return NotFound();
             }
@@ -133,12 +144,12 @@ namespace Job_Requests.Controllers
             {
                 try
                 {
-                    await _jobRequestService.UpdateJobRequestAsync(jobRequest);
+                    await _jobRequestService.UpdateJobRequestAsync(jobRequestVM.JobRequests);
 					TempData["success"] = "Job Request Updated Successfully.";
 				}
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _jobRequestService.IsExistingJobRequest(jobRequest.JobRequestId))
+                    if (!await _jobRequestService.IsExistingJobRequest(jobRequestVM.JobRequests.JobRequestId))
                     {
                         return NotFound();
                     }
@@ -149,25 +160,34 @@ namespace Job_Requests.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
-            return View(jobRequest);
+            
+            return View(jobRequestVM);
         }
 
         // GET: JobRequest/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
 
-            //var jobRequest = await _context.JobRequests
-            //    .Include(j => j.Department)
-            //    .FirstOrDefaultAsync(m => m.JobRequestId == id);
-
             var jobRequest = await _jobRequestService.GetJobRequestByIdAsync(id);
+
             if (jobRequest == null)
             {
                 return NotFound();
             }
 
-            return View(jobRequest);
+            var departments = await _departmentService.GetDepartmentsAsync();
+
+            JobRequestVM jobRequestVM = new()
+            {
+                JobRequests = jobRequest,
+                Departments = departments.Select(d => new SelectListItem
+                {
+                    Text = d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                })
+            };
+
+            return View(jobRequestVM);
         }
 
         // POST: JobRequest/Delete/5
@@ -195,23 +215,35 @@ namespace Job_Requests.Controllers
                 return NotFound();
             }
 
-            ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
+            var departments = await _departmentService.GetDepartmentsAsync();
+            JobRequestVM jobRequestVM = new()
+            {
+                JobRequests = jobRequest,
+                Departments = departments.Select(d => new SelectListItem
+                {
+                    Text = d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                })
+            };
 
 
-            // Convert Enum to SelectListItem
-            var statusList = Enum.GetValues(typeof(JobStatusEnum))
-                                 .Cast<JobStatusEnum>()
-                                 .Select(s => new SelectListItem
-                                 {
-                                     Text = s.ToString(),
-                                     Value = ((int)s).ToString()
-                                 })
-                                 .ToList();
+            //ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
 
-            // Pass the list to the view via ViewBag
-            ViewBag.JobStatusList = statusList;
 
-            return View(jobRequest);
+            //// Convert Enum to SelectListItem
+            //var statusList = Enum.GetValues(typeof(JobStatusEnum))
+            //                     .Cast<JobStatusEnum>()
+            //                     .Select(s => new SelectListItem
+            //                     {
+            //                         Text = s.ToString(),
+            //                         Value = ((int)s).ToString()
+            //                     })
+            //                     .ToList();
+
+            //// Pass the list to the view via ViewBag
+            //ViewBag.JobStatusList = statusList;
+
+            return View(jobRequestVM);
         }
 
         // POST: JobRequest/Manage/5
@@ -219,9 +251,9 @@ namespace Job_Requests.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Manage(int id, JobRequest jobRequest)
+        public async Task<IActionResult> Manage(int id, JobRequestVM jobRequestVM)
         {
-            if (id != jobRequest.JobRequestId)
+            if (id != jobRequestVM.JobRequests.JobRequestId)
             {
                 return NotFound();
             }
@@ -238,10 +270,10 @@ namespace Job_Requests.Controllers
                         return BadRequest();
                     }
 
-                    jobRequestFromDb.Status = jobRequest.Status;
-                    jobRequestFromDb.Remarks = jobRequest.Remarks;
+                    jobRequestFromDb.Status = jobRequestVM.JobRequests.Status;
+                    jobRequestFromDb.Remarks = jobRequestVM.JobRequests.Remarks;
 
-                    if (jobRequest.Status == JobStatusEnum.Completed)
+                    if (jobRequestFromDb.Status == JobStatusEnum.Completed)
                     { 
                         jobRequestFromDb.DateCompleted = DateTime.Now;
                     }
@@ -249,7 +281,7 @@ namespace Job_Requests.Controllers
 					{
 						jobRequestFromDb.DateCompleted = null;
 
-						if (jobRequest.Status == JobStatusEnum.InProgress)
+						if (jobRequestFromDb.Status == JobStatusEnum.InProgress)
 						    jobRequestFromDb.Remarks = null;
 					}
 
@@ -260,7 +292,7 @@ namespace Job_Requests.Controllers
 				}
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _jobRequestService.IsExistingJobRequest(jobRequest.JobRequestId))
+                    if (!await _jobRequestService.IsExistingJobRequest(jobRequestVM.JobRequests.JobRequestId))
                     {
                         return NotFound();
                     }
@@ -272,8 +304,14 @@ namespace Job_Requests.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
-            return View(jobRequest);
+            var departments = await _departmentService.GetDepartmentsAsync();
+            jobRequestVM.Departments = departments.Select(d => new SelectListItem
+            {
+                Text = d.DepartmentName,
+                Value = d.DepartmentId.ToString()
+            });
+
+            return View(jobRequestVM);
         }
 
     }

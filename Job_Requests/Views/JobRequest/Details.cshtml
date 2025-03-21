@@ -1,4 +1,4 @@
-﻿@model Job_Requests.Models.JobRequest
+﻿@model Job_Requests.Models.ViewModels.JobRequestVM
 
 @{
     ViewData["Title"] = "Job Request Details";
@@ -18,34 +18,38 @@
                     <!-- Job Request Details -->
                     <dl class="row mb-4">
                         <dt class="col-sm-4 fw-bold">
-                            @Html.DisplayNameFor(model => model.Department)
+                            @Html.DisplayNameFor(model => model.JobRequests.Department)
                         </dt>
                         <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Department.DepartmentDescription)
+                            @Html.DisplayFor(model => model.JobRequests.Department.DepartmentName)
+@*                             @{
+                                var department = Model.Departments.FirstOrDefault(d => d.Value == Model.JobRequests.DepartmentId.ToString());
+                            }
+                            @department?.Text *@
                         </dd>
                         <dt class="col-sm-4 fw-bold">
-                            @Html.DisplayNameFor(model => model.JobDescription)
+                            @Html.DisplayNameFor(model => model.JobRequests.JobDescription)
                         </dt>
                         <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.JobDescription)
+                            @Html.DisplayFor(model => model.JobRequests.JobDescription)
                         </dd>
                         <dt class="col-sm-4 fw-bold">
-                            @Html.DisplayNameFor(model => model.RequestDate)
+                            @Html.DisplayNameFor(model => model.JobRequests.RequestDate)
                         </dt>
                         <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.RequestDate)
+                            @Html.DisplayFor(model => model.JobRequests.RequestDate)
                         </dd>
                         <dt class="col-sm-4 fw-bold">
-                            @Html.DisplayNameFor(model => model.DateCompleted)
+                            @Html.DisplayNameFor(model => model.JobRequests.DateCompleted)
                         </dt>
                         <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.DateCompleted)
+                            @Html.DisplayFor(model => model.JobRequests.DateCompleted)
                         </dd>
                         <dt class="col-sm-4 fw-bold">
-                            @Html.DisplayNameFor(model => model.Status)
+                            @Html.DisplayNameFor(model => model.JobRequests.Status)
                         </dt>
                         <dd class="col-sm-8">
-                            @switch (Model.Status)
+                            @switch (Model.JobRequests.Status)
                             {
                                 case JobStatusEnum.Pending:
                                     statusStyle = "badge bg-secondary text-white";
@@ -61,20 +65,20 @@
                                     break;
                             }
                             <span class="@statusStyle">
-                                <strong>@Html.DisplayFor(model => model.Status)</strong>
+                                <strong>@Html.DisplayFor(model => model.JobRequests.Status)</strong>
                             </span>
                         </dd>
                         <dt class="col-sm-4 fw-bold">
-                            @Html.DisplayNameFor(model => model.Remarks)
+                            @Html.DisplayNameFor(model => model.JobRequests.Remarks)
                         </dt>
                         <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Remarks)
+                            @Html.DisplayFor(model => model.JobRequests.Remarks)
                         </dd>
                     </dl>
 
                     <!-- Notice if Request Status is not Pending -->
                     <div class="mt-4">
-                        @if (Model.Status != JobStatusEnum.Pending)
+                        @if (Model.JobRequests.Status != JobStatusEnum.Pending)
                         {
                             <div class="alert alert-warning mt-3">
                                 <strong>Unable to modify IN PROGRESS, COMPLETED, and CANCELLED requests.</strong>
@@ -84,17 +88,17 @@
 
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-between mt-4">
-                        @if (Model.Status != JobStatusEnum.Pending)
+                        @if (Model.JobRequests.Status != JobStatusEnum.Pending)
                         {
                             <!-- Disabled Edit Button -->
-                            <a asp-action="Edit" asp-route-id="@Model?.JobRequestId" class="btn btn-secondary disabled">
+                            <a asp-action="Edit" asp-route-id="@Model?.JobRequests.JobRequestId" class="btn btn-secondary disabled">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                         }
                         else
                         {
                             <!-- Active Edit Button -->
-                            <a asp-action="Edit" asp-route-id="@Model?.JobRequestId" class="btn btn-success shadow">
+                            <a asp-action="Edit" asp-route-id="@Model?.JobRequests.JobRequestId" class="btn btn-success shadow">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                         }

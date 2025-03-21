@@ -24,7 +24,7 @@ namespace Job_Requests.DataAccess.Services
 
         public async Task<JobRequest> GetJobRequestByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _repository.GetRecordAsync(j => j.JobRequestId == id, includeProperties: new string[] { "Department" });
         }
 
         public async Task<IEnumerable<JobRequest>> GetJobRequestsAsync()
