@@ -90,22 +90,10 @@
 										   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
 											<i class="bi bi-gear"></i>
 										</a>
-
-
-										@if (item.Status == JobStatusEnum.Pending || item.Status == JobStatusEnum.Cancelled)
-										{
-											<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-outline-danger shadow"
-											   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record">
-												<i class="bi bi-trash"></i>
-											</a>
-										}
-										else
-										{
-											<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-secondary shadow disabled"
-											   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record">
-												<i class="bi bi-trash"></i>
-											</a>
-										}
+										<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-outline-danger shadow"
+										   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record">
+											<i class="bi bi-trash"></i>
+										</a>
 									</td>
 								</tr>
 							}

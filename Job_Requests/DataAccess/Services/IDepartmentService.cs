@@ -5,7 +5,9 @@ namespace Job_Requests.DataAccess.Services
 {
     public interface IDepartmentService
     {
-        Task<IEnumerable<Department>> GetDepartmentsAsync();
+        Task<IEnumerable<Department>> GetDepartmentsAsync(Expression<Func<Department, bool>>? filter = null,
+                                                    bool tracked = false,
+                                                    params string[]? includeProperties);
         Task<Department> GetDepartmentByIdAsync(int id);
         Task AddDepartmentAsync(Department department);
         Task DeleteDepartmentAsync(Department department);

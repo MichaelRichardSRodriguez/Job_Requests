@@ -15,6 +15,9 @@ namespace Job_Requests.DataAccess.Data
         //DbSets for Entities
         public DbSet<Department> Departments { get; set; }
         public DbSet<JobRequest> JobRequests { get; set; }
+        public DbSet<JobType> JobTypes { get; set; }
+        public DbSet<JobPriority> JobPriority { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -22,6 +25,8 @@ namespace Job_Requests.DataAccess.Data
 
 			modelBuilder.ApplyConfiguration(new DepartmentConfig());
             modelBuilder.ApplyConfiguration(new JobRequestConfig());
+            modelBuilder.ApplyConfiguration(new JobTypeConfig());
+            modelBuilder.ApplyConfiguration(new JobPriorityConfig());
 		}
 
 

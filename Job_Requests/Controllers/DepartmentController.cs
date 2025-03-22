@@ -91,7 +91,7 @@ namespace Job_Requests.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DepartmentId,DepartmentName,DepartmentDescription")] Department department)
+        public async Task<IActionResult> Edit(int id, Department department)
         {
             if (id != department.DepartmentId)
             {

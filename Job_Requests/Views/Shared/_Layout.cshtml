@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="~/css/Litera.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -31,13 +32,19 @@
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="Index">Requests</a>
 						</li>
+
+						<!-- Content Management Dropdown -->
 						<li class="nav-item dropdown">
 							<a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
 							   aria-haspopup="true" aria-expanded="false">Content Management</a>
 							<div class="dropdown-menu">
 								<a class="dropdown-item" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
+								<a class="dropdown-item" asp-area="" asp-controller="JobType" asp-action="Index">Job Types</a>
+								<a class="dropdown-item" asp-area="" asp-controller="JobPriority" asp-action="Index">Job Priority</a>
 							</div>
 						</li>
+						<!--------------------------------->
+
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 						</li>
@@ -62,6 +69,7 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
 	<script>
 		// Initialize all tooltips on the page
 		document.addEventListener("DOMContentLoaded", function () {

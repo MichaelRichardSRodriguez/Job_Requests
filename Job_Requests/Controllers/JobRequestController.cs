@@ -59,7 +59,7 @@ namespace Job_Requests.Controllers
         // GET: JobRequest/Create
         public async Task<IActionResult> Create()
         {
-            var departments = await _departmentService.GetDepartmentsAsync();
+            var departments = await _departmentService.GetDepartmentsAsync(d => d.Status == RecordStatusEnum.Active);
 
             JobRequestVM jobRequestVM = new()
             {

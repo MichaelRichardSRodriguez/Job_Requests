@@ -29,9 +29,11 @@ namespace Job_Requests.DataAccess.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Department>> GetDepartmentsAsync()
+        public async Task<IEnumerable<Department>> GetDepartmentsAsync(Expression<Func<Department, bool>>? filter = null,
+                                                    bool tracked = false,
+                                                    params string[]? includeProperties)
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllAsync(filter,tracked,includeProperties);
         }
 
         public async Task<bool> IsExistingDepartmentNameWithDifferentId(int id, string departmentName)
