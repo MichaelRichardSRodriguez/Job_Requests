@@ -18,10 +18,20 @@
 					<!-- Job Request Details -->
 					<dl class="row mb-4">
 						<dt class="col-md-3 col-sm-4 fw-bold">
-							@Html.DisplayNameFor(model => model.JobRequests.Department)
+							@Html.DisplayNameFor(model => model.JobRequests.RequestingDepartment)
 						</dt>
 						<dd class="col-md-9 col-sm-8">
-							@Html.DisplayFor(model => model.JobRequests.Department.DepartmentName)
+							@Html.DisplayFor(model => model.JobRequests.RequestingDepartment.DepartmentName)
+							@*                             @{
+							var department = Model.Departments.FirstOrDefault(d => d.Value == Model.JobRequests.DepartmentId.ToString());
+							}
+							@department?.Text *@
+						</dd>
+						<dt class="col-md-3 col-sm-4 fw-bold">
+							@Html.DisplayNameFor(model => model.JobRequests.ReceivingDepartment)
+						</dt>
+						<dd class="col-md-9 col-sm-8">
+							@Html.DisplayFor(model => model.JobRequests.ReceivingDepartment.DepartmentName)
 							@*                             @{
 							var department = Model.Departments.FirstOrDefault(d => d.Value == Model.JobRequests.DepartmentId.ToString());
 							}

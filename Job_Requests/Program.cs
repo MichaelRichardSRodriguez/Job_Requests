@@ -23,6 +23,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 // Add Services for Micro Services
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IJobTypeService, JobTypeService>();
+builder.Services.AddScoped<IJobPriorityService, JobPriorityService>();
 builder.Services.AddScoped<IJobRequestService, JobRequestService>();
 
 

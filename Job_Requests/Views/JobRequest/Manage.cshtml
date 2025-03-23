@@ -27,11 +27,17 @@
                         <div class="row">
                             <!-- Left Column -->
                             <div class="col-md-6 col-12 mb-4">
-                                <!-- DepartmentId Display (Label Only) -->
+                                <!-- RequestingDepartmentId Display (Label Only) -->
                                 <div class="form-group">
-                                    <label asp-for="JobRequests.DepartmentId" class="control-label fw-bold"></label>
-                                    <select asp-for="JobRequests.DepartmentId" class="form-control" asp-items="@Model.Departments" disabled></select>
-                                    <span asp-validation-for="JobRequests.DepartmentId" class="text-danger"></span>
+                                    <label asp-for="JobRequests.RequestingDepartmentId" class="control-label fw-bold"></label>
+                                    <select asp-for="JobRequests.RequestingDepartmentId" class="form-control" asp-items="@Model.Departments" disabled></select>
+                                    <span asp-validation-for="JobRequests.RequestingDepartmentId" class="text-danger"></span>
+                                </div>
+                                <!-- ReceivingDepartmentId Display (Label Only) -->
+                                <div class="form-group">
+                                    <label asp-for="JobRequests.ReceivingDepartmentId" class="control-label fw-bold"></label>
+                                    <select asp-for="JobRequests.ReceivingDepartmentId" class="form-control" asp-items="@Model.Departments" disabled></select>
+                                    <span asp-validation-for="JobRequests.ReceivingDepartmentId" class="text-danger"></span>
                                 </div>
 
                                 <!-- JobDescription Display (Label Only) -->

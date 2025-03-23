@@ -9,9 +9,12 @@ namespace Job_Requests.Models
     public class JobRequest
     {
 
-        public int JobRequestId { get; set; }
+		[DisplayName("JR#")]
+		public int JobRequestId { get; set; }
         [DisplayName("Requesting Department")]
-        public int DepartmentId { get; set; }
+        public int RequestingDepartmentId { get; set; }
+		[DisplayName("Receiving Department")]
+		public int ReceivingDepartmentId { get; set; }
 
         //public int JobTypeId { get; set; }
         //public int JobPriorityId { get; set; }
@@ -37,9 +40,15 @@ namespace Job_Requests.Models
 
 
         // Navigational Properties
-        [ForeignKey("DepartmentId")]
+        [ForeignKey("RequestingDepartmentId")]
+		[DisplayName("Requesting Department")]
 		[ValidateNever]
-        public Department Department { get; set; }
+        public Department RequestingDepartment { get; set; }
+
+        [ForeignKey("ReceivingDepartmentId")]
+		[DisplayName("Receiving Department")]
+		[ValidateNever]
+        public Department ReceivingDepartment { get; set; }
 
         //[ForeignKey("JobTypeId")]
         //[ValidateNever]

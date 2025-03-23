@@ -17,6 +17,7 @@ namespace Job_Requests.Models
 		public RecordStatusEnum Status { get; set; }
 
 		[ValidateNever]
-		public IEnumerable<JobRequest> JobRequests { get; set; }
+		public IEnumerable<JobRequest> JobRequestsAsRequestingDepartment { get; set; }
+		public IEnumerable<JobRequest> JobRequestsAsReceivingDepartment { get; set; }
 	}
 }

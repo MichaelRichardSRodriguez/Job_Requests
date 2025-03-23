@@ -4,6 +4,7 @@ using Job_Requests.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Requests.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250323115258_removeDepartmentId_FromJobRequests")]
+    partial class removeDepartmentId_FromJobRequests
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,13 +100,13 @@ namespace Job_Requests.Migrations
                     b.Property<DateTime?>("DateCompleted")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("JobDescription")
                         .IsRequired()
                         .HasMaxLength(2147483647)
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReceivingDepartmentId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(200)
@@ -114,9 +117,6 @@ namespace Job_Requests.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("RequestingDepartmentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -124,9 +124,7 @@ namespace Job_Requests.Migrations
 
                     b.HasKey("JobRequestId");
 
-                    b.HasIndex("ReceivingDepartmentId");
-
-                    b.HasIndex("RequestingDepartmentId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("JobRequests");
                 });
@@ -169,28 +167,14 @@ namespace Job_Requests.Migrations
 
             modelBuilder.Entity("Job_Requests.Models.JobRequest", b =>
                 {
-                    b.HasOne("Job_Requests.Models.Department", "ReceivingDepartment")
-                        .WithMany("JobRequestsAsReceivingDepartment")
-                        .HasForeignKey("ReceivingDepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Job_Requests.Models.Department", "RequestingDepartment")
-                        .WithMany("JobRequestsAsRequestingDepartment")
-                        .HasForeignKey("RequestingDepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ReceivingDepartment");
-
-                    b.Navigation("RequestingDepartment");
+                    b.HasOne("Job_Requests.Models.Department", null)
+                        .WithMany("JobRequests")
+                        .HasForeignKey("DepartmentId");
                 });
 
             modelBuilder.Entity("Job_Requests.Models.Department", b =>
                 {
-                    b.Navigation("JobRequestsAsReceivingDepartment");
-
-                    b.Navigation("JobRequestsAsRequestingDepartment");
+                    b.Navigation("JobRequests");
                 });
 #pragma warning restore 612, 618
         }
