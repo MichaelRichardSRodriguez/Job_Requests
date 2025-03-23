@@ -4,6 +4,7 @@ using Job_Requests.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Requests.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250323054735_ModifyPriorityLevelFieldSize_InJobPriority")]
+    partial class ModifyPriorityLevelFieldSize_InJobPriority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace Job_Requests.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("Job_Requests.Models.JobPriority", b =>
@@ -83,7 +86,7 @@ namespace Job_Requests.Migrations
 
                     b.HasKey("JobPriorityId");
 
-                    b.ToTable("JobPriority", (string)null);
+                    b.ToTable("JobPriority");
                 });
 
             modelBuilder.Entity("Job_Requests.Models.JobRequest", b =>
@@ -123,7 +126,7 @@ namespace Job_Requests.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("JobRequests", (string)null);
+                    b.ToTable("JobRequests");
                 });
 
             modelBuilder.Entity("Job_Requests.Models.JobType", b =>
@@ -159,7 +162,7 @@ namespace Job_Requests.Migrations
 
                     b.HasKey("JobTypeId");
 
-                    b.ToTable("JobTypes", (string)null);
+                    b.ToTable("JobTypes");
                 });
 
             modelBuilder.Entity("Job_Requests.Models.JobRequest", b =>

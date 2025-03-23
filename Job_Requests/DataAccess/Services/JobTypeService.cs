@@ -44,7 +44,7 @@ namespace Job_Requests.DataAccess.Services
         public async Task<bool> IsExistingJobTypeWithDifferentId(int id, string jobTypeName)
         {
             return await _repository.AnyAsync(jt => EF.Functions.Like(jt.JobTypeName,jobTypeName)
-                                                && jt.JobTypeId == id);
+                                                && jt.JobTypeId != id);
         }
 
         public async Task UpdateJobTypeAsync(JobType jobType)

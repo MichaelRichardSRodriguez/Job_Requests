@@ -56,12 +56,19 @@ namespace Job_Requests.Controllers
         public async Task<IActionResult> Create(JobType jobType)
         {
             if (ModelState.IsValid)
-            {
-                await _service.AddJobTypeAsync(jobType);
+			{
+				if (await _service.IsExistingJobTypeWithDifferentId(jobType.JobTypeId, jobType.JobTypeName))
+				{
+					ModelState.AddModelError("JobTypeName", "Existing Job Type Name");
+					return View(jobType);
+				}
+
+				await _service.AddJobTypeAsync(jobType);
                 TempData["success"] = "Job Type Created Successfully.";
 
                 return RedirectToAction(nameof(Index));
             }
+
             return View(jobType);
         }
 
@@ -95,7 +102,13 @@ namespace Job_Requests.Controllers
                 try
                 {
 
-                    jobType.UpdatedDate = DateTime.Now;
+					if (await _service.IsExistingJobTypeWithDifferentId(jobType.JobTypeId, jobType.JobTypeName))
+					{
+						ModelState.AddModelError("JobTypeName", "Existing Job Type Name");
+						return View(jobType);
+					}
+
+					jobType.UpdatedDate = DateTime.Now;
 
                     await _service.UpdateJobTypeAsync(jobType);
                     TempData["success"] = "Job Type Updated Successfully.";

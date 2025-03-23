@@ -10,10 +10,12 @@ namespace Job_Requests.Models
 
         [Required]
         [DisplayName("Priority Level")]
+        [StringLength(10, ErrorMessage = "Job Priority cannot be longer than 10 characters.")]
         public string PriorityLevel { get; set; }
 
         [DisplayName("Priority Description")]
-        public string? PriorityDescription { get; set; }
+        [StringLength(300, ErrorMessage = "Job Priority cannot be longer than 300 characters.")]
+        public string PriorityDescription { get; set; }
 
         public RecordStatusEnum Status { get; set; }
 
