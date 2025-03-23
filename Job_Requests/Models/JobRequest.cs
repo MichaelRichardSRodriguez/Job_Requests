@@ -28,10 +28,15 @@ namespace Job_Requests.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
         [DisplayName("Date Completed")]
         public DateTime? DateCompleted { get; set; }
+
+        // Enum for Status
         public JobStatusEnum Status { get; set; }
 
-		public string? Remarks { get; set; }
+        [StringLength(200, ErrorMessage = "Remarks cannot be longer than 200 characters.")]
+        public string? Remarks { get; set; }
 
+
+        // Navigational Properties
         [ForeignKey("DepartmentId")]
 		[ValidateNever]
         public Department Department { get; set; }

@@ -7,7 +7,7 @@
 
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
+        <div class="col-md-12 col-lg-10">
             <!-- Card -->
             <div class="card shadow-lg rounded">
                 <div class="card-header bg-primary text-white text-center py-4">
@@ -31,7 +31,7 @@
                         <!-- Job Description Textarea -->
                         <div class="form-group mb-4">
                             <label asp-for="JobRequests.JobDescription" class="form-label fw-bold">Job Description</label>
-                            <textarea asp-for="JobRequests.JobDescription" class="form-control form-control-lg" style="height:200px;" placeholder="Describe the job requirements..."></textarea>
+                            <textarea asp-for="JobRequests.JobDescription" class="form-control form-control-lg" style="height:400px;" placeholder="Describe the job requirements..."></textarea>
                             <span asp-validation-for="JobRequests.JobDescription" class="text-danger"></span>
                         </div>
 

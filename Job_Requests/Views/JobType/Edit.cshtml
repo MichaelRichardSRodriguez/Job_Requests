@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit Job Type";
+    int maxDescriptionLength = 100; // The maximum length for the JobTypeName
+
 }
 
 <div class="container py-5">
@@ -20,13 +22,13 @@
 						<input type="hidden" asp-for="Status" />
 
 						<div class="form-group mb-3">
-							<label asp-for="JobTypeName" class="control-label fw-bold">Department Name</label>
+							<label asp-for="JobTypeName" class="control-label fw-bold"></label>
 							<input asp-for="JobTypeName" class="form-control" autofocus />
 							<span asp-validation-for="JobTypeName" class="text-danger"></span>
 						</div>
 
 						<div class="form-group mb-3">
-							<label asp-for="JobTypeDescription" class="control-label fw-bold">Department Description</label>
+							<label asp-for="JobTypeDescription" class="control-label fw-bold"></label>
 							<textarea asp-for="JobTypeDescription" class="form-control" style="height: 150px;"></textarea>
 							<span asp-validation-for="JobTypeDescription" class="text-danger"></span>
 						</div>

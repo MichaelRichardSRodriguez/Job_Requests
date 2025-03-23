@@ -160,14 +160,15 @@ namespace Job_Requests.Controllers
                     if (department.Status == RecordStatusEnum.Active)
                     {
                         department.Status = RecordStatusEnum.Inactive;
+                        TempData["success"] = "Department Deactivated Successfully.";
                     }
                     else
                     {
                         department.Status = RecordStatusEnum.Active;
+                        TempData["success"] = "Department Activated Successfully.";
                     }
 
                     await _service.UpdateDepartmentAsync(department);
-                    TempData["success"] = "Department Updated Successfully.";
                 }
                 catch (Exception ex)
                 {
@@ -212,7 +213,9 @@ namespace Job_Requests.Controllers
                     await _service.DeleteDepartmentAsync(department);
 					TempData["success"] = "Department Deleted Successfully.";
 
-					return RedirectToAction(nameof(Index));
+					//return RedirectToAction(nameof(Index));
+
+                    return Json(new {success = true});
 				}
                 catch(DbUpdateException ex)
                 {

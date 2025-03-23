@@ -9,8 +9,10 @@ namespace Job_Requests.Models
 	{
 		public int DepartmentId { get; set; }
 		[DisplayName("Name")]
-		public string DepartmentName { get; set; }
+        [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+        public string DepartmentName { get; set; }
         [DisplayName("Description")]
+        [StringLength(300, ErrorMessage = "Description cannot be longer than 300 characters.")]
         public string DepartmentDescription { get; set; }
 		public RecordStatusEnum Status { get; set; }
 

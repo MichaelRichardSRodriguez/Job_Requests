@@ -125,8 +125,40 @@
 					cancelButtonText: "Cancel"
 				}).then((result) => {
 					if (result.isConfirmed) {
-						// Redirect to the delete action
-						window.location.href = '/Department/Delete/' + jobRequestId;
+						// Make an AJAX POST request to the controller to delete the department
+						fetch('/Department/Delete', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+								'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value // Anti-forgery token
+							},
+							body: JSON.stringify({ DepartmentId: DepartmentId })
+						})
+							.then(response => {
+								if (response.ok) {
+									// Successfully deleted, you can redirect or refresh the page
+									Swal.fire(
+										'Deleted!',
+										'The department has been deleted.',
+										'success'
+									).then(() => {
+										location.reload(); // Optionally reload the page or redirect
+									});
+								} else {
+									Swal.fire(
+										'Error!',
+										'There was an issue deleting the department.',
+										'error'
+									);
+								}
+							})
+							.catch(error => {
+								Swal.fire(
+									'Error!',
+									'An error occurred during the deletion process.',
+									'error'
+								);
+							});
 					}
 				});
 			});

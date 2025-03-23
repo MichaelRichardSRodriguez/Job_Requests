@@ -10,9 +10,11 @@ namespace Job_Requests.Models
 
         [Required]
         [DisplayName("Job Type")]
+        [StringLength(20, ErrorMessage = "Job Type cannot be longer than 20 characters.")]
         public string JobTypeName { get; set; }
 
         [DisplayName("Description")]
+        [StringLength(300, ErrorMessage = "Description cannot be longer than 300 characters.")]
         public string? JobTypeDescription { get; set; }
 
         public RecordStatusEnum Status { get; set; }

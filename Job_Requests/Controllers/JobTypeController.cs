@@ -7,34 +7,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Job_Requests.DataAccess.Data;
 using Job_Requests.Models;
+using Job_Requests.Models.Enums;
+using Job_Requests.DataAccess.Services;
 
 namespace Job_Requests.Controllers
 {
     public class JobTypeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        
+        private readonly IJobTypeService _service;
 
-        public JobTypeController(ApplicationDbContext context)
+        public JobTypeController(IJobTypeService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: JobType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.JobTypes.ToListAsync());
+            return View(await _service.GetJobTypesAsync());
         }
 
         // GET: JobType/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var jobType = await _context.JobTypes
-                .FirstOrDefaultAsync(m => m.JobTypeId == id);
+            var jobType = await _service.GetJobTypeByIdAsync(id);
+
             if (jobType == null)
             {
                 return NotFound();
@@ -58,22 +57,20 @@ namespace Job_Requests.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(jobType);
-                await _context.SaveChangesAsync();
+                await _service.AddJobTypeAsync(jobType);
+                TempData["success"] = "Job Type Created Successfully.";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(jobType);
         }
 
         // GET: JobType/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var jobType = await _context.JobTypes.FindAsync(id);
+            var jobType = await _service.GetJobTypeByIdAsync(id);
+
             if (jobType == null)
             {
                 return NotFound();
@@ -100,12 +97,12 @@ namespace Job_Requests.Controllers
 
                     jobType.UpdatedDate = DateTime.Now;
 
-                    _context.Update(jobType);
-                    await _context.SaveChangesAsync();
+                    await _service.UpdateJobTypeAsync(jobType);
+                    TempData["success"] = "Job Type Updated Successfully.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobTypeExists(jobType.JobTypeId))
+                    if (!await _service.IsExistingJobTypeId(jobType.JobTypeId))
                     {
                         return NotFound();
                     }
@@ -120,15 +117,10 @@ namespace Job_Requests.Controllers
         }
 
         // GET: JobType/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var jobType = await _context.JobTypes
-                .FirstOrDefaultAsync(m => m.JobTypeId == id);
+            var jobType = await _service.GetJobTypeByIdAsync(id);
             if (jobType == null)
             {
                 return NotFound();
@@ -142,19 +134,74 @@ namespace Job_Requests.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jobType = await _context.JobTypes.FindAsync(id);
+            var jobType = await _service.GetJobTypeByIdAsync(id);
+
             if (jobType != null)
             {
-                _context.JobTypes.Remove(jobType);
+                await _service.DeleteJobTypeAsync(jobType);
+                TempData["success"] = "Job Type Deleted Successfully.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobTypeExists(int id)
+        // GET: JobType/Edit/5
+        public async Task<IActionResult> Manage(int id)
         {
-            return _context.JobTypes.Any(e => e.JobTypeId == id);
+
+            var jobType = await _service.GetJobTypeByIdAsync(id);
+
+            if (jobType == null)
+            {
+                return NotFound();
+            }
+            return View(jobType);
         }
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Manage(int id, JobType jobType)
+		{
+			if (id != jobType.JobTypeId)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+                    var jobTypeFromDb = await _service.GetJobTypeByIdAsync(id);
+
+					if (jobTypeFromDb.Status == RecordStatusEnum.Active)
+					{
+						//jobType.Status = RecordStatusEnum.Inactive;
+                        jobTypeFromDb.Status = RecordStatusEnum.Inactive;
+                        TempData["success"] = "Department Deactivated Successfully.";
+                    }
+					else
+					{
+                        //jobType.Status = RecordStatusEnum.Active;
+                        jobTypeFromDb.Status = RecordStatusEnum.Active;
+                        TempData["success"] = "Department Activated Successfully.";
+                    }
+
+                    await _service.UpdateJobTypeAsync(jobTypeFromDb);
+				}
+				catch (Exception ex)
+				{
+					TempData["error"] = $"Update Failed. \n{ex.Message}";
+					return View(jobType);
+
+					throw;
+
+				}
+
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(jobType);
+		}
+
     }
 }
