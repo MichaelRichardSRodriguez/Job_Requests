@@ -22,20 +22,12 @@
 						</dt>
 						<dd class="col-md-9 col-sm-8">
 							@Html.DisplayFor(model => model.JobRequests.RequestingDepartment.DepartmentName)
-							@*                             @{
-							var department = Model.Departments.FirstOrDefault(d => d.Value == Model.JobRequests.DepartmentId.ToString());
-							}
-							@department?.Text *@
 						</dd>
 						<dt class="col-md-3 col-sm-4 fw-bold">
 							@Html.DisplayNameFor(model => model.JobRequests.ReceivingDepartment)
 						</dt>
 						<dd class="col-md-9 col-sm-8">
 							@Html.DisplayFor(model => model.JobRequests.ReceivingDepartment.DepartmentName)
-							@*                             @{
-							var department = Model.Departments.FirstOrDefault(d => d.Value == Model.JobRequests.DepartmentId.ToString());
-							}
-							@department?.Text *@
 						</dd>
 						<dt class="col-md-3 col-sm-4 fw-bold">
 							@Html.DisplayNameFor(model => model.JobRequests.JobDescription)
@@ -91,7 +83,7 @@
 
 					<!-- Notice if Request Status is not Pending -->
 					<div class="mt-4">
-						@if (Model.JobRequests.Status != JobStatusEnum.Pending)
+						@if (Model?.JobRequests.Status != JobStatusEnum.Pending)
 						{
 							<div class="alert alert-warning mt-3">
 								<strong>Unable to modify IN PROGRESS, COMPLETED, and CANCELLED requests.</strong>
@@ -101,7 +93,7 @@
 
 					<!-- Action Buttons -->
 					<div class="d-flex justify-content-between mt-4">
-						@if (Model.JobRequests.Status != JobStatusEnum.Pending)
+						@if (Model?.JobRequests.Status != JobStatusEnum.Pending)
 						{
 							<!-- Disabled Edit Button -->
 							<a asp-action="Edit" asp-route-id="@Model?.JobRequests.JobRequestId" class="btn btn-secondary disabled">
@@ -125,4 +117,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> 

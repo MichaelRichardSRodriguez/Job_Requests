@@ -12,7 +12,8 @@ namespace Job_Requests.Configurations
 
             builder.HasKey(d => d.DepartmentId);
             builder.Property(d => d.DepartmentName).IsRequired().HasMaxLength(100);
-            builder.Property(d => d.DepartmentDescription).IsRequired().HasMaxLength(300);
+			builder.HasIndex(d => d.DepartmentName).IsUnique();
+			builder.Property(d => d.DepartmentDescription).IsRequired().HasMaxLength(300);
             builder.Property(d => d.Status).HasDefaultValue(RecordStatusEnum.Active).ValueGeneratedOnAdd();
 
             // Assuming that Employee has a foreign key reference to Department

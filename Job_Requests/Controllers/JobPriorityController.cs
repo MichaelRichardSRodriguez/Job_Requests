@@ -13,155 +13,78 @@ using Job_Requests.DataAccess.Services;
 
 namespace Job_Requests.Controllers
 {
-    public class JobPriorityController : Controller
-    {
-        private readonly IJobPriorityService _service;
+	public class JobPriorityController : Controller
+	{
+		private readonly IJobPriorityService _service;
+		public JobPriorityController(IJobPriorityService service)
+		{
+			_service = service;
+		}
 
-        public JobPriorityController(IJobPriorityService service)
-        {
-            _service = service;
-        }
+		// GET: JobPriority
+		public async Task<IActionResult> Index()
+		{
+			return View(await _service.GetPriorityLevelsAsync());
+		}
 
-        // GET: JobPriority
-        public async Task<IActionResult> Index()
-        {
-            return View(await _service.GetPriorityLevelsAsync());  
-        }
-
-        // GET: JobPriority/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
+		// GET: JobPriority/Details/5
+		public async Task<IActionResult> Details(int id)
+		{
 
 			var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
 
-            if (jobPriority == null)
-            {
-                return NotFound();
-            }
-
-            return View(jobPriority);
-        }
-
-        // GET: JobPriority/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: JobPriority/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(JobPriority jobPriority)
-        {
-            if (ModelState.IsValid)
-            {
-				if (await _service.IsExistingPriorityLevelWithDifferentId(jobPriority.JobPriorityId, jobPriority.PriorityLevel))
-				{
-					ModelState.AddModelError("PriorityLevel", "Existing Priority Level");
-					return View(jobPriority);
-				}
-
-				await _service.AddPriorityLevelAsync(jobPriority);
-
-				TempData["success"] = "Priority Level Created Successfully.";
-
-				return RedirectToAction(nameof(Index));
-            }
-            return View(jobPriority);
-        }
-
-        // GET: JobPriority/Edit/5
-        public async Task<IActionResult> Edit(int id)
-        {
-
-            var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
-            if (jobPriority == null)
-            {
-                return NotFound();
-            }
-            return View(jobPriority);
-        }
-
-        // POST: JobPriority/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, JobPriority jobPriority)
-        {
-            if (id != jobPriority.JobPriorityId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (await _service.IsExistingPriorityLevelWithDifferentId(id,jobPriority.PriorityLevel))
-                    {
-                        ModelState.AddModelError("PriorityLevel", "Existing Priority Level");
-                        return View(jobPriority);
-                    }
-
-                    jobPriority.UpdatedDate = DateTime.Now;
-
-                    await _service.UpdatePriorityLevelAsync(jobPriority);
-
-                    TempData["success"] = "Priority Level Updated Successfully.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _service.IsExistingPriorityLevelId(jobPriority.JobPriorityId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(jobPriority);
-        }
-
-        // GET: JobPriority/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-
-            var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
-
-            if (jobPriority == null)
-            {
-                return NotFound();
-            }
-
-            return View(jobPriority);
-        }
-
-        // POST: JobPriority/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
-            if (jobPriority != null)
-            {
-                await _service.DeletePriorityLevelAsync(jobPriority);
-				TempData["success"] = "Priority Level Deleted Successfully.";
+			if (jobPriority == null)
+			{
+				return NotFound();
 			}
 
-            return RedirectToAction(nameof(Index));
-        }
+			return View(jobPriority);
+		}
 
-		// GET: JobPriority/Manage/5
-		public async Task<IActionResult> Manage(int id)
+		// GET: JobPriority/Create
+		public IActionResult Create()
+		{
+			return View();
+		}
+
+		// POST: JobPriority/Create
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(JobPriority jobPriority)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (await _service.IsExistingPriorityLevelWithDifferentId(jobPriority.JobPriorityId, jobPriority.PriorityLevel))
+					{
+						ModelState.AddModelError("PriorityLevel", "Existing Priority Level");
+						return View(jobPriority);
+					}
+
+					await _service.AddPriorityLevelAsync(jobPriority);
+
+					TempData["success"] = "Priority Level Created Successfully.";
+
+					return RedirectToAction(nameof(Index));
+				}
+				catch (Exception ex)
+				{
+
+					TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
+
+				}
+			}
+
+			return View(jobPriority);
+		}
+
+		// GET: JobPriority/Edit/5
+		public async Task<IActionResult> Edit(int id)
 		{
 
-            var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
+			var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
+
 			if (jobPriority == null)
 			{
 				return NotFound();
@@ -169,9 +92,92 @@ namespace Job_Requests.Controllers
 			return View(jobPriority);
 		}
 
-        // GET: JobPriority/Manage/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+		// POST: JobPriority/Edit/5
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, JobPriority jobPriority)
+		{
+			if (id != jobPriority.JobPriorityId)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (await _service.IsExistingPriorityLevelWithDifferentId(id, jobPriority.PriorityLevel))
+					{
+						ModelState.AddModelError("PriorityLevel", "Existing Priority Level");
+						return View(jobPriority);
+					}
+
+					jobPriority.UpdatedDate = DateTime.Now;
+
+					await _service.UpdatePriorityLevelAsync(jobPriority);
+
+					TempData["success"] = "Priority Level Updated Successfully.";
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!await _service.IsExistingPriorityLevelId(jobPriority.JobPriorityId))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			return View(jobPriority);
+		}
+
+		// GET: JobPriority/Delete/5
+		public async Task<IActionResult> Delete(int id)
+		{
+
+			var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
+
+			if (jobPriority == null)
+			{
+				return NotFound();
+			}
+
+			return View(jobPriority);
+		}
+
+		// POST: JobPriority/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
+			if (jobPriority != null)
+			{
+				await _service.DeletePriorityLevelAsync(jobPriority);
+				TempData["success"] = "Priority Level Deleted Successfully.";
+			}
+
+			return RedirectToAction(nameof(Index));
+		}
+
+		// GET: JobPriority/Manage/5
+		public async Task<IActionResult> Manage(int id)
+		{
+
+			var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
+			if (jobPriority == null)
+			{
+				return NotFound();
+			}
+			return View(jobPriority);
+		}
+
+		// GET: JobPriority/Manage/5
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Manage(int id, JobPriority jobPriority)
 		{
 			if (id != jobPriority.JobPriorityId)
@@ -180,11 +186,11 @@ namespace Job_Requests.Controllers
 			}
 
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var jobPriorityFromDb = await _service.GetPriorityLevelByIdAsync(id);
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var jobPriorityFromDb = await _service.GetPriorityLevelByIdAsync(id);
 
 					if (jobPriorityFromDb == null)
 					{
@@ -192,30 +198,30 @@ namespace Job_Requests.Controllers
 					}
 
 					if (jobPriority.Status == RecordStatusEnum.Active)
-                    {
+					{
 						jobPriorityFromDb.Status = RecordStatusEnum.Inactive;
 						TempData["success"] = "Priority Level Deactivated Successfully.";
 					}
-                    else
-                    {
+					else
+					{
 						jobPriorityFromDb.Status = RecordStatusEnum.Active;
 						TempData["success"] = "Priority Level Activated Successfully.";
 					}
 
-                   await _service.UpdatePriorityLevelAsync(jobPriorityFromDb);
+					await _service.UpdatePriorityLevelAsync(jobPriorityFromDb);
 
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception)
-                {
+					return RedirectToAction(nameof(Index));
+				}
+				catch (Exception)
+				{
 
-                    throw;
-                }
-            }
+					throw;
+				}
+			}
 
 
-            return View(jobPriority);
+			return View(jobPriority);
 		}
 
-    }
+	}
 }

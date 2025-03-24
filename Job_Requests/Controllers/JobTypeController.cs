@@ -12,95 +12,105 @@ using Job_Requests.DataAccess.Services;
 
 namespace Job_Requests.Controllers
 {
-    public class JobTypeController : Controller
-    {
-        
-        private readonly IJobTypeService _service;
+	public class JobTypeController : Controller
+	{
 
-        public JobTypeController(IJobTypeService service)
-        {
-            _service = service;
-        }
+		private readonly IJobTypeService _service;
 
-        // GET: JobType
-        public async Task<IActionResult> Index()
-        {
-            return View(await _service.GetJobTypesAsync());
-        }
+		public JobTypeController(IJobTypeService service)
+		{
+			_service = service;
+		}
 
-        // GET: JobType/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
+		// GET: JobType
+		public async Task<IActionResult> Index()
+		{
+			return View(await _service.GetJobTypesAsync());
+		}
 
-            var jobType = await _service.GetJobTypeByIdAsync(id);
+		// GET: JobType/Details/5
+		public async Task<IActionResult> Details(int id)
+		{
 
-            if (jobType == null)
-            {
-                return NotFound();
-            }
+			var jobType = await _service.GetJobTypeByIdAsync(id);
 
-            return View(jobType);
-        }
-
-        // GET: JobType/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: JobType/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(JobType jobType)
-        {
-            if (ModelState.IsValid)
+			if (jobType == null)
 			{
-				if (await _service.IsExistingJobTypeWithDifferentId(jobType.JobTypeId, jobType.JobTypeName))
+				return NotFound();
+			}
+
+			return View(jobType);
+		}
+
+		// GET: JobType/Create
+		public IActionResult Create()
+		{
+			return View();
+		}
+
+		// POST: JobType/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(JobType jobType)
+		{
+			if (ModelState.IsValid)
+			{
+				try
 				{
-					ModelState.AddModelError("JobTypeName", "Existing Job Type Name");
-					return View(jobType);
+					if (await _service.IsExistingJobTypeWithDifferentId(jobType.JobTypeId, jobType.JobTypeName))
+					{
+						ModelState.AddModelError("JobTypeName", "Existing Job Type Name");
+						return View(jobType);
+					}
+
+					await _service.AddJobTypeAsync(jobType);
+					TempData["success"] = "Job Type Created Successfully.";
+
+					return RedirectToAction(nameof(Index));
+
 				}
+				catch (Exception ex)
+				{
 
-				await _service.AddJobTypeAsync(jobType);
-                TempData["success"] = "Job Type Created Successfully.";
+					TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
 
-                return RedirectToAction(nameof(Index));
-            }
+				}
+			}
 
-            return View(jobType);
-        }
+			return View(jobType);
+		}
 
-        // GET: JobType/Edit/5
-        public async Task<IActionResult> Edit(int id)
-        {
+		// GET: JobType/Edit/5
+		public async Task<IActionResult> Edit(int id)
+		{
 
-            var jobType = await _service.GetJobTypeByIdAsync(id);
+			var jobType = await _service.GetJobTypeByIdAsync(id);
 
-            if (jobType == null)
-            {
-                return NotFound();
-            }
-            return View(jobType);
-        }
+			if (jobType == null)
+			{
+				return NotFound();
+			}
+			return View(jobType);
+		}
 
-        // POST: JobType/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, JobType jobType)
-        {
-            if (id != jobType.JobTypeId)
-            {
-                return NotFound();
-            }
+		// POST: JobType/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, JobType jobType)
+		{
+			if (id != jobType.JobTypeId)
+			{
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
+			if (ModelState.IsValid)
+			{
+				try
+				{
 
 					if (await _service.IsExistingJobTypeWithDifferentId(jobType.JobTypeId, jobType.JobTypeName))
 					{
@@ -110,66 +120,66 @@ namespace Job_Requests.Controllers
 
 					jobType.UpdatedDate = DateTime.Now;
 
-                    await _service.UpdateJobTypeAsync(jobType);
-                    TempData["success"] = "Job Type Updated Successfully.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _service.IsExistingJobTypeId(jobType.JobTypeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(jobType);
-        }
+					await _service.UpdateJobTypeAsync(jobType);
+					TempData["success"] = "Job Type Updated Successfully.";
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!await _service.IsExistingJobTypeId(jobType.JobTypeId))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			return View(jobType);
+		}
 
-        // GET: JobType/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
+		// GET: JobType/Delete/5
+		public async Task<IActionResult> Delete(int id)
+		{
 
-            var jobType = await _service.GetJobTypeByIdAsync(id);
-            if (jobType == null)
-            {
-                return NotFound();
-            }
+			var jobType = await _service.GetJobTypeByIdAsync(id);
+			if (jobType == null)
+			{
+				return NotFound();
+			}
 
-            return View(jobType);
-        }
+			return View(jobType);
+		}
 
-        // POST: JobType/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var jobType = await _service.GetJobTypeByIdAsync(id);
+		// POST: JobType/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var jobType = await _service.GetJobTypeByIdAsync(id);
 
-            if (jobType != null)
-            {
-                await _service.DeleteJobTypeAsync(jobType);
-                TempData["success"] = "Job Type Deleted Successfully.";
-            }
+			if (jobType != null)
+			{
+				await _service.DeleteJobTypeAsync(jobType);
+				TempData["success"] = "Job Type Deleted Successfully.";
+			}
 
-            return RedirectToAction(nameof(Index));
-        }
+			return RedirectToAction(nameof(Index));
+		}
 
-        // GET: JobType/Edit/5
-        public async Task<IActionResult> Manage(int id)
-        {
+		// GET: JobType/Edit/5
+		public async Task<IActionResult> Manage(int id)
+		{
 
-            var jobType = await _service.GetJobTypeByIdAsync(id);
+			var jobType = await _service.GetJobTypeByIdAsync(id);
 
-            if (jobType == null)
-            {
-                return NotFound();
-            }
-            return View(jobType);
-        }
+			if (jobType == null)
+			{
+				return NotFound();
+			}
+			return View(jobType);
+		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -184,29 +194,27 @@ namespace Job_Requests.Controllers
 			{
 				try
 				{
-                    var jobTypeFromDb = await _service.GetJobTypeByIdAsync(id);
+					var jobTypeFromDb = await _service.GetJobTypeByIdAsync(id);
 
 					if (jobTypeFromDb.Status == RecordStatusEnum.Active)
 					{
 						//jobType.Status = RecordStatusEnum.Inactive;
-                        jobTypeFromDb.Status = RecordStatusEnum.Inactive;
-                        TempData["success"] = "Department Deactivated Successfully.";
-                    }
+						jobTypeFromDb.Status = RecordStatusEnum.Inactive;
+						TempData["success"] = "Department Deactivated Successfully.";
+					}
 					else
 					{
-                        //jobType.Status = RecordStatusEnum.Active;
-                        jobTypeFromDb.Status = RecordStatusEnum.Active;
-                        TempData["success"] = "Department Activated Successfully.";
-                    }
+						//jobType.Status = RecordStatusEnum.Active;
+						jobTypeFromDb.Status = RecordStatusEnum.Active;
+						TempData["success"] = "Department Activated Successfully.";
+					}
 
-                    await _service.UpdateJobTypeAsync(jobTypeFromDb);
+					await _service.UpdateJobTypeAsync(jobTypeFromDb);
 				}
 				catch (Exception ex)
 				{
 					TempData["error"] = $"Update Failed. \n{ex.Message}";
 					return View(jobType);
-
-					throw;
 
 				}
 
@@ -216,5 +224,5 @@ namespace Job_Requests.Controllers
 			return View(jobType);
 		}
 
-    }
+	}
 }

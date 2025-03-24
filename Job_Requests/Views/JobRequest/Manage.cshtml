@@ -25,77 +25,83 @@
 
                         <!-- Create 2 columns -->
                         <div class="row">
-                            <!-- Left Column -->
                             <div class="col-md-6 col-12 mb-4">
-                                <!-- RequestingDepartmentId Display (Label Only) -->
+                                <!-- RequestingDepartmentId Display -->
                                 <div class="form-group">
                                     <label asp-for="JobRequests.RequestingDepartmentId" class="control-label fw-bold"></label>
                                     <select asp-for="JobRequests.RequestingDepartmentId" class="form-control" asp-items="@Model.Departments" disabled></select>
                                     <span asp-validation-for="JobRequests.RequestingDepartmentId" class="text-danger"></span>
                                 </div>
-                                <!-- ReceivingDepartmentId Display (Label Only) -->
+                            </div>
+                            <div class="col-md-6 col-12 mb-4">
+                                <!-- ReceivingDepartmentId Display -->
                                 <div class="form-group">
                                     <label asp-for="JobRequests.ReceivingDepartmentId" class="control-label fw-bold"></label>
                                     <select asp-for="JobRequests.ReceivingDepartmentId" class="form-control" asp-items="@Model.Departments" disabled></select>
                                     <span asp-validation-for="JobRequests.ReceivingDepartmentId" class="text-danger"></span>
                                 </div>
+                            </div>
 
-                                <!-- JobDescription Display (Label Only) -->
+                        </div>
+
+                        <!-- Create 2 columns -->
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6 col-12 mb-4">
+
+                                <!-- JobDescription Display -->
                                 <div class="form-group">
                                     <label class="control-label fw-bold">Job Description</label>
                                     <textarea asp-for="JobRequests.JobDescription" class="form-control" style="height:300px;" readonly></textarea>
                                     <span asp-validation-for="JobRequests.JobDescription" class="text-danger"></span>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-7">
-                                        <!-- RequestDate Display (Label Only) -->
-                                        <div class="form-group">
-                                            <label class="control-label fw-bold">Request Date</label>
-                                            <input asp-for="JobRequests.RequestDate" class="form-control" readonly />
-                                            <span asp-validation-for="JobRequests.RequestDate" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-5">
-                                        <!-- Status Field (Readonly) -->
-                                        <div class="form-group">
-                                            <label class="control-label fw-bold">Current Status:</label>
-                                            <p class="form-control-static">
-
-                                                @switch (Model.JobRequests.Status)
-                                                {
-                                                    case JobStatusEnum.Pending:
-                                                        statusStyle = "badge bg-secondary text-white";
-                                                        break;
-                                                    case JobStatusEnum.InProgress:
-                                                        statusStyle = "badge bg-primary text-white";
-                                                        break;
-                                                    case JobStatusEnum.Completed:
-                                                        statusStyle = "badge bg-success text-white";
-                                                        break;
-                                                    case JobStatusEnum.Cancelled:
-                                                        statusStyle = "badge bg-danger text-white";
-                                                        break;
-                                                }
-
-                                                <span class="@statusStyle w-100">
-                                                    <strong>
-                                                        @Html.DisplayFor(model => model.JobRequests.Status)
-                                                    </strong>
-                                                </span>
-                                            </p>
-                                        </div>
+                                <!-- RequestDate Display -->
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label fw-bold">Request Date</label>
+                                        <input asp-for="JobRequests.RequestDate" class="form-control" readonly />
+                                        <span asp-validation-for="JobRequests.RequestDate" class="text-danger"></span>
                                     </div>
                                 </div>
+
                             </div>
 
                             <!-- Right Column -->
-                            <div class="col-md-6 col-12 mb-4">
+                            <div class="col-md-6 col-12">
+                                <!-- Status Field (Readonly) -->
+                                <div class="form-group">
+                                    <label class="control-label fw-bold">Current Status:</label>
+                                    <p class="form-control-static">
+
+                                        @switch (Model.JobRequests.Status)
+                                        {
+                                            case JobStatusEnum.Pending:
+                                                statusStyle = "badge bg-secondary text-white";
+                                                break;
+                                            case JobStatusEnum.InProgress:
+                                                statusStyle = "badge bg-primary text-white";
+                                                break;
+                                            case JobStatusEnum.Completed:
+                                                statusStyle = "badge bg-success text-white";
+                                                break;
+                                            case JobStatusEnum.Cancelled:
+                                                statusStyle = "badge bg-danger text-white";
+                                                break;
+                                        }
+
+                                        <span class="@statusStyle w-100">
+                                            <strong>
+                                                @Html.DisplayFor(model => model.JobRequests.Status)
+                                            </strong>
+                                        </span>
+                                    </p>
+                                </div>
                                 <!-- Status Field (Update) -->
                                 <div class="form-group">
                                     <label asp-for="JobRequests.Status" class="control-label fw-bold">Update Status</label>
                                     <select id="status" asp-for="JobRequests.Status" class="form-select" autofocus>
-                                        <option value="" selected disabled>-- Update Status --</option>
+                                        <option value="" selected disabled>-- Select Updated Status --</option>
                                         @if (Model.JobRequests.Status == JobStatusEnum.Pending)
                                         {
                                                 <option value="InProgress">InProgress</option>
@@ -111,6 +117,7 @@
                                         }
                                         else
                                         {
+                                                <option value="Pending">Pending</option>
                                                 <option value="Completed">Completed</option>
                                                 <option value="Cancelled">Cancelled</option>
                                         }

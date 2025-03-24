@@ -24,12 +24,12 @@ namespace Job_Requests.Models
         [DisplayName("Description")]
         public string JobDescription { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
-        [DisplayName("Date Requested")]
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
+		[DisplayName("Date Requested")]
         public DateTime? RequestDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
-        [DisplayName("Date Completed")]
+		[DisplayName("Date Completed")]
         public DateTime? DateCompleted { get; set; }
 
         // Enum for Status
@@ -41,12 +41,12 @@ namespace Job_Requests.Models
 
         // Navigational Properties
         [ForeignKey("RequestingDepartmentId")]
-		[DisplayName("Requesting Department")]
+		[DisplayName("Requestor")]
 		[ValidateNever]
         public Department RequestingDepartment { get; set; }
 
         [ForeignKey("ReceivingDepartmentId")]
-		[DisplayName("Receiving Department")]
+		[DisplayName("Receiver")]
 		[ValidateNever]
         public Department ReceivingDepartment { get; set; }
 

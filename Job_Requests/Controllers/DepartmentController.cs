@@ -58,17 +58,28 @@ namespace Job_Requests.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _service.IsExistingDepartmentNameWithDifferentId(department.DepartmentId, department.DepartmentName))
+                try
                 {
-                    ModelState.AddModelError("DepartmentName", "Existing Department Name");
-                    return View(department);
-                }
+					if (await _service.IsExistingDepartmentNameWithDifferentId(department.DepartmentId, department.DepartmentName))
+					{
+						ModelState.AddModelError("DepartmentName", "Existing Department Name");
+						return View(department);
+					}
 
-                await _service.AddDepartmentAsync(department);
-				TempData["success"] = "Department Created Successfully.";
+					await _service.AddDepartmentAsync(department);
+					TempData["success"] = "Department Created Successfully.";
 
-				return RedirectToAction(nameof(Index));
-            }
+					return RedirectToAction(nameof(Index));
+				}
+                catch (Exception ex)
+                {
+
+                    TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
+					
+				}
+
+			}
+
             return View(department);
         }
 

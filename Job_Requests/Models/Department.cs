@@ -18,6 +18,8 @@ namespace Job_Requests.Models
 
 		[ValidateNever]
 		public IEnumerable<JobRequest> JobRequestsAsRequestingDepartment { get; set; }
+
+		[ValidateNever]
 		public IEnumerable<JobRequest> JobRequestsAsReceivingDepartment { get; set; }
 	}
 }
