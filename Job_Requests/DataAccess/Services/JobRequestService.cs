@@ -24,12 +24,13 @@ namespace Job_Requests.DataAccess.Services
 
         public async Task<JobRequest> GetJobRequestByIdAsync(int id)
         {
-            return await _repository.GetRecordAsync(j => j.JobRequestId == id, includeProperties: new string[] { "RequestingDepartment","ReceivingDepartment" });
+            return await _repository.GetRecordAsync(j => j.JobRequestId == id, 
+                                                    includeProperties: new string[] { "RequestingDepartment","ReceivingDepartment","JobType" });
         }
 
         public async Task<IEnumerable<JobRequest>> GetJobRequestsAsync()
         {
-            return await _repository.GetAllAsync(includeProperties: new string[]{ "RequestingDepartment", "ReceivingDepartment" });
+            return await _repository.GetAllAsync(includeProperties: new string[]{ "RequestingDepartment", "ReceivingDepartment", "JobType" });
         }
 
         public async Task UpdateJobRequestAsync(JobRequest jobRequest)

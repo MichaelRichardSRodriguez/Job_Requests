@@ -4,15 +4,13 @@
     ViewData["Title"] = "Manage Department";
 }
 
-
-
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-sm-12">
             <!-- Card -->
             <div class="card shadow-lg rounded">
                 <!-- Card Header -->
-                <div class="card-header bg-primary text-white text-center py-4">
+                <div class="card-header bg-primary text-white text-center py-3">
                     <h4 class="mb-0"><i class="bi bi-gear-fill"></i> @ViewData["Title"]</h4>
                 </div>
 
@@ -30,6 +28,7 @@
                             <input asp-for="DepartmentName" class="form-control" readonly />
                             <span asp-validation-for="DepartmentName" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
                             <label asp-for="DepartmentDescription" class="control-label fw-bold"></label>
                             <textarea asp-for="DepartmentDescription" class="form-control" style="height:150px;" readonly></textarea>

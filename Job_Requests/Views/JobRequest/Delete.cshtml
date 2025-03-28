@@ -10,7 +10,7 @@
 		<div class="col-md-9 col-lg-7">
 			<!-- Card -->
 			<div class="card shadow-lg rounded">
-				<div class="card-header bg-danger text-white text-center py-4">
+				<div class="card-header bg-danger text-white text-center py-3">
 					<!-- Icon in the Header -->
 					<h4 class="mb-0"><i class="bi bi-trash-fill"></i> @ViewData["Title"]</h4>
 				</div>
@@ -28,6 +28,12 @@
 						</dt>
 						<dd class="col-md-8 col-sm-12">
 							@Html.DisplayFor(model => model.JobRequests.ReceivingDepartment.DepartmentName)
+						</dd>
+						<dt class="col-md-4 col-sm-12 fw-bold">
+							@Html.DisplayNameFor(model => model.JobRequests.JobType)
+						</dt>
+						<dd class="col-md-8 col-sm-12">
+							@Html.DisplayFor(model => model.JobRequests.JobType.JobTypeName)
 						</dd>
 						<dt class="col-md-4 col-sm-12 fw-bold">
 							@Html.DisplayNameFor(model => model.JobRequests.JobDescription)

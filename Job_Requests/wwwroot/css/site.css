@@ -2,11 +2,6 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
@@ -18,15 +13,17 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
     background: linear-gradient(90deg, rgba(173,178,212,1) 6%, rgba(199,217,221,1) 48%, rgba(213,229,213,1) 100%);
 }
 
+.container {
+    width: 100%;
+}
 
 /* Customize the size and animation of Bootstrap tooltips */
 .tooltip-inner {
-    font-size: 1rem; /* Make the text larger */
-    padding: 10px 15px; /* Increase padding to make the tooltip box bigger */
+    font-size: 0.8rem; 
+    padding: 5px 10px;
     animation: zoomIn 0.4s ease-in-out;
 }
 
@@ -60,6 +57,41 @@ body {
     background-color: #EEF1DA;
 }
 
+
 /*.navbar {
     background-color: #A7B57A;
 }*/
+
+
+/* Customize Search Box Styles*/
+
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-box {
+    width: 420px;
+    max-width: 420px;
+    padding: 10px;
+    padding-right: 40px; /* Space for the icon */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #888;
+}
+
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}

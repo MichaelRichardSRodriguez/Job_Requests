@@ -15,9 +15,10 @@ namespace Job_Requests.Models
         public int RequestingDepartmentId { get; set; }
 		[DisplayName("Receiving Department")]
 		public int ReceivingDepartmentId { get; set; }
-
-        //public int JobTypeId { get; set; }
-        //public int JobPriorityId { get; set; }
+		[DisplayName("Type")]
+		public int JobTypeId { get; set; }
+		[DisplayName("Priority Level")]
+		public int? JobPriorityId { get; set; }
 
         // public int EmployeeId { get; set; }
 
@@ -50,13 +51,15 @@ namespace Job_Requests.Models
 		[ValidateNever]
         public Department ReceivingDepartment { get; set; }
 
-        //[ForeignKey("JobTypeId")]
-        //[ValidateNever]
-        //public JobType JobType { get; set; }
+        [ForeignKey("JobTypeId")]
+		[DisplayName("Type")]
+		[ValidateNever]
+        public JobType JobType { get; set; }
 
-        //[ForeignKey("JobPriorityId")]
-        //[ValidateNever]
-        //public JobPriority JobPriority { get; set; }
+        [ForeignKey("JobPriorityId")]
+        [ValidateNever]
+        public JobPriority? JobPriority { get; set; }
+
 
         //public Employee Employee { get; set; }
     }

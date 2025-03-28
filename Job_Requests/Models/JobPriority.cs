@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using Job_Requests.Models.Enums;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Job_Requests.Models
 {
@@ -25,6 +26,10 @@ namespace Job_Requests.Models
 
 		[DisplayName("Date Updated")]
 		public DateTime? UpdatedDate { get; set; }
+
+
+        [ValidateNever]
+        public IEnumerable<JobRequest> JobRequests { get; set; }
 
     }
 }

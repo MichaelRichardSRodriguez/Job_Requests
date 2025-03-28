@@ -17,11 +17,13 @@ namespace Job_Requests.Controllers
 	{
 		private readonly IJobRequestService _jobRequestService;
 		private readonly IDepartmentService _departmentService;
+		private readonly IJobTypeService _jobTypeService;
 
-		public JobRequestController(IJobRequestService service, IDepartmentService departmentService)
+		public JobRequestController(IJobRequestService service, IDepartmentService departmentService, IJobTypeService jobTypeService)
 		{
 			_jobRequestService = service;
 			_departmentService = departmentService;
+			_jobTypeService = jobTypeService;
 		}
 
 		// GET: JobRequest
@@ -60,6 +62,7 @@ namespace Job_Requests.Controllers
 		public async Task<IActionResult> Create()
 		{
 			var departments = await _departmentService.GetDepartmentsAsync(d => d.Status == RecordStatusEnum.Active);
+			var jobTypes = await _jobTypeService.GetJobTypesAsync(d => d.Status == RecordStatusEnum.Active);
 
 			JobRequestVM jobRequestVM = new()
 			{
@@ -68,6 +71,11 @@ namespace Job_Requests.Controllers
 				{
 					Text = d.DepartmentName,
 					Value = d.DepartmentId.ToString()
+				}).ToList(),
+				JobTypes = jobTypes.Select(d => new SelectListItem
+				{
+					Text = d.JobTypeName,
+					Value = d.JobTypeId.ToString()
 				}).ToList()
 			};
 			return View(jobRequestVM);
@@ -95,11 +103,19 @@ namespace Job_Requests.Controllers
 				}
 			}
 
-			var departments = await _departmentService.GetDepartmentsAsync();
+			var departments = await _departmentService.GetDepartmentsAsync(d => d.Status == RecordStatusEnum.Active);
+			var jobTypes = await _jobTypeService.GetJobTypesAsync(d => d.Status == RecordStatusEnum.Active);
+
 			jobRequestVM.Departments = departments.Select(d => new SelectListItem
 			{
 				Text = d.DepartmentName,
 				Value = d.DepartmentId.ToString()
+			});
+
+			jobRequestVM.JobTypes = jobTypes.Select(d => new SelectListItem
+			{
+				Text = d.JobTypeName,
+				Value = d.JobTypeId.ToString()
 			});
 
 			return View(jobRequestVM);
@@ -116,7 +132,9 @@ namespace Job_Requests.Controllers
 				return NotFound();
 			}
 
-			var departments = await _departmentService.GetDepartmentsAsync();
+			var departments = await _departmentService.GetDepartmentsAsync(d => d.Status == RecordStatusEnum.Active);
+			var jobTypes = await _jobTypeService.GetJobTypesAsync(d => d.Status == RecordStatusEnum.Active);
+
 			JobRequestVM jobRequestVM = new()
 			{
 				JobRequests = jobRequest,
@@ -124,7 +142,12 @@ namespace Job_Requests.Controllers
 				{
 					Text = d.DepartmentName,
 					Value = d.DepartmentId.ToString()
-				})
+				}).ToList(),
+				JobTypes = jobTypes.Select(d => new SelectListItem
+				{
+					Text = d.JobTypeName,
+					Value = d.JobTypeId.ToString()
+				}).ToList()
 			};
 
 
@@ -179,6 +202,7 @@ namespace Job_Requests.Controllers
 			}
 
 			var departments = await _departmentService.GetDepartmentsAsync();
+			var jobTypes = await _departmentService.GetDepartmentsAsync();
 
 			JobRequestVM jobRequestVM = new()
 			{

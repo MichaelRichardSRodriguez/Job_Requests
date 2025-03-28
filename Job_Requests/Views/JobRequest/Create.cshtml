@@ -10,7 +10,7 @@
 		<div class="col-md-12 col-lg-10">
 			<!-- Card -->
 			<div class="card shadow-lg rounded">
-				<div class="card-header bg-primary text-white text-center py-4">
+				<div class="card-header bg-primary text-white text-center py-3">
 					<h4 class="mb-0"><i class="bi bi-person-fill"></i> @ViewData["Title"]</h4>
 				</div>
 				<div class="card-body p-3">
@@ -21,44 +21,56 @@
 
 						<div class="row">
 							<!-- Requesting Department Dropdown -->
-							<div class="col-md-6 col-sm-12">
+							<div class="col-md-4 col-sm-12">
 								<div class="form-group mb-2">
 									<label asp-for="JobRequests.RequestingDepartmentId" class="form-label fw-bold"></label>
-									<select asp-for="JobRequests.RequestingDepartmentId" class="form-select form-control-lg" asp-items="@Model.Departments" autofocus>
+									<select asp-for="JobRequests.RequestingDepartmentId" class="form-select" asp-items="@Model.Departments" autofocus>
 										<option value="" selected disabled>Select Department</option>
 									</select>
 									<span asp-validation-for="JobRequests.RequestingDepartmentId" class="text-danger"></span>
 								</div>
 							</div>
-							<div class="col-md-6 col-sm-12">
-								<!-- Receiving Department Dropdown -->
+
+							<!-- Receiving Department Dropdown -->
+							<div class="col-md-4 col-sm-12">
 								<div class="form-group mb-2">
 									<label asp-for="JobRequests.ReceivingDepartmentId" class="form-label fw-bold"></label>
-									<select asp-for="JobRequests.ReceivingDepartmentId" class="form-select form-control-lg" asp-items="@Model.Departments" autofocus>
+									<select asp-for="JobRequests.ReceivingDepartmentId" class="form-select" asp-items="@Model.Departments" autofocus>
 										<option value="" selected disabled>Select Department</option>
 									</select>
 									<span asp-validation-for="JobRequests.ReceivingDepartmentId" class="text-danger"></span>
 								</div>
 							</div>
 
-
-
-							<!-- Job Description Textarea -->
-							<div class="form-group mb-2">
-								<label asp-for="JobRequests.JobDescription" class="form-label fw-bold">Job Description</label>
-								<textarea asp-for="JobRequests.JobDescription" class="form-control form-control-lg" style="height:400px;" placeholder="Describe the job requirements..."></textarea>
-								<span asp-validation-for="JobRequests.JobDescription" class="text-danger"></span>
+							<!-- Job Type Dropdown -->
+							<div class="col-md-4 col-sm-12">
+								<div class="form-group mb-2">
+									<label asp-for="JobRequests.JobTypeId" class="form-label fw-bold"></label>
+									<select asp-for="JobRequests.JobTypeId" class="form-select" asp-items="@Model.JobTypes" autofocus>
+										<option value="" selected disabled>Select Type</option>
+									</select>
+									<span asp-validation-for="JobRequests.JobTypeId" class="text-danger"></span>
+								</div>
 							</div>
+						</div>
 
-							<!-- Submit and Back Buttons -->
-							<div class="d-flex justify-content-between">
-								<button type="submit" class="btn btn-success w-45 shadow">
-									<i class="bi bi-floppy"></i> Submit
-								</button>
-								<a asp-action="Index" class="btn btn-outline-dark w-45 shadow">
-									<i class="bi bi-arrow-left-square"></i> Back
-								</a>
-							</div>
+
+						<!-- Job Description Textarea -->
+						<div class="form-group mb-3">
+							<label asp-for="JobRequests.JobDescription" class="form-label fw-bold">Job Description</label>
+							<textarea asp-for="JobRequests.JobDescription" class="form-control" style="height:400px;" placeholder="Describe the job requirements in here..."></textarea>
+							<span asp-validation-for="JobRequests.JobDescription" class="text-danger"></span>
+						</div>
+
+						<!-- Submit and Back Buttons -->
+						<div class="d-flex justify-content-between">
+							<button type="submit" class="btn btn-success w-45 shadow">
+								<i class="bi bi-floppy"></i> Submit
+							</button>
+							<a asp-action="Index" class="btn btn-outline-dark w-45 shadow">
+								<i class="bi bi-arrow-left-square"></i> Back
+							</a>
+						</div>
 					</form>
 				</div>
 			</div>
