@@ -62,109 +62,109 @@
 							<tbody>
 								@foreach (var item in Model.Departments)
 								{
-											<tr class="table-light">
-												<td><strong>@Html.DisplayFor(modelItem => item.DepartmentName)</strong></td>
-												<td>@Html.DisplayFor(modelItem => item.DepartmentDescription)</td>
-												<td class="text-center">
+												<tr class="table-light">
+													<td><strong>@Html.DisplayFor(modelItem => item.DepartmentName)</strong></td>
+													<td>@Html.DisplayFor(modelItem => item.DepartmentDescription)</td>
+													<td class="text-center">
 											@if (item.Status == RecordStatusEnum.Active)
 											{
 
-																<i class="bi bi-eye-fill fa-2x text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Active"></i>
+																		<i class="bi bi-eye-fill fa-2x text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Active"></i>
 
 											}
 											else
 											{
 
-																<i class="bi bi-eye-slash-fill fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Inactive"></i>
+																		<i class="bi bi-eye-slash-fill fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Inactive"></i>
 
 											}
-												</td>
-												<td class="text-center">
-													<a asp-action="Details" asp-route-id="@item.DepartmentId" class="btn btn-outline-primary shadow my-md-1 mt-sm-1 mb-sm-1 mb-1"
-													   data-bs-toggle="tooltip" data-bs-placement="top" title="Record Details">
-														<i class="bi bi-info-square"></i>
-													</a>
+													</td>
+													<td class="text-center">
+														<a asp-action="Details" asp-route-id="@item.DepartmentId" class="btn btn-outline-primary shadow my-md-1 mt-sm-1 mb-sm-1 mb-1"
+														   data-bs-toggle="tooltip" data-bs-placement="top" title="Record Details">
+															<i class="bi bi-info-square"></i>
+														</a>
 
 											@if (item.Status == RecordStatusEnum.Active)
 											{
-																<a asp-action="Edit" asp-route-id="@item.DepartmentId" class="btn btn-outline-success shadow my-md-1 mb-sm-1 mb-1"
-																   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
-																	<i class="bi bi-pencil-square"></i>
-																</a>
+																		<a asp-action="Edit" asp-route-id="@item.DepartmentId" class="btn btn-outline-success shadow my-md-1 mb-sm-1 mb-1"
+																		   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
+																			<i class="bi bi-pencil-square"></i>
+																		</a>
 											}
 											else
 											{
-																<a asp-action="Edit" asp-route-id="@item.DepartmentId" class="btn btn-secondary disabled my-md-1 mb-sm-1 mb-1"
-																   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
-																	<i class="bi bi-pencil-square"></i>
-																</a>
+																		<a asp-action="Edit" asp-route-id="@item.DepartmentId" class="btn btn-secondary disabled my-md-1 mb-sm-1 mb-1"
+																		   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
+																			<i class="bi bi-pencil-square"></i>
+																		</a>
 											}
 
-													<a asp-action="Manage" asp-route-id="@item.DepartmentId" class="btn btn-outline-warning shadow my-md-1 mb-sm-1 mb-1"
-													   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
-														<i class="bi bi-gear"></i>
-													</a>
+														<a asp-action="Manage" asp-route-id="@item.DepartmentId" class="btn btn-outline-warning shadow my-md-1 mb-sm-1 mb-1"
+														   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
+															<i class="bi bi-gear"></i>
+														</a>
 
-													<a asp-action="Delete" asp-route-id="@item.DepartmentId" class="btn btn-outline-danger shadow delete-btn my-md-1"
-													   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record" data-id="@item.DepartmentId">
-														<i class="bi bi-trash"></i>
-													</a>
+														<a asp-action="Delete" asp-route-id="@item.DepartmentId" class="btn btn-outline-danger shadow delete-btn my-md-1"
+														   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record" data-id="@item.DepartmentId">
+															<i class="bi bi-trash"></i>
+														</a>
 
-												</td>
-											</tr>
+													</td>
+												</tr>
 								}
 							</tbody>
 						</table>
 					</div>
 
 					<!-- Pagination Section -->
-					@if(Model.Departments.Count > 0)
+					@if (Model.Departments.Count > 0)
 					{
-					<div class="d-flex justify-content-between align-items-center">
-						<ul class="pagination">
-							@if (Model.CurrentPage > 1)
-							{
-						<li class="page-item">
-							<a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })">&laquo;</a>
-						</li>
-							}
-							else
-							{
-						<li class="page-item disabled">
-							<a class="page-link" href="#">&laquo;</a>
-						</li>
-							}
+						<div class="d-flex justify-content-between align-items-center">
+							<ul class="pagination">
+								@if (Model.CurrentPage > 1)
+								{
+								<li class="page-item">
+									<a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })">&laquo;</a>
+								</li>
+								}
+								else
+								{
+								<li class="page-item disabled">
+									<a class="page-link" href="#">&laquo;</a>
+								</li>
+								}
 
-					<!-- Page Number Links -->
-							@for (int i = 1; i <= Model.TotalPages; i++)
-							{
-						<li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-							<a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
-						</li>
-							}
+						<!-- Page Number Links -->
+								@for (int i = 1; i <= Model.TotalPages; i++)
+								{
+								<li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+									<a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+								</li>
+								}
 
-			<!-- Next Page Link -->
-							@if (Model.CurrentPage < Model.TotalPages)
-							{
-						<li class="page-item">
-							<a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })">&raquo;</a>
-						</li>
-							}
-							else
-							{
-						<li class="page-item disabled">
-							<a class="page-link" href="#">&raquo;</a>
-						</li>
-							}
-						</ul>
+				<!-- Next Page Link -->
+								@if (Model.CurrentPage < Model.TotalPages)
+								{
+								<li class="page-item">
+									<a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })">&raquo;</a>
+								</li>
+								}
+								else
+								{
+								<li class="page-item disabled">
+									<a class="page-link" href="#">&raquo;</a>
+								</li>
+								}
+							</ul>
 
-							<!-- Pagination Count (Page X of Y) -->
-	<span class="pagination-count">
-		Page @Model.CurrentPage of @Model.TotalPages |
-							@Model.RecordCount out of @Model.TotalDepartments records
-	</span>
+								<!-- Pagination Count (Page X of Y) -->
+		<span class="pagination-count">
+			Page @Model.CurrentPage of @Model.TotalPages |
+								@Model.RecordCount out of @Model.TotalDepartments records
+		</span>
 
-					</div>
+						</div>
 
 					}
 
@@ -175,63 +175,63 @@
 </div>
 
 @section Scripts {
-			<script>
-				// Attach the click event to all delete buttons
-				document.querySelectorAll('.delete-btn').forEach(button => {
-					button.addEventListener('click', function (event) {
-						event.preventDefault();  // Prevent the default action (the link click)
+				<script>
+					// Attach the click event to all delete buttons
+					document.querySelectorAll('.delete-btn').forEach(button => {
+						button.addEventListener('click', function (event) {
+							event.preventDefault();  // Prevent the default action (the link click)
 
-						// Get the department ID from the data-id attribute
-						var departmentId = this.getAttribute('data-id');
+							// Get the department ID from the data-id attribute
+							var departmentId = this.getAttribute('data-id');
 
-						// Show SweetAlert confirmation
-						Swal.fire({
-							title: "Are you sure?",
-							text: "Do you want to delete this department? You won't be able to revert this!",
-							icon: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#d33",
-							confirmButtonText: "Proceed Deletion",
-							cancelButtonText: "Cancel"
-						}).then((result) => {
-							if (result.isConfirmed) {
-								// Make an AJAX POST request to the controller to delete the department
-								fetch(`/Department/Delete/${departmentId}`, {
-									method: 'POST',
-									headers: {
-										'Content-Type': 'application/json',
-										'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value // Anti-forgery token
-									},
-									body: JSON.stringify({ DepartmentId: departmentId })
-								})
-									.then(response => response.json()) // Parse the JSON response
-									.then(data => {
-										if (data.success) {
+							// Show SweetAlert confirmation
+							Swal.fire({
+								title: "Are you sure?",
+								text: "Do you want to delete this department? You won't be able to revert this!",
+								icon: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#d33",
+								confirmButtonText: "Proceed Deletion",
+								cancelButtonText: "Cancel"
+							}).then((result) => {
+								if (result.isConfirmed) {
+									// Make an AJAX POST request to the controller to delete the department
+									fetch(`/Department/Delete/${departmentId}`, {
+										method: 'POST',
+										headers: {
+											'Content-Type': 'application/json',
+											'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value // Anti-forgery token
+										},
+										body: JSON.stringify({ DepartmentId: departmentId })
+									})
+										.then(response => response.json()) // Parse the JSON response
+										.then(data => {
+											if (data.success) {
 
-											location.reload(); // Optionally reload the page or redirect
+												location.reload(); // Optionally reload the page or redirect
 
-										} else {
-											// There was an error, show the error message
+											} else {
+												// There was an error, show the error message
+												Swal.fire(
+													'Error!',
+													data.message || 'There was an issue deleting the department.',
+													'error'
+												);
+											}
+										})
+										.catch(error => {
 											Swal.fire(
 												'Error!',
-												data.message || 'There was an issue deleting the department.',
+												'An error occurred during the deletion process.',
 												'error'
 											);
-										}
-									})
-									.catch(error => {
-										Swal.fire(
-											'Error!',
-											'An error occurred during the deletion process.',
-											'error'
-										);
-									});
-							}
+										});
+								}
+							});
 						});
 					});
-				});
 
-			</script>
+				</script>
 
 
 }
