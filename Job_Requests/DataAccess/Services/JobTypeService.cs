@@ -1,5 +1,6 @@
 ﻿using Job_Requests.DataAccess.Repositories;
 using Job_Requests.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -27,8 +28,8 @@ namespace Job_Requests.DataAccess.Services
         public async Task<IEnumerable<JobType>> GetJobTypesAsync(Expression<Func<JobType, bool>>? filter = null, 
                                                                 bool tracked = false, 
                                                                 params string[]? includeProperties)
-        {
-            return await _repository.GetAllAsync(filter, tracked, includeProperties);
+		{
+            return await _repository.GetAllAsync( filter, tracked, includeProperties);
         }
 
         public async Task<JobType> GetJobTypeByIdAsync(int id)

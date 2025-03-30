@@ -1,5 +1,7 @@
 ﻿using Job_Requests.DataAccess.Repositories;
 using Job_Requests.Models;
+using Job_Requests.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -32,8 +34,8 @@ namespace Job_Requests.DataAccess.Services
         public async Task<IEnumerable<Department>> GetDepartmentsAsync(Expression<Func<Department, bool>>? filter = null,
                                                     bool tracked = false,
                                                     params string[]? includeProperties)
-        {
-            return await _repository.GetAllAsync(filter,tracked,includeProperties);
+		{
+            return await _repository.GetAllAsync(filter, tracked,includeProperties);
         }
 
         public async Task<bool> IsExistingDepartmentNameWithDifferentId(int id, string departmentName)
@@ -52,5 +54,33 @@ namespace Job_Requests.DataAccess.Services
         {
             await _repository.UpdateAsync(department);
         }
-    }
+
+		public async Task<DepartmentPaginationVM> GetPaginatedDepartmentsAsync(int page, int pageSize)
+		{
+			// Get the total count of departments
+			int totalDepartments = await _repository.GetTotalCountAsync();
+
+			// Calculate total pages
+			int totalPages = (int)Math.Ceiling((double)totalDepartments / pageSize);
+
+			// Fetch departments with pagination
+			var departments = await _repository.GetPaginatedAsync(page, pageSize);
+
+			// Return the ViewModel containing the departments and pagination info
+			return new DepartmentPaginationVM
+			{
+				Departments = departments.ToList(),
+				CurrentPage = page,
+				TotalPages = totalPages,
+				PageSize = pageSize,
+                RecordCount = (page - 1) * pageSize + departments.Count(),
+				TotalDepartments = totalDepartments
+			};
+		}
+
+		public async Task<int> GetTotalDepartmentCountAsync()
+		{
+			return await _repository.GetTotalCountAsync();
+		}
+	}
 }

@@ -11,6 +11,7 @@ using Job_Requests.DataAccess.Services;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using Job_Requests.Models.Enums;
+using Job_Requests.Models.ViewModels;
 
 namespace Job_Requests.Controllers
 {
@@ -24,9 +25,11 @@ namespace Job_Requests.Controllers
         }
 
         // GET: Departments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _service.GetDepartmentsAsync());
+            int pageSize = 10;
+
+			return View(await _service.GetPaginatedDepartmentsAsync(page, pageSize));
         }
 
         // GET: Departments/Details/5
@@ -210,9 +213,9 @@ namespace Job_Requests.Controllers
             return View(department);
         }
 
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+		// POST: Departments/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var department = await _service.GetDepartmentByIdAsync(id);
@@ -253,8 +256,10 @@ namespace Job_Requests.Controllers
 
             }
 
-            return View(department);
-        }
+            //return View(department);
+
+			return Json(new { success = false, message = "Department not found." });
+		}
 
     }
 }

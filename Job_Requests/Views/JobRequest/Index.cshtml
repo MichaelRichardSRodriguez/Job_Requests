@@ -88,27 +88,27 @@
 										<td class="text-center">
 											@if (item.Status == JobStatusEnum.Pending)
 											{
-												<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-outline-success shadow mb-2 mb-sm-1 mb-md-1"
+												<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-outline-success shadow my-md-1 mt-sm-1 mb-sm-1 mb-1"
 												   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
 													<i class="bi bi-pencil-square"></i>
 												</a>
 											}
 											else
 											{
-												<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-secondary shadow disabled mb-2 mb-sm-1 mb-md-1">
+												<a asp-action="Edit" asp-route-id="@item.JobRequestId" class="btn btn-secondary shadow disabled my-md-1 mb-sm-1 mb-1">
 													<i class="bi bi-pencil-square"></i>
 												</a>
 											}
 
-											<a asp-action="Details" asp-route-id="@item.JobRequestId" class="btn btn-outline-primary shadow mb-2 mb-sm-1 mb-md-1"
+											<a asp-action="Details" asp-route-id="@item.JobRequestId" class="btn btn-outline-primary shadow my-md-1 mb-sm-1 mb-1"
 											   data-bs-toggle="tooltip" data-bs-placement="top" title="Show Details">
 												<i class="bi bi-info-square"></i>
 											</a>
-											<a asp-action="Manage" asp-route-id="@item.JobRequestId" class="btn btn-outline-warning shadow mb-2 mb-sm-1 mb-md-1"
+											<a asp-action="Manage" asp-route-id="@item.JobRequestId" class="btn btn-outline-warning shadow my-md-1 mb-sm-1 mb-1"
 											   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
 												<i class="bi bi-gear"></i>
 											</a>
-											<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-outline-danger shadow mb-2 mb-sm-1 mb-md-1"
+											<a asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-outline-danger shadow my-md-1"
 											   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record">
 												<i class="bi bi-trash"></i>
 											</a>
@@ -118,6 +118,36 @@
 							</tbody>
 						</table>
 					</div>
+
+					<!-- Pagination Section -->
+					<div>
+						<ul class="pagination">
+							<li class="page-item disabled">
+								<a class="page-link" href="#">&laquo;</a>
+							</li>
+							<li class="page-item active">
+								<a class="page-link" href="#">1</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">2</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">3</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">4</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">5</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">&raquo;</a>
+							</li>
+						</ul>
+					</div>
+					<!--End of Pagination -->
+
+
 				</div>
 			</div>
 		</div>
