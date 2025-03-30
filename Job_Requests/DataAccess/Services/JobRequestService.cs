@@ -1,5 +1,7 @@
 ﻿using Job_Requests.DataAccess.Repositories;
 using Job_Requests.Models;
+using Job_Requests.Models.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
 
 namespace Job_Requests.DataAccess.Services
@@ -43,6 +45,31 @@ namespace Job_Requests.DataAccess.Services
             return await _repository.AnyAsync(j => j.JobRequestId == id);
         }
 
-    }
+		public async Task<JobRequestsPaginationVM> GetPaginatedJobRequestsAsync(int page, int pageSize)
+		{
+            // Get Job Requests' Total Count
+            int totalRequests = await _repository.GetTotalCountAsync();
+            int totalPages = (int)Math.Ceiling((double)totalRequests / pageSize);
+
+            var jobRequests = await _repository.GetPaginatedAsync(page,pageSize,includeProperties: new string[] { "RequestingDepartment", "ReceivingDepartment", "JobType" });
+
+            JobRequestsPaginationVM jobRequestsPaginationVM = new()
+            {
+                JobRequests = jobRequests.ToList(),
+				CurrentPage = page,
+				TotalPages = totalPages,
+                PageSize = pageSize,
+                RecordCount = (page - 1) * pageSize + jobRequests.Count(),
+				TotalRequests = totalRequests
+			};
+
+            return jobRequestsPaginationVM;
+		}
+
+		public async Task<int> GetTotalRequestsCountAsync()
+		{
+            return await _repository.GetTotalCountAsync();
+		}
+	}
 
 }

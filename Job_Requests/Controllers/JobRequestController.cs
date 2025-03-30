@@ -27,10 +27,10 @@ namespace Job_Requests.Controllers
 		}
 
 		// GET: JobRequest
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int page = 1)
 		{
-			var jobRequests = await _jobRequestService.GetJobRequestsAsync();
-			return View(jobRequests);
+			int pageSize = 10;
+			return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page,pageSize));
 		}
 
 		// GET: JobRequest/Details/5

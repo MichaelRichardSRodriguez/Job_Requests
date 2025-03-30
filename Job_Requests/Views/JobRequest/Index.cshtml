@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Job_Requests.Models.JobRequest>
+﻿@model Job_Requests.Models.ViewModels.JobRequestsPaginationVM
 
 @{
 	ViewData["Title"] = "Job Requests";
@@ -40,18 +40,18 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr class="table-primary">
-									<th>@Html.DisplayNameFor(model => model.JobRequestId)</th>
-									<th>@Html.DisplayNameFor(model => model.RequestingDepartment)</th>
-									<th>@Html.DisplayNameFor(model => model.ReceivingDepartment)</th>
-									<th>@Html.DisplayNameFor(model => model.JobType)</th>
-									<th>@Html.DisplayNameFor(model => model.RequestDate)</th>
-									<th>@Html.DisplayNameFor(model => model.DateCompleted)</th>
-									<th class="text-center">@Html.DisplayNameFor(model => model.Status)</th>
+									<th>JR#</th>
+									<th>Requesting Department</th>
+									<th>Receiving Department</th>
+									<th>Type</th>
+									<th>Date Requested</th>
+									<th>Date Completed</th>
+									<th class="text-center">Status</th>
 									<th class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach (var item in Model)
+								@foreach (var item in Model.JobRequests)
 								{
 									<tr class="table-light">
 										<td><strong>@Html.DisplayFor(modelItem => item.JobRequestId)</strong></td>
@@ -120,31 +120,80 @@
 					</div>
 
 					<!-- Pagination Section -->
-					<div>
-						<ul class="pagination">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&laquo;</a>
-							</li>
-							<li class="page-item active">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">2</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">4</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">5</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">&raquo;</a>
-							</li>
-						</ul>
-					</div>
+					@if (Model.JobRequests.Count > 0)
+					{
+						<div class="d-flex justify-content-between align-items-center">
+							<ul class="pagination">
+
+								@if (Model.CurrentPage > 1)
+								{
+								<li class="page-item">
+									<a class="page-link" href="@Url.Action("Index",new  { page = Model.CurrentPage - 1 })">&laquo;</a>
+									</li>
+								}
+								else
+								{
+									<li class="page-item disabled">
+										<a class="page-link" href="#">&laquo;</a>
+									</li>
+								}
+
+								@for(int i = 1; i <= Model.TotalPages; i++)
+								{
+									<li class="page-item @(i == Model.CurrentPage? "active": "")">
+										<a class="page-link" href="@Url.Action("Index",new { page = i })">@i</a>
+									</li>
+								}
+
+
+								@if (Model.CurrentPage < Model.TotalPages)
+								{
+									<li class="page-item">
+										<a class="page-link" href="@Url.Action("Index",new { page = Model.CurrentPage + 1 })">&raquo;</a>
+									</li>
+								}
+								else
+								{
+									<li class="page-item disabled">
+										<a class="page-link" href="#">&raquo;</a>
+									</li>
+								}
+							</ul>
+
+							<span class="pagination-count">
+								Page @Model.CurrentPage of @Model.TotalPages |
+								@Model.RecordCount out of @Model.TotalRequests
+							</span>
+							
+						</div>
+
+
+						@* 	<div>
+					<ul class="pagination">
+					<li class="page-item disabled">
+					<a class="page-link" href="#">&laquo;</a>
+					</li>
+					<li class="page-item active">
+					<a class="page-link" href="#">1</a>
+					</li>
+					<li class="page-item">
+					<a class="page-link" href="#">2</a>
+					</li>
+					<li class="page-item">
+					<a class="page-link" href="#">3</a>
+					</li>
+					<li class="page-item">
+					<a class="page-link" href="#">4</a>
+					</li>
+					<li class="page-item">
+					<a class="page-link" href="#">5</a>
+					</li>
+					<li class="page-item">
+					<a class="page-link" href="#">&raquo;</a>
+					</li>
+					</ul>
+					</div> *@
+					}
 					<!--End of Pagination -->
 
 

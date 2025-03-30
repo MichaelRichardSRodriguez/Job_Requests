@@ -66,16 +66,20 @@ namespace Job_Requests.DataAccess.Services
 			// Fetch departments with pagination
 			var departments = await _repository.GetPaginatedAsync(page, pageSize);
 
-			// Return the ViewModel containing the departments and pagination info
-			return new DepartmentPaginationVM
-			{
+            // Return the ViewModel containing the departments and pagination info
+
+            DepartmentPaginationVM departmentPaginationVM = new()
+            {
 				Departments = departments.ToList(),
 				CurrentPage = page,
 				TotalPages = totalPages,
 				PageSize = pageSize,
-                RecordCount = (page - 1) * pageSize + departments.Count(),
+				RecordCount = (page - 1) * pageSize + departments.Count(),
 				TotalDepartments = totalDepartments
 			};
+
+            return departmentPaginationVM;
+
 		}
 
 		public async Task<int> GetTotalDepartmentCountAsync()
