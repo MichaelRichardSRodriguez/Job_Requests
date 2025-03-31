@@ -45,13 +45,16 @@ namespace Job_Requests.DataAccess.Services
             return await _repository.AnyAsync(j => j.JobRequestId == id);
         }
 
-		public async Task<JobRequestsPaginationVM> GetPaginatedJobRequestsAsync(int page, int pageSize)
+		public async Task<JobRequestsPaginationVM> GetPaginatedJobRequestsAsync(int page, int pageSize, Expression<Func<JobRequest,bool>>? filter = null)
 		{
             // Get Job Requests' Total Count
-            int totalRequests = await _repository.GetTotalCountAsync();
+            int totalRequests = await _repository.GetTotalCountAsync(filter);
+
+            // Get Job Requests' Total Pages
             int totalPages = (int)Math.Ceiling((double)totalRequests / pageSize);
 
-            var jobRequests = await _repository.GetPaginatedAsync(page,pageSize,includeProperties: new string[] { "RequestingDepartment", "ReceivingDepartment", "JobType" });
+            // Get Job Requests' Paginated Records
+            var jobRequests = await _repository.GetPaginatedAsync(page,pageSize,filter,includeProperties: new string[] { "RequestingDepartment", "ReceivingDepartment", "JobType" });
 
             JobRequestsPaginationVM jobRequestsPaginationVM = new()
             {

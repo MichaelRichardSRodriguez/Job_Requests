@@ -12,7 +12,7 @@ namespace Job_Requests.DataAccess.Repositories
 								 bool tracked = false,
 								 params string[]? includeProperties); // Expression<Func<T, object>>[]? includeProperties = null
 
-		Task<int> GetTotalCountAsync();
+		Task<int> GetTotalCountAsync(Expression<Func<T, bool>>? filter = null);
 
 		Task<T> GetRecordAsync(Expression<Func<T, bool>>? filter = null,
                                  bool tracked = false,

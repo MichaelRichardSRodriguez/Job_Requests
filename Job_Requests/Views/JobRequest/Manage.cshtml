@@ -79,6 +79,9 @@
                                             case JobStatusEnum.Pending:
                                                 statusStyle = "badge bg-secondary text-white";
                                                 break;
+                                            case JobStatusEnum.Assigned:
+                                                statusStyle = "badge bg-info text-white";
+                                                break;
                                             case JobStatusEnum.InProgress:
                                                 statusStyle = "badge bg-primary text-white";
                                                 break;
@@ -137,7 +140,7 @@
                         <!-- Submit/Back Button -->
                         <div class="form-group d-flex justify-content-between mt-3">
                             <button type="submit" class="btn btn-success shadow"> <i class="bi bi-floppy"></i> Submit</button>
-                            <a asp-action="Index" class="btn btn-outline-dark shadow"><i class="bi bi-arrow-left-square"></i> Back</a>
+                            <a asp-action="Assign" class="btn btn-outline-dark shadow"><i class="bi bi-arrow-left-square"></i> Back</a>
                         </div>
                     </form>
                 </div>

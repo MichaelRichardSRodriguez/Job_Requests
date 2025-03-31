@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Job_Requests.Models.JobPriority>
+﻿@model Job_Requests.Models.ViewModels.JobPriorityPaginationVM
 
 @{
 	ViewData["Title"] = "Job Priority";
@@ -6,7 +6,7 @@
 	var badgeStyle = string.Empty;
 }
 
-<div class="container py-5">
+<div class="container">
 	<div class="row justify-content-center">
 		<div class="col-md-12">
 			<!-- Card Header -->
@@ -36,24 +36,25 @@
 							</div>
 						</div>
 					</div>
+					<!-- Table -->
 					<div class="table-responsive">
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr class="table-primary">
 									<th>
-										@Html.DisplayNameFor(model => model.PriorityLevel)
+										Priority Level
 									</th>
 									<th>
-										@Html.DisplayNameFor(model => model.PriorityDescription)
+										Description
 									</th>
 									<th class="text-center">
-										@Html.DisplayNameFor(model => model.Status)
+										Status
 									</th>
 									<th class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach (var item in Model)
+								@foreach (var item in Model.JobPriorities)
 								{
 									<tr class="table-light">
 										<td>
@@ -110,7 +111,60 @@
 							</tbody>
 						</table>
 					</div>
+
+					<!-- Pagination Section -->
+					@if (Model.JobPriorities.Count > 0)
+					{
+						<div class="d-flex justify-content-between align-items-center">
+							<ul class="pagination">
+
+								@if (Model.CurrentPage > 1)
+								{
+									<li class="page-item">
+										<a class="page-link" href="@Url.Action("Index",new  { page = Model.CurrentPage - 1 })">&laquo;</a>
+									</li>
+								}
+								else
+								{
+									<li class="page-item disabled">
+										<a class="page-link" href="#">&laquo;</a>
+									</li>
+								}
+
+								@for (int i = 1; i <= Model.TotalPages; i++)
+								{
+									<li class="page-item @(i == Model.CurrentPage? "active": "")">
+										<a class="page-link" href="@Url.Action("Index",new { page = i })">@i</a>
+									</li>
+								}
+
+
+								@if (Model.CurrentPage < Model.TotalPages)
+								{
+									<li class="page-item">
+										<a class="page-link" href="@Url.Action("Index",new { page = Model.CurrentPage + 1 })">&raquo;</a>
+									</li>
+								}
+								else
+								{
+									<li class="page-item disabled">
+										<a class="page-link" href="#">&raquo;</a>
+									</li>
+								}
+							</ul>
+
+							<span class="pagination-count">
+								Page @Model.CurrentPage of @Model.TotalPages |
+								@Model.RecordCount out of @Model.TotalRequests
+							</span>
+
+						</div>
+					}
+					<!--End of Pagination -->
+
+
 				</div>
+
 			</div>
 		</div>
 	</div>

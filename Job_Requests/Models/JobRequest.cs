@@ -12,10 +12,13 @@ namespace Job_Requests.Models
 		[DisplayName("JR#")]
 		public int JobRequestId { get; set; }
         [DisplayName("Requesting Department")]
-        public int RequestingDepartmentId { get; set; }
+		[Required(ErrorMessage = "Requesting Department is required.")]
+		public int RequestingDepartmentId { get; set; }
 		[DisplayName("Receiving Department")]
+		[Required(ErrorMessage = "Receiving Department is required.")]
 		public int ReceivingDepartmentId { get; set; }
 		[DisplayName("Type")]
+		[Required(ErrorMessage = "Job Type is required.")]
 		public int JobTypeId { get; set; }
 		[DisplayName("Priority Level")]
 		public int? JobPriorityId { get; set; }
@@ -23,7 +26,8 @@ namespace Job_Requests.Models
         // public int EmployeeId { get; set; }
 
         [DisplayName("Description")]
-        public string JobDescription { get; set; }
+		[Required(ErrorMessage = "Description is required.")]
+		public string JobDescription { get; set; }
 
 		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
 		[DisplayName("Date Requested")]

@@ -1,14 +1,15 @@
 ﻿namespace Job_Requests.Models.ViewModels
 {
-	public class DepartmentPaginationVM
+	public class JobTypePaginationVM
 	{
 
-		public List<Department> Departments { get; set; }
+		public List<JobType> JobTypes { get; set; }
+
 		public int CurrentPage { get; set; }
 		public int TotalPages { get; set; }
 		public int PageSize { get; set; }
 		public int RecordCount { get; set; }
-		public int TotalJobRequests { get; set; }
+		public int TotalJobTypes {  get; set; }
 
 	}
 }

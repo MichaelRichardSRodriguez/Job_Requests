@@ -75,7 +75,7 @@ namespace Job_Requests.DataAccess.Services
 				TotalPages = totalPages,
 				PageSize = pageSize,
 				RecordCount = (page - 1) * pageSize + departments.Count(),
-				TotalDepartments = totalDepartments
+				TotalJobRequests = totalDepartments
 			};
 
             return departmentPaginationVM;

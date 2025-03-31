@@ -22,9 +22,12 @@ namespace Job_Requests.Controllers
 		}
 
 		// GET: JobPriority
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int page = 1)
 		{
-			return View(await _service.GetPriorityLevelsAsync());
+
+			int pageSize = 10;
+
+			return View(await _service.GetPaginatedPriorityLevelsAsync(page,pageSize));
 		}
 
 		// GET: JobPriority/Details/5

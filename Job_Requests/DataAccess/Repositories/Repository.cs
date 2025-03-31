@@ -109,9 +109,17 @@ namespace Job_Requests.DataAccess.Repositories
 			return await query.FirstOrDefaultAsync(); ;
 		}
 
-		public async Task<int> GetTotalCountAsync()
+		public async Task<int> GetTotalCountAsync(Expression<Func<T, bool>>? filter = null)
 		{
-			return await _dbSet.CountAsync();
+			if (filter != null)
+			{
+                return await _dbSet.CountAsync(filter);
+            }
+			else
+			{
+                return await _dbSet.CountAsync();
+            }
+			
 		}
 
 

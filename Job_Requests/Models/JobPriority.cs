@@ -9,13 +9,14 @@ namespace Job_Requests.Models
     {
         public int JobPriorityId { get; set; }
 
-        [Required]
-        [DisplayName("Priority Level")]
+		[Required(ErrorMessage = "Priority Level is required.")]
+		[DisplayName("Priority Level")]
         [StringLength(10, ErrorMessage = "Job Priority cannot be longer than 10 characters.")]
         public string PriorityLevel { get; set; }
 
         [DisplayName("Priority Description")]
-        [StringLength(300, ErrorMessage = "Job Priority cannot be longer than 300 characters.")]
+		[Required(ErrorMessage = "Description is required.")]
+		[StringLength(300, ErrorMessage = "Job Priority cannot be longer than 300 characters.")]
         public string PriorityDescription { get; set; }
 
         public RecordStatusEnum Status { get; set; }

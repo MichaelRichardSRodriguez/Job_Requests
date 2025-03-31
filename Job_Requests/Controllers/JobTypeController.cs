@@ -23,9 +23,12 @@ namespace Job_Requests.Controllers
 		}
 
 		// GET: JobType
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int page = 1)
 		{
-			return View(await _service.GetJobTypesAsync());
+
+			int pageSize = 10;
+
+			return View(await _service.GetPaginatedJobTypesAsync(page,pageSize));
 		}
 
 		// GET: JobType/Details/5

@@ -5,7 +5,8 @@
 
         Cancelled = 0,
         Pending = 1,
-        InProgress = 2,
-        Completed = 3
+        Assigned = 2,
+        InProgress = 3,
+        Completed = 4
     }
 }

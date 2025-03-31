@@ -1,5 +1,6 @@
 ﻿using Job_Requests.DataAccess.Repositories;
 using Job_Requests.Models;
+using Job_Requests.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -52,5 +53,34 @@ namespace Job_Requests.DataAccess.Services
         {
             await _repository.UpdateAsync(jobType);
         }
-    }
+
+		public async Task<JobTypePaginationVM> GetPaginatedJobTypesAsync(int page, int pageSize, Expression<Func<JobType, bool>>? filter = null, bool tracked = false, params string[]? includeProperties)
+		{
+            // Get total count
+            int totalJobTypes = await _repository.GetTotalCountAsync();
+
+            // Get total pages
+            int totalPages = (int)Math.Ceiling((double)totalJobTypes / pageSize);
+
+            // Get All Records
+            var jobTypes = await _repository.GetPaginatedAsync(page,pageSize);
+
+            JobTypePaginationVM jobTypePaginationVM = new()
+            {
+                JobTypes = jobTypes.ToList(),
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                RecordCount = (page - 1) * pageSize + jobTypes.Count(),
+                TotalJobTypes = totalJobTypes
+            };
+
+            return jobTypePaginationVM;
+		}
+
+		public async Task<int> GetTotalJobTypeCountAsync()
+		{
+			return await _repository.GetTotalCountAsync();
+		}
+	}
 }

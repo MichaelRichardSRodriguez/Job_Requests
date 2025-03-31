@@ -1,5 +1,6 @@
 ﻿using Job_Requests.DataAccess.Repositories;
 using Job_Requests.Models;
+using Job_Requests.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -23,6 +24,34 @@ namespace Job_Requests.DataAccess.Services
 			await _repository.DeleteAsync(priority);
 		}
 
+		public async Task<JobPriorityPaginationVM> GetPaginatedPriorityLevelsAsync(int page, int pageSize, Expression<Func<JobPriority, bool>>? filter = null, bool tracked = false, params string[]? includeProperties)
+		{
+			// Get total count
+			int totalJobPriorities = await _repository.GetTotalCountAsync();
+
+			// Get total pages
+			int totalPage = (int)Math.Ceiling((double)totalJobPriorities / pageSize);
+
+			// Get All Records
+			var jobPriorities = await _repository.GetPaginatedAsync(page, pageSize);
+
+			// Instantiate pagination view model
+			JobPriorityPaginationVM jobPriorityPaginationVM = new()
+			{
+				JobPriorities = jobPriorities.ToList(),
+				CurrentPage = page,
+				TotalPages = totalPage,
+				PageSize = pageSize,
+				RecordCount = (page - 1) * pageSize + jobPriorities.Count(),
+				TotalRequests = totalJobPriorities
+			};
+
+
+			// Return View Model
+			return jobPriorityPaginationVM;
+		
+		}
+
 		public async Task<JobPriority> GetPriorityLevelByIdAsync(int id)
 		{
 			return await _repository.GetByIdAsync(id);
@@ -33,6 +62,11 @@ namespace Job_Requests.DataAccess.Services
 																			params string[]? includeProperties)
 		{
 			return await _repository.GetAllAsync(filter, tracked, includeProperties);	
+		}
+
+		public async Task<int> GetTotalPriorityLevelCountAsync()
+		{
+			return await _repository.GetTotalCountAsync();
 		}
 
 		public async Task<bool> IsExistingPriorityLevelId(int id)

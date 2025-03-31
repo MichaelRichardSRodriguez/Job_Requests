@@ -33,6 +33,14 @@ namespace Job_Requests.Controllers
 			return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page,pageSize));
 		}
 
+		// GET: JobRequest
+		public async Task<IActionResult> Assign(int page = 1)
+		{
+			int pageSize = 10;
+			return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page, pageSize,
+                                                                              filter: jr => jr.Status != JobStatusEnum.Cancelled && jr.Status != JobStatusEnum.Completed));
+        }
+
 		// GET: JobRequest/Details/5
 		public async Task<IActionResult> Details(int id)
 		{
@@ -326,7 +334,7 @@ namespace Job_Requests.Controllers
 						throw;
 					}
 				}
-				return RedirectToAction(nameof(Index));
+				return RedirectToAction(nameof(Assign));
 			}
 
 			var departments = await _departmentService.GetDepartmentsAsync();

@@ -1,4 +1,5 @@
 ﻿using Job_Requests.Models;
+using Job_Requests.Models.ViewModels;
 using System.Linq.Expressions;
 
 namespace Job_Requests.DataAccess.Services
@@ -8,6 +9,11 @@ namespace Job_Requests.DataAccess.Services
 		Task<IEnumerable<JobPriority>> GetPriorityLevelsAsync(Expression<Func<JobPriority,bool>>? filter = null,
 																bool tracked = false,
 																params string[]? includeProperties);
+
+		Task<JobPriorityPaginationVM> GetPaginatedPriorityLevelsAsync(int page, int pageSize,Expression<Func<JobPriority, bool>>? filter = null,
+														bool tracked = false,
+														params string[]? includeProperties);
+		Task<int> GetTotalPriorityLevelCountAsync();
 		Task<JobPriority> GetPriorityLevelByIdAsync(int id);
 		Task AddPriorityLevelAsync(JobPriority priority);
 		Task DeletePriorityLevelAsync(JobPriority priority);
