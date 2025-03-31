@@ -3,7 +3,7 @@
 	public class JobTypePaginationVM
 	{
 
-		public List<JobType> JobTypes { get; set; }
+		public IEnumerable<JobType> JobTypes { get; set; }
 
 		public int CurrentPage { get; set; }
 		public int TotalPages { get; set; }

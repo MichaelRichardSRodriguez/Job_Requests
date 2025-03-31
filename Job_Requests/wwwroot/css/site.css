@@ -100,3 +100,15 @@ body {
 table td {
     padding: 2px !important; /*Adjust the value as needed */
 }
+
+.nav-link:hover {
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    font-weight: bold;
+}
+
+.dropdown-item:hover {
+    font-weight: bold;
+}

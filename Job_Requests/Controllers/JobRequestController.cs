@@ -33,13 +33,21 @@ namespace Job_Requests.Controllers
 			return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page,pageSize));
 		}
 
-		// GET: JobRequest
-		public async Task<IActionResult> Assign(int page = 1)
+		// GET: JobRequest/AssignIndex
+		public async Task<IActionResult> AssignIndex(int page = 1)
 		{
 			int pageSize = 10;
 			return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page, pageSize,
                                                                               filter: jr => jr.Status != JobStatusEnum.Cancelled && jr.Status != JobStatusEnum.Completed));
         }
+
+		// GET: JobRequest/ManageIndex
+		public async Task<IActionResult> ManageIndex(int page = 1)
+		{
+			int pageSize = 10;
+			return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page, pageSize,
+																			  filter: jr => jr.Status != JobStatusEnum.Cancelled && jr.Status != JobStatusEnum.Completed));
+		}
 
 		// GET: JobRequest/Details/5
 		public async Task<IActionResult> Details(int id)
@@ -158,9 +166,6 @@ namespace Job_Requests.Controllers
 				}).ToList()
 			};
 
-
-			//ViewData["DepartmentId"] = new SelectList(await _departmentService.GetDepartmentsAsync(), "DepartmentId", "DepartmentName", jobRequest.DepartmentId);
-
 			return View(jobRequestVM);
 		}
 
@@ -240,8 +245,8 @@ namespace Job_Requests.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		// GET: JobRequest/Manage/5
-		public async Task<IActionResult> Manage(int id)
+		// GET: JobRequest/ManageRequest/5
+		public async Task<IActionResult> ManageRequest(int id)
 		{
 
 			var jobRequest = await _jobRequestService.GetJobRequestByIdAsync(id);
@@ -279,12 +284,10 @@ namespace Job_Requests.Controllers
 			return View(jobRequestVM);
 		}
 
-		// POST: JobRequest/Manage/5
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		// POST: JobRequest/ManageRequest/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Manage(int id, JobRequestVM jobRequestVM)
+		public async Task<IActionResult> ManageRequest(int id, JobRequestVM jobRequestVM)
 		{
 			if (id != jobRequestVM.JobRequests.JobRequestId)
 			{
@@ -334,7 +337,7 @@ namespace Job_Requests.Controllers
 						throw;
 					}
 				}
-				return RedirectToAction(nameof(Assign));
+				return RedirectToAction(nameof(ManageIndex));
 			}
 
 			var departments = await _departmentService.GetDepartmentsAsync();
@@ -346,6 +349,97 @@ namespace Job_Requests.Controllers
 
 			return View(jobRequestVM);
 		}
+
+        // GET: JobRequest/AssignRequest/5
+        public async Task<IActionResult> AssignRequest(int id)
+        {
+
+            var jobRequest = await _jobRequestService.GetJobRequestByIdAsync(id);
+            if (jobRequest == null)
+            {
+                return NotFound();
+            }
+
+            var departments = await _departmentService.GetDepartmentsAsync();
+            JobRequestVM jobRequestVM = new()
+            {
+                JobRequests = jobRequest,
+                Departments = departments.Select(d => new SelectListItem
+                {
+                    Text = d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                })
+            };
+
+            return View(jobRequestVM);
+        }
+
+		// POST: JobRequest/AssignRequest/5
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> AssignRequest(int id, JobRequestVM jobRequestVM)
+		{
+			if (id != jobRequestVM.JobRequests.JobRequestId)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+
+					var jobRequestFromDb = await _jobRequestService.GetJobRequestByIdAsync(id);
+
+					if (jobRequestFromDb == null)
+					{
+						return BadRequest();
+					}
+
+					jobRequestFromDb.Status = jobRequestVM.JobRequests.Status;
+					jobRequestFromDb.Remarks = jobRequestVM.JobRequests.Remarks;
+
+					if (jobRequestFromDb.Status == JobStatusEnum.Completed)
+					{
+						jobRequestFromDb.DateCompleted = DateTime.Now;
+					}
+					else
+					{
+						jobRequestFromDb.DateCompleted = null;
+
+						if (jobRequestFromDb.Status == JobStatusEnum.InProgress)
+							jobRequestFromDb.Remarks = null;
+					}
+
+
+					await _jobRequestService.UpdateJobRequestAsync(jobRequestFromDb);
+					TempData["success"] = "Job Request Updated Successfully.";
+
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!await _jobRequestService.IsExistingJobRequest(jobRequestVM.JobRequests.JobRequestId))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(AssignIndex));
+			}
+
+			var departments = await _departmentService.GetDepartmentsAsync();
+			jobRequestVM.Departments = departments.Select(d => new SelectListItem
+			{
+				Text = d.DepartmentName,
+				Value = d.DepartmentId.ToString()
+			});
+
+			return View(jobRequestVM);
+		}
+
 
 	}
 }

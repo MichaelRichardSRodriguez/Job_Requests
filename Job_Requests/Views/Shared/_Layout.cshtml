@@ -18,7 +18,6 @@
 </head>
 <body>
 	<header>
-		@*         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> *@
 
 		<!-- USING NAV BAR-->
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm  bg-light border-bottom box-shadow mb-3" data-bs-theme="light">
@@ -28,6 +27,7 @@
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
+
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
@@ -37,10 +37,10 @@
 							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="Index">Requests</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="Assign">Assign</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="AssignIndex">Assign</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Manage</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="ManageIndex">Manage</a>
 						</li>
 						<!-- Content Management Dropdown -->
 						<li class="nav-item dropdown">
@@ -59,6 +59,9 @@
 						</li>
 					</ul>
 				</div>
+
+
+
 			</div>
 		</nav>
 

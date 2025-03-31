@@ -3,7 +3,7 @@
     public class JobPriorityPaginationVM
     {
 
-		public List<JobPriority> JobPriorities { get; set; }
+		public IEnumerable<JobPriority> JobPriorities { get; set; }
 		public int CurrentPage { get; set; }
 		public int TotalPages { get; set; }
 		public int PageSize { get; set; }
