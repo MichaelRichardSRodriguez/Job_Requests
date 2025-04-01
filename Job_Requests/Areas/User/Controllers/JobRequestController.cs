@@ -10,10 +10,12 @@ using Job_Requests.Models;
 using Job_Requests.DataAccess.Services;
 using Job_Requests.Models.ViewModels;
 using Job_Requests.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Job_Requests.Controllers
 {
     [Area("User")]
+    [Authorize(Roles = "User,Admin")]
     public class JobRequestController : Controller
 	{
         private readonly IJobRequestService _jobRequestService;

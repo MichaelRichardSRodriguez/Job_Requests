@@ -9,10 +9,12 @@ using Job_Requests.DataAccess.Data;
 using Job_Requests.Models;
 using Job_Requests.Models.Enums;
 using Job_Requests.DataAccess.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class JobTypeController : Controller
     {
 

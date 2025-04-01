@@ -12,10 +12,13 @@ using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using Job_Requests.Models.Enums;
 using Job_Requests.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _service;

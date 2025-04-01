@@ -188,6 +188,12 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    // Add Role
+                    if (!string.IsNullOrEmpty(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -260,11 +266,12 @@ namespace Job_Requests.Areas.Identity.Pages.Account
         {
             Input = new()
             {
-                RoleList = _roleManager.Roles.Select(r => new SelectListItem
-                {
-                    Text = r.Name,
-                    Value = r.Id.ToString()
-                })
+                RoleList = _roleManager.Roles.Select(r => r.Name)
+                            .Select(r => new SelectListItem
+                            {
+                                Text = r,
+                                Value = r
+                            })
             };
         }
     }
