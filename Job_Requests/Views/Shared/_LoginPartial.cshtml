@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Job_Requests.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@* <ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <!-- <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a> -->
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    var user = await UserManager.GetUserAsync(User);
+                    <i class="bi bi-person-circle"></i>
+                     <text> Hello, <strong> @user.FirstName </strong></text>
+                }
+                else
+                {
+                    <text>Hello, Guest!</text>
+                }
+            </a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul> *@
+
+
+<!-- REVISED -->
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <!-- If user is signed in, show dropdown for account management -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello, <strong>@UserManager.GetUserName(User) </strong> <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i> Manage Account
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button id="logout" type="submit" class="dropdown-item btn btn-link border-0"><i class="bi bi-person-fill" style="font-size: 1.2rem;"></i> Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <!-- If user is NOT signed in, show "Hello, Guest" with login/register dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="guestDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello, <strong>Guest! </strong><i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="guestDropdown">
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login">
+                        <i class="bi bi-box-arrow-in-right" style="font-size: 1.2rem;"></i> Login
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">
+                        <i class="bi bi-person-plus" style="font-size: 1.2rem;"></i> Register
+                    </a>
+                </li>
+            </ul>
+        </li>
+    }
+</ul>

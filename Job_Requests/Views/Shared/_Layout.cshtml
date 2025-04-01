@@ -22,7 +22,7 @@
 		<!-- USING NAV BAR-->
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm  bg-light border-bottom box-shadow mb-3" data-bs-theme="light">
 			<div class="container-fluid">
-				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Job Requests</a>
+				<a class="navbar-brand" asp-area="Guest" asp-controller="Home" asp-action="Index">Job Requests</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -31,33 +31,36 @@
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+							<a class="nav-link text-dark" asp-area="Guest" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="Index">Requests</a>
+							<a class="nav-link text-dark" asp-area="User" asp-controller="JobRequest" asp-action="Index">Requests</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="AssignIndex">Assign</a>
+							<a class="nav-link text-dark" asp-area="Manager" asp-controller="JobRequest" asp-action="Index">Assign</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="JobRequest" asp-action="ManageIndex">Manage</a>
+							<a class="nav-link text-dark" asp-area="User" asp-controller="JobRequest" asp-action="ManageIndex">Manage</a>
 						</li>
 						<!-- Content Management Dropdown -->
 						<li class="nav-item dropdown">
 							<a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
 							   aria-haspopup="true" aria-expanded="false">Content Management</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
-								<a class="dropdown-item" asp-area="" asp-controller="JobType" asp-action="Index">Job Types</a>
-								<a class="dropdown-item" asp-area="" asp-controller="JobPriority" asp-action="Index">Job Priority</a>
+								<a class="dropdown-item" asp-area="Admin" asp-controller="Department" asp-action="Index">Departments</a>
+								<a class="dropdown-item" asp-area="Admin" asp-controller="JobType" asp-action="Index">Job Types</a>
+								<a class="dropdown-item" asp-area="Admin" asp-controller="JobPriority" asp-action="Index">Job Priority</a>
 							</div>
 						</li>
 						<!--------------------------------->
 
 						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+							<a class="nav-link text-dark" asp-area="Guest" asp-controller="Home" asp-action="Privacy">Privacy</a>
 						</li>
 					</ul>
+
+					<!-- Partial View for Login and Registration -->
+					<partial name="_LoginPartial" />
 				</div>
 
 

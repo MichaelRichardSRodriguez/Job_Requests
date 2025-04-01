@@ -1,10 +1,11 @@
 ﻿using Job_Requests.Configurations;
 using Job_Requests.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Job_Requests.DataAccess.Data
 {
-	public class ApplicationDbContext: DbContext
+	public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
 	{
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
@@ -17,6 +18,7 @@ namespace Job_Requests.DataAccess.Data
         public DbSet<JobRequest> JobRequests { get; set; }
         public DbSet<JobType> JobTypes { get; set; }
         public DbSet<JobPriority> JobPriority { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
