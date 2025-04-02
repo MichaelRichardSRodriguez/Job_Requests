@@ -90,14 +90,14 @@
                             <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </div>
 
-@*                         <!-- Department -->
+                        <!-- Department -->
                         <div class="form-floating mb-3">
-                            <select asp-for="Input.Role" class="form-select" asp-items="@Model.Input.RoleList">
+                            <select asp-for="Input.DepartmentId" class="form-select" asp-items="@Model.Input.DepartmentList">
                                 <option value="" selected disabled>Select Department</option>
                             </select>
-                            <label asp-for="Input.Role">Department</label>
-                            <span asp-validation-for="Input.Role" class="text-danger"></span>
-                        </div> *@
+                            <label asp-for="Input.DepartmentId">Department</label>
+                            <span asp-validation-for="Input.DepartmentId" class="text-danger"></span>
+                        </div>
 
                         <!-- Email -->
                         <div class="form-floating mb-3">

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Job_Requests.Models
 {
@@ -21,7 +23,14 @@ namespace Job_Requests.Models
 		[Required(ErrorMessage = "Last Name is Required.")]
 		public string LastName { get; set; }
 
+        [DisplayName("Department")]
+        [Required(ErrorMessage = "Department is required.")]
+        public int DepartmentId { get; set; }
 
-		//public string FullName { get; set; }
-	}
+		[ForeignKey("DepartmentId")]
+		[ValidateNever]
+		public Department Department { get; set; }
+
+        //public string FullName { get; set; }
+    }
 }

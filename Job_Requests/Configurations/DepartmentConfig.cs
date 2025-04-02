@@ -27,6 +27,11 @@ namespace Job_Requests.Configurations
                    .HasForeignKey(e => e.ReceivingDepartmentId)
                    .OnDelete(DeleteBehavior.Restrict); // Prevents deletion if related records exist in Employee
 
+            builder.HasMany(a => a.ApplicationUserDepartment)  // 'ApplicationUser' is a navigation property in Department
+                   .WithOne() // 'Department' is a navigation property in ApplicationUser
+                   .HasForeignKey(e => e.DepartmentId)
+                   .OnDelete(DeleteBehavior.Restrict); // Prevents deletion if related records exist in Employee
+
         }
 
     }

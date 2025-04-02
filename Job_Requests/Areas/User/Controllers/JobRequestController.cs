@@ -11,30 +11,57 @@ using Job_Requests.DataAccess.Services;
 using Job_Requests.Models.ViewModels;
 using Job_Requests.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Job_Requests.Models.Consts;
 
 namespace Job_Requests.Controllers
 {
     [Area("User")]
-    [Authorize(Roles = "User,Admin")]
+    [Authorize(Roles = "User,Manager,Admin")]
     public class JobRequestController : Controller
-	{
+    {
         private readonly IJobRequestService _jobRequestService;
         private readonly IDepartmentService _departmentService;
         private readonly IJobTypeService _jobTypeService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public JobRequestController(IJobRequestService service, IDepartmentService departmentService, IJobTypeService jobTypeService)
+        public JobRequestController(IJobRequestService service,
+                                    IDepartmentService departmentService,
+                                    IJobTypeService jobTypeService,
+                                    UserManager<ApplicationUser> userManager)
         {
             _jobRequestService = service;
             _departmentService = departmentService;
             _jobTypeService = jobTypeService;
+            _userManager = userManager;
         }
 
         // GET: JobRequest
         public async Task<IActionResult> Index(int page = 1)
         {
             int pageSize = 10;
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var roles = await _userManager.GetRolesAsync(currentUser);
+            var role = roles.FirstOrDefault();
+
+            var departmentId = currentUser?.DepartmentId;
+
+            if (role == StaticDetails.ROLE_ADMIN)
+            {
+
+                return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page, pageSize,
+                                                                  filter: jr => jr.Status != JobStatusEnum.Cancelled
+                                                                  && jr.Status != JobStatusEnum.Completed));
+            }
+
             return View(await _jobRequestService.GetPaginatedJobRequestsAsync(page, pageSize,
-                                                                              filter: jr => jr.Status != JobStatusEnum.Cancelled && jr.Status != JobStatusEnum.Completed));
+                                                              filter: jr => jr.Status != JobStatusEnum.Cancelled
+                                                              && jr.Status != JobStatusEnum.Completed
+                                                              && jr.RequestingDepartmentId == departmentId));
+
+
         }
 
         // GET: JobRequest/ManageIndex
@@ -305,6 +332,6 @@ namespace Job_Requests.Controllers
             return View(jobRequestVM);
         }
 
-        
+
     }
 }

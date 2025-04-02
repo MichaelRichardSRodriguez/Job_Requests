@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Job_Requests.Models
 {
@@ -23,5 +24,8 @@ namespace Job_Requests.Models
 
 		[ValidateNever]
 		public IEnumerable<JobRequest> JobRequestsAsReceivingDepartment { get; set; }
-	}
+
+        [ValidateNever]
+        public IEnumerable<Department> ApplicationUserDepartment { get; set; }
+    }
 }

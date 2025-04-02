@@ -23,6 +23,8 @@ using Job_Requests.Models.Consts;
 using System.Drawing.Printing;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Job_Requests.DataAccess.Services;
+using Job_Requests.Models.Enums;
 
 namespace Job_Requests.Areas.Identity.Pages.Account
 {
@@ -36,13 +38,16 @@ namespace Job_Requests.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        private readonly IDepartmentService _departmentService;
+
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
 			RoleManager<IdentityRole> roleManager,
 		    SignInManager<ApplicationUser> signInManager,
 			IUserStore<ApplicationUser> userStore,
 			ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IDepartmentService departmentService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -51,6 +56,8 @@ namespace Job_Requests.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+
+            _departmentService = departmentService;
         }
 
         /// <summary>
@@ -147,6 +154,15 @@ namespace Job_Requests.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+            [Required(ErrorMessage = "Department is Required.")]
+            [Display(Name = "Department")]
+            public int DepartmentId {  get; set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> DepartmentList { get; set; }
 
             //Add Role and Role List
             [ValidateNever]
@@ -160,8 +176,9 @@ namespace Job_Requests.Areas.Identity.Pages.Account
             // Create Roles if not Exist
             await CreateRole_if_NotExists();
 
-            // Get Roles List
-            GetRoles_List();
+            // Get Roles List and DepartmentList
+            await GetSelectListItems();
+
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -171,6 +188,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -183,6 +201,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.MiddleName = Input.MiddleName ?? null;
                 user.LastName = Input.LastName;
+                user.DepartmentId = Input.DepartmentId;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -224,7 +243,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
                 }
             }
 
-            GetRoles_List();
+            await GetSelectListItems();
 
             // If we got this far, something failed, redisplay form
             return Page();
@@ -262,10 +281,18 @@ namespace Job_Requests.Areas.Identity.Pages.Account
         }
 
         // Method for Populating Roles in the SelectListItem
-        private void GetRoles_List()
+        private async Task GetSelectListItems()
         {
+            // Get Active Departments Only
+            var departments = await _departmentService.GetDepartmentsAsync(d => d.Status == RecordStatusEnum.Active);
+
             Input = new()
             {
+                DepartmentList = departments.Select(d => new SelectListItem
+                {
+                    Text = d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                }),
                 RoleList = _roleManager.Roles.Select(r => r.Name)
                             .Select(r => new SelectListItem
                             {
@@ -273,6 +300,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
                                 Value = r
                             })
             };
+
         }
     }
 }
