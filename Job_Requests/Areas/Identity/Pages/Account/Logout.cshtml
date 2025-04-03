@@ -37,7 +37,7 @@
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
                     <div>
-                        <p>Are you sure you want to log out? All pending transactions will be terminated.</p>
+                        <p>Are you sure you want to log out?</p>
                         <form class="form-inline justify-content-center" asp-area="Identity" asp-page="/Account/Logout" method="post">
                             <button type="submit" class="btn btn-danger">Logout</button>
                             <a href="@Url.Action("Index", "Home", new { area = "Guest" })" class="btn btn-primary">Go to Home Page</a>

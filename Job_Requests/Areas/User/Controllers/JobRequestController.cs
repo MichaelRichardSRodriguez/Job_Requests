@@ -17,7 +17,7 @@ using Job_Requests.Models.Consts;
 namespace Job_Requests.Controllers
 {
     [Area("User")]
-    [Authorize(Roles = "User,Manager,Admin")]
+    [Authorize(Roles = StaticDetails.ROLE_USER + "," + StaticDetails.ROLE_MANAGER + "," + StaticDetails.ROLE_ADMIN)]
     public class JobRequestController : Controller
     {
         private readonly IJobRequestService _jobRequestService;

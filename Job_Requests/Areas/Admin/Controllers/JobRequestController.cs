@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Job_Requests.Models.Consts;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = StaticDetails.ROLE_ADMIN)]
     public class JobRequestController : Controller
     {
         private readonly IJobRequestService _jobRequestService;

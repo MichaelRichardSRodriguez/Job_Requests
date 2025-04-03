@@ -6,10 +6,14 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Job_Requests.DataAccess.Services;
 using Job_Requests.Models;
+using Job_Requests.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Job_Requests.Areas.Identity.Pages.Account.Manage
 {
@@ -17,13 +21,16 @@ namespace Job_Requests.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IDepartmentService _departmentService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IDepartmentService departmentService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _departmentService = departmentService;
         }
 
         /// <summary>
@@ -84,6 +91,17 @@ namespace Job_Requests.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+            [Required(ErrorMessage = "Department is required.")]
+            [Display(Name = "Department")]
+            public int DepartmentId { get; set; }
+
+            [ValidateNever]
+            public IEnumerable<SelectListItem> DepartmentList { get; set; }
+
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -99,15 +117,23 @@ namespace Job_Requests.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var departments = await _departmentService.GetDepartmentsAsync(d => d.Status == RecordStatusEnum.Active);
 
             Username = userName;
+
 
             Input = new InputModel
             {
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
+                DepartmentId = user.DepartmentId,
                 PhoneNumber = phoneNumber,
+                DepartmentList = departments.Select(d => new SelectListItem
+                {
+                    Text = d.DepartmentName,
+                    Value = d.DepartmentId.ToString()
+                })
 
             };
         }

@@ -11,11 +11,12 @@ using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using Job_Requests.Models.Enums;
 using Job_Requests.DataAccess.Services;
 using Microsoft.AspNetCore.Authorization;
+using Job_Requests.Models.Consts;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = StaticDetails.ROLE_ADMIN)]
     public class JobPriorityController : Controller
     {
         private readonly IJobPriorityService _service;

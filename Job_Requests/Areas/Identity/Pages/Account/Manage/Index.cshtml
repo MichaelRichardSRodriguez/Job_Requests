@@ -11,26 +11,39 @@
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <!-- UserName -->
             <div class="form-floating mb-3">
                 <input asp-for="Username" class="form-control" placeholder="Please choose your username." readonly />
                 <label asp-for="Username" class="form-label"></label>
             </div>
+            <!-- FirstName -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.FirstName" class="form-control" placeholder="Please enter your First Name." />
                 <label asp-for="Input.FirstName" class="form-label"></label>
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
-
+            <!-- MiddleName -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.MiddleName" class="form-control" placeholder="Please enter your Middle Name." />
                 <label asp-for="Input.MiddleName" class="form-label"></label>
                 <span asp-validation-for="Input.MiddleName" class="text-danger"></span>
             </div>
+            <!-- LastName -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.LastName" class="form-control" placeholder="Please enter your Last Name." />
                 <label asp-for="Input.LastName" class="form-label"></label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
+
+            <!-- Department -->
+            <div class="form-floating mb-3">
+                <select asp-for="Input.DepartmentId" class="form-select" asp-items="@Model.Input.DepartmentList">
+                    <option value="" selected disabled>Select Department</option>
+                </select>
+                <label asp-for="Input.DepartmentId">Department</label>
+                <span asp-validation-for="Input.DepartmentId" class="text-danger"></span>
+            </div>
+            <!-- PhoneNumber -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>

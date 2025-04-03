@@ -1,271 +1,277 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+	ViewData["Title"] = "Register";
 }
 
 <style>
-    .line-container {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        width: 100%;
-    }
+	.line-container {
+		display: flex;
+		align-items: center;
+		text-align: center;
+		width: 100%;
+	}
 
-    .line {
-        flex-grow: 1;
-        border-top: 1px solid #000; /* Add a solid black line */
-    }
+	.line {
+		flex-grow: 1;
+		border-top: 1px solid #000; /* Add a solid black line */
+	}
 
-    .text {
-        padding: 0 10px; /* Adds space between the line and the text */
-        font-weight: bold;
-    }
+	.text {
+		padding: 0 10px; /* Adds space between the line and the text */
+		font-weight: bold;
+	}
 
-    #togglePassword {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
+	#togglePassword {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+	}
 
-        #togglePassword:hover {
-            color: #007bff; /* Change the color on hover */
-        }
+		#togglePassword:hover {
+			color: #007bff; /* Change the color on hover */
+		}
 
-    #togglePasswordIcon {
-        font-size: 1.2rem; /* Adjust the icon size */
-    }
+	#togglePasswordIcon {
+		font-size: 1.2rem; /* Adjust the icon size */
+	}
 
-    #toggleConfirmPassword {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
+	#toggleConfirmPassword {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+	}
 
-        #toggleConfirmPassword:hover {
-            color: #007bff; /* Change the color on hover */
-        }
+		#toggleConfirmPassword:hover {
+			color: #007bff; /* Change the color on hover */
+		}
 
-    #toggleConfirmPasswordIcon {
-        font-size: 1.2rem; /* Adjust the icon size */
-    }
-</style> 
+	#toggleConfirmPasswordIcon {
+		font-size: 1.2rem; /* Adjust the icon size */
+	}
+</style>
 
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
-            <!-- Card -->
-            <div class="card shadow-lg rounded">
-                <div class="card-header bg-primary text-white text-center py-3">
-                    <!-- Icon in the Header -->
-                    <h4 class="mb-0"><i class="fas fa-user-plus"></i> @ViewData["Title"]</h4>
-                </div>
-                <div class="card-body p-3">
-            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+	<div class="row justify-content-center">
+		<div class="col-md-10 col-lg-8">
+			<!-- Card -->
+			<div class="card shadow-lg rounded">
+				<div class="card-header bg-primary text-white text-center py-3">
+					<!-- Icon in the Header -->
+					<h4 class="mb-0"><i class="fas fa-user-plus"></i> @ViewData["Title"]</h4>
+				</div>
+				<div class="card-body p-3">
+					<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
 
 
-            <div class="row">
+						<div class="row">
 
-                    <!-- Left Column -->
-                    <div class="col-md-6 col-sm-12">
-                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                        <!-- First Name -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="First Name" autofocus />
-                            <label asp-for="Input.FirstName" class="form-label">First Name</label>
-                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                        </div>
-                        <!-- Middle Name -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.MiddleName" class="form-control" aria-required="true" placeholder="Middle Name" />
-                            <label asp-for="Input.MiddleName" class="form-label">Middle Name</label>
-                            <span asp-validation-for="Input.MiddleName" class="text-danger"></span>
-                        </div>
-                        <!-- Last Name -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Last Name" />
-                            <label asp-for="Input.LastName" class="form-label">Last Name</label>
-                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                        </div>
+							<!-- Left Column -->
+							<div class="col-md-6 col-sm-12">
+								<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+								<!-- First Name -->
+								<div class="form-floating mb-3">
+									<input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="First Name" autofocus />
+									<label asp-for="Input.FirstName" class="form-label">First Name</label>
+									<span asp-validation-for="Input.FirstName" class="text-danger"></span>
+								</div>
+								<!-- Middle Name -->
+								<div class="form-floating mb-3">
+									<input asp-for="Input.MiddleName" class="form-control" aria-required="true" placeholder="Middle Name" />
+									<label asp-for="Input.MiddleName" class="form-label">Middle Name</label>
+									<span asp-validation-for="Input.MiddleName" class="text-danger"></span>
+								</div>
+								<!-- Last Name -->
+								<div class="form-floating mb-3">
+									<input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Last Name" />
+									<label asp-for="Input.LastName" class="form-label">Last Name</label>
+									<span asp-validation-for="Input.LastName" class="text-danger"></span>
+								</div>
 
-                        <!-- Department -->
-                        <div class="form-floating mb-3">
-                            <select asp-for="Input.DepartmentId" class="form-select" asp-items="@Model.Input.DepartmentList">
-                                <option value="" selected disabled>Select Department</option>
-                            </select>
-                            <label asp-for="Input.DepartmentId">Department</label>
-                            <span asp-validation-for="Input.DepartmentId" class="text-danger"></span>
-                        </div>
+								<!-- Department -->
+								<div class="form-floating mb-3">
+									<select asp-for="Input.DepartmentId" class="form-select" asp-items="@Model.Input.DepartmentList">
+										<option value="" selected disabled>Select Department</option>
+									</select>
+									<label asp-for="Input.DepartmentId">Department</label>
+									<span asp-validation-for="Input.DepartmentId" class="text-danger"></span>
+								</div>
 
-                        <!-- Email -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                            <label asp-for="Input.Email">Email</label>
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                        </div>
-                    </div>
+								<!-- Email -->
+								<div class="form-floating mb-3">
+									<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+									<label asp-for="Input.Email">Email</label>
+									<span asp-validation-for="Input.Email" class="text-danger"></span>
+								</div>
+							</div>
 
-                    <!-- Right Column -->
-                    <div class="col-md-6 col-sm-12">
-                        <!-- User Name -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="User Name" />
-                            <label asp-for="Input.UserName" class="form-label">User Name</label>
-                            <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                        </div>
+							<!-- Right Column -->
+							<div class="col-md-6 col-sm-12">
+								<!-- User Name -->
+								<div class="form-floating mb-3">
+									<input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="User Name" />
+									<label asp-for="Input.UserName" class="form-label">User Name</label>
+									<span asp-validation-for="Input.UserName" class="text-danger"></span>
+								</div>
 
-                        <!-- Password -->
-                        <!--<div class="form-floating mb-3">
-                                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                                        <label asp-for="Input.Password">Password</label>
-                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                    </div> -->
+								<!-- Password -->
+								<div class="form-floating mb-3">
+									<input id="passwordInput" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+									<label asp-for="Input.Password">Password</label>
+									<span asp-validation-for="Input.Password" class="text-danger"></span>
+									<button type="button" id="togglePassword" class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
+										<i id="togglePasswordIcon" class="bi bi-eye-slash"></i>
+									</button>
+								</div>
 
-                        <div class="form-floating mb-3">
-                            <input id="passwordInput" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                            <label asp-for="Input.Password" class="form-label">Password</label>
-                            <button type="button" id="togglePassword" class="position-absolute"
-                                    style="top: 50%; right: 10px; transform: translateY(-50%); z-index: 2;">
-                                <i id="togglePasswordIcon" class="bi bi-eye-slash"></i>
-                            </button>
-                            <span asp-validation-for="Input.Password" class="text-danger"></span>
-                        </div>
+								<!-- Confirm Password -->
+								<div class="form-floating mb-3">
+									<input id="confirmPasswordInput" name="confirmPassword" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+									<label asp-for="Input.ConfirmPassword">Confirm Password</label>
+									<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+									<button type="button" id="toggleConfirmPassword" class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
+										<i id="toggleConfirmPasswordIcon" class="bi bi-eye-slash"></i>
+									</button>
+								</div>
 
-                        <!-- Confirm Password -->
-                        <!--<div class="form-floating mb-3">
-                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                        </div> -->
+								<!-- User Role -->
+								<div class="form-floating mb-3">
+									<select asp-for="Input.Role" class="form-select" asp-items="@Model.Input.RoleList">
+										<option value="" selected disabled>Select Role</option>
+									</select>
+									<label asp-for="Input.Role">User Role</label>
+									<span asp-validation-for="Input.Role" class="text-danger"></span>
+								</div>
 
+								<!-- Submit Button -->
+								<button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+							</div>
+						</div>
 
-                        <div class="form-floating mb-3">
-                            <input id="passwordConfirmInput" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                            <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
-                            <button type="button" id="toggleConfirmPassword" class="position-absolute"
-                                    style="top: 50%; right: 10px; transform: translateY(-50%); z-index: 2;">
-                                <i id="toggleConfirmPasswordIcon" class="bi bi-eye-slash"></i>
-                            </button>
-                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                        </div>
-
-                        <!-- User Role -->
-                        <div class="form-floating mb-3">
-                            <select asp-for="Input.Role" class="form-select" asp-items="@Model.Input.RoleList">
-                                <option value="" selected disabled>Select Role</option>
-                            </select>
-                            <label asp-for="Input.Role">User Role</label>
-                            <span asp-validation-for="Input.Role" class="text-danger"></span>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-                    </div>
-            </div>
-
-            </form>
+					</form>
 
 
+					<!-- External Registration -->
+					<div>
+						<section>
+							<div class="line-container mt-2">
+								<div class="line"></div>
+								<div class="text">Or</div>
+								<div class="line"></div>
+							</div>
 
-                
-                
+							<h4 class="text-center mt-4">Use Social Media.</h4>
+							@{
+								if ((Model.ExternalLogins?.Count ?? 0) == 0)
+								{
+									/*                             <div>
+									<p>
+									There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+									article
+									about setting up this ASP.NET application to support logging in via external services
+									</a>.
+									</p>
+									</div> */
 
-               
+									<div class="d-flex justify-content-center align-items-center">
+										<div class="social-login">
+											<a class="btn google-login"><img src="~/images/Icons/Google.png" height="20px" /><strong> Google</strong> </a>
+											<a class="btn facebook-login"> <img src="~/images/Icons/Facebook.png" height="20px" /><strong> Facebook</strong> </a>
+											<a class="btn linkedin-login"> <img src="~/images/Icons/Linkedin.png" height="20px" /><strong> LinkedIn</strong> </a>
+										</div>
+									</div>
+								}
+								else
+								{
+									<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+										<div>
+											<p>
+												@foreach (var provider in Model.ExternalLogins!)
+												{
+													<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+												}
+											</p>
+										</div>
+									</form>
+								}
+							}
+						</section>
+					</div>
 
-                
-
-                                
-            <!-- External Registration -->
-            <div >
-                <section>
-                    <div class="line-container mt-2">
-                        <div class="line"></div>
-                        <div class="text">Or</div>
-                        <div class="line"></div>
-                    </div>
-
-                    <h4 class="text-center mt-4">Use Social Media.</h4>
-                    @{
-                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                        {
-/*                             <div>
-                                <p>
-                                    There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-                                        article
-                                        about setting up this ASP.NET application to support logging in via external services
-                                    </a>.
-                                </p>
-                            </div> */
-
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="social-login">
-                                    <a class="btn google-login"><img src="~/images/Icons/Google.png" height="20px" /><strong> Google</strong> </a>
-                                    <a class="btn facebook-login"> <img src="~/images/Icons/Facebook.png" height="20px" /><strong> Facebook</strong> </a>
-                                    <a class="btn linkedin-login"> <img src="~/images/Icons/Linkedin.png" height="20px" /><strong> LinkedIn</strong> </a>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                                <div>
-                                    <p>
-                                        @foreach (var provider in Model.ExternalLogins!)
-                                        {
-                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                        }
-                                    </p>
-                                </div>
-                            </form>
-                        }
-                    }
-                </section>
-            </div>
-
-                </div>
-            </div>
-</div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 
-    <script>
-        // Get elements
+	<script>
+		// Get elements
+		const passwordInput = document.getElementById('passwordInput');
+		const togglePassword = document.getElementById('togglePassword');
+		const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+		const passwordConfirmInput = document.getElementById('confirmPasswordInput');
+		const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+		const toggleConfirmPasswordIcon = document.getElementById('toggleConfirmPasswordIcon');
+
+		// Toggle password visibility
+		togglePassword.addEventListener('click', function () {
+			// Toggle the input type between 'password' and 'text'
+			const type = passwordInput.type === 'password' ? 'text' : 'password';
+			passwordInput.type = type;
+
+			// Toggle the icon between 'eye' and 'eye-slash'
+			togglePasswordIcon.classList.toggle('bi-eye');
+			togglePasswordIcon.classList.toggle('bi-eye-slash');
+		});
+
+		// Confirm Toggle password visibility
+		toggleConfirmPassword.addEventListener('click', function () {
+			// Toggle the input type between 'password' and 'text'
+			const type = passwordConfirmInput.type === 'password' ? 'text' : 'password';
+			passwordConfirmInput.type = type;
+
+			// Toggle the icon between 'eye' and 'eye-slash'
+			toggleConfirmPasswordIcon.classList.toggle('bi-eye');
+			toggleConfirmPasswordIcon.classList.toggle('bi-eye-slash');
+		});
+
+	</script>
+
+	@*     <script>
+        // Get elements for the password and confirm password inputs and their buttons
         const passwordInput = document.getElementById('passwordInput');
+        const confirmPasswordInput = document.getElementById('confirmPasswordInput');
         const togglePassword = document.getElementById('togglePassword');
         const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const toggleConfirmPasswordIcon = document.getElementById('toggleConfirmPasswordIcon');
 
-        const passwordConfirmInput = document.getElementById('passwordInput');
-        const toggleConfirmPassword = document.getElementById('togglePassword');
-        const toggleConfirmPasswordIcon = document.getElementById('togglePasswordIcon');
-
-        // Toggle password visibility
+        // Toggle password visibility for password field
         togglePassword.addEventListener('click', function () {
-            // Toggle the input type between 'password' and 'text'
-            const type = passwordInput.type === 'password' ? 'text' : 'password';
-            passwordInput.type = type;
-
-            // Toggle the icon between 'eye' and 'eye-slash'
-            togglePasswordIcon.classList.toggle('bi-eye');
-            togglePasswordIcon.classList.toggle('bi-eye-slash');
+            toggleVisibility(passwordInput, togglePasswordIcon);
         });
 
-        // Confirm Toggle password visibility
+        // Toggle password visibility for confirm password field
         toggleConfirmPassword.addEventListener('click', function () {
-            // Toggle the input type between 'password' and 'text'
-            const type = passwordConfirmInput.type === 'password' ? 'text' : 'password';
-            passwordConfirmInput.type = type;
-
-            // Toggle the icon between 'eye' and 'eye-slash'
-            toggleConfirmPasswordIcon.classList.toggle('bi-eye');
-            toggleConfirmPasswordIcon.classList.toggle('bi-eye-slash');
+            toggleVisibility(confirmPasswordInput, toggleConfirmPasswordIcon);
         });
 
-    </script>
+        // Function to toggle visibility of the given input field and its associated icon
+        function toggleVisibility(inputField, icon) {
+            const type = inputField.type === 'password' ? 'text' : 'password';
+            inputField.type = type;
+
+            // Toggle the icon between 'eye' and 'eye-slash'
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+        }
+    </script> *@
 }
