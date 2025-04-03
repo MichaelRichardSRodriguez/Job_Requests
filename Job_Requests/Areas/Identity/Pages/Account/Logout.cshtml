@@ -4,18 +4,54 @@
     ViewData["Title"] = "Log out";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
-        }
-        else
-        {
-            <p>You have successfully logged out of the application.</p>
-        }
+<style>
+    .error-box {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border: 1px solid #ddd;
     }
-</header>
+
+    .error-message {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .error-description {
+        font-size: 16px;
+        color: #666;
+        margin-top: 10px;
+    }
+
+
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="error-box col-lg-6 col-md-8 col-sm-12 col-12">
+            <p class="error-message">@ViewData["Title"]</p>
+            <p class="error-description">
+                @if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <div>
+                        <p>Are you sure you want to log out? All pending transactions will be terminated.</p>
+                        <form class="form-inline justify-content-center" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="btn btn-danger">Logout</button>
+                            <a href="@Url.Action("Index", "Home", new { area = "Guest" })" class="btn btn-primary">Go to Home Page</a>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <p>You have successfully logged out of the application.</p>
+                        <a href="@Url.Action("Index", "Home", new { area = "Guest" })" class="btn btn-primary">Go to Home Page</a>
+                    </div>
+                }
+            </p>
+        </div>
+    </div>
+</div>
