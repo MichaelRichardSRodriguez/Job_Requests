@@ -12,17 +12,21 @@ using Job_Requests.Models.Enums;
 using Job_Requests.DataAccess.Services;
 using Microsoft.AspNetCore.Authorization;
 using Job_Requests.Models.Consts;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(StaticDetails.ROLE_ADMIN)]
     [Authorize(Roles = StaticDetails.ROLE_ADMIN)]
     public class JobPriorityController : Controller
     {
         private readonly IJobPriorityService _service;
-        public JobPriorityController(IJobPriorityService service)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public JobPriorityController(IJobPriorityService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
 
         // GET: JobPriority
@@ -39,6 +43,12 @@ namespace Job_Requests.Areas.Admin.Controllers
         {
 
             var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
+            var createdBy = await _userManager.GetUserAsync(User);
+
+            if (createdBy != null)
+            {
+                jobPriority.CreatedUserId = createdBy.Id;
+            }
 
             if (jobPriority == null)
             {
@@ -69,7 +79,14 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return View(jobPriority);
                     }
 
-                    await _service.AddPriorityLevelAsync(jobPriority);
+					var user = await _userManager.GetUserAsync(User);
+
+					if (user != null)
+					{
+						jobPriority.CreatedUserId = user.Id;
+					}
+
+					await _service.AddPriorityLevelAsync(jobPriority);
 
                     TempData["success"] = "Priority Level Created Successfully.";
 

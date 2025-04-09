@@ -15,6 +15,8 @@ namespace Job_Requests.Configurations
 			builder.Property(jp => jp.PriorityDescription).IsRequired().HasMaxLength(300);
             builder.Property(jp => jp.Status).HasDefaultValue(RecordStatusEnum.Active);
             builder.Property(jp => jp.CreatedDate).HasDefaultValueSql("GETDATE()");
+
+            builder.HasOne(a => a.JobPriorityAsCreatedByUser).WithMany(a => a.JobPriority).HasForeignKey(a => a.CreatedUserId);
         }
     }
 }

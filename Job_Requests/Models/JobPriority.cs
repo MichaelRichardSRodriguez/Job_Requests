@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Job_Requests.Models.Enums;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Job_Requests.Models
 {
@@ -27,10 +28,18 @@ namespace Job_Requests.Models
 
 		[DisplayName("Date Updated")]
 		public DateTime? UpdatedDate { get; set; }
+        [DisplayName("Created By")]
+        public string? CreatedUserId { get; set; }
 
 
         [ValidateNever]
         public IEnumerable<JobRequest> JobRequests { get; set; }
 
-    }
+        [ForeignKey("CreatedUserId")]
+		[ValidateNever]
+		public ApplicationUser JobPriorityAsCreatedByUser { get; set; }
+
+
+
+	}
 }

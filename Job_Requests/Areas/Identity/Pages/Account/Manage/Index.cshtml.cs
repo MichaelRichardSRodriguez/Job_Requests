@@ -91,11 +91,19 @@ namespace Job_Requests.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required(ErrorMessage = "Department is required.")]
+			/// <summary>
+			///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+			///     directly from your code. This API may change or be removed in future releases.
+			/// </summary>
+
+			[Display(Name = "Name")]
+			public string FullName { get; set; }
+
+			/// <summary>
+			///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+			///     directly from your code. This API may change or be removed in future releases.
+			/// </summary>
+			[Required(ErrorMessage = "Department is required.")]
             [Display(Name = "Department")]
             public int DepartmentId { get; set; }
 
@@ -121,12 +129,12 @@ namespace Job_Requests.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
 
-
-            Input = new InputModel
+			Input = new InputModel
             {
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
+                FullName = user.FullName,
                 DepartmentId = user.DepartmentId,
                 PhoneNumber = phoneNumber,
                 DepartmentList = departments.Select(d => new SelectListItem
@@ -164,10 +172,16 @@ namespace Job_Requests.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            // Update ApplicationUser
-            user.FirstName = Input.FirstName;
+			// Update ApplicationUser
+			var fullName = new List<string>();
+			if (!string.IsNullOrWhiteSpace(Input.FirstName)) fullName.Add(Input.FirstName.Trim());
+			if (!string.IsNullOrWhiteSpace(Input.MiddleName)) fullName.Add(Input.MiddleName.Trim().Substring(0, 1) + ".");
+			if (!string.IsNullOrWhiteSpace(Input.LastName)) fullName.Add(Input.LastName.Trim());
+
+			user.FirstName = Input.FirstName;
             user.MiddleName = Input.MiddleName;
             user.LastName = Input.LastName;
+            user.FullName = string.Join(" ", fullName);
 
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);

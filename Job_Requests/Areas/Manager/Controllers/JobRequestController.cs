@@ -10,7 +10,7 @@ using Job_Requests.Models.Consts;
 
 namespace Job_Requests.Areas.Manager.Controllers
 {
-    [Area("Manager")]
+    [Area(StaticDetails.ROLE_MANAGER)]
     [Authorize(Roles = StaticDetails.ROLE_MANAGER + "," + StaticDetails.ROLE_ADMIN)]
     public class JobRequestController : Controller
     {

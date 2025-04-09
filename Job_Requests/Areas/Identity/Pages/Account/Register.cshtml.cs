@@ -115,6 +115,14 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 			[Display(Name = "Last Name")]
 			public string LastName { get; set; }
 
+			/// <summary>
+			///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+			///     directly from your code. This API may change or be removed in future releases.
+			/// </summary>
+
+			[Display(Name = "Name")]
+			public string FullName { get; set; }
+
 
 			/// <summary>
 			///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -198,9 +206,16 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 
 
                 //Pass the values to the ApplicationUser properties
-                user.FirstName = Input.FirstName;
+                var fullName = new List<string>(); 
+                if (!string.IsNullOrWhiteSpace(Input.FirstName)) fullName.Add(Input.FirstName.Trim());
+				if (!string.IsNullOrWhiteSpace(Input.MiddleName)) fullName.Add(Input.MiddleName.Trim().Substring(0,1) + ".");
+				if (!string.IsNullOrWhiteSpace(Input.LastName)) fullName.Add(Input.LastName.Trim());
+
+
+				user.FirstName = Input.FirstName;
                 user.MiddleName = Input.MiddleName ?? null;
                 user.LastName = Input.LastName;
+                user.FullName = string.Join(" ", fullName);
                 user.DepartmentId = Input.DepartmentId;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

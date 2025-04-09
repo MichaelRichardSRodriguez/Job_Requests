@@ -29,6 +29,7 @@ namespace Job_Requests.DataAccess.Data
             modelBuilder.ApplyConfiguration(new JobRequestConfig());
             modelBuilder.ApplyConfiguration(new JobTypeConfig());
             modelBuilder.ApplyConfiguration(new JobPriorityConfig());
+            modelBuilder.ApplyConfiguration(new  ApplicationUserConfig());
 		}
 
 

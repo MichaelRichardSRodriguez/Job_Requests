@@ -34,6 +34,10 @@ namespace Job_Requests.Models
 		[NotMapped]
 		public string Role { get; set; }
 
-        //public string FullName { get; set; }
+		[DisplayName("Name")]
+		public string FullName { get; set; }
+
+		[ValidateNever]
+		public IEnumerable<JobPriority> JobPriority { get; set; }
     }
 }
