@@ -31,6 +31,9 @@ namespace Job_Requests.Models
 		[ValidateNever]
 		public Department Department { get; set; }
 
+		[NotMapped]
+		public string Role { get; set; }
+
         //public string FullName { get; set; }
     }
 }

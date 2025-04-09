@@ -90,7 +90,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 			///     directly from your code. This API may change or be removed in future releases.
 			/// </summary>
 			[Required(ErrorMessage = "First Name is required.")]
-			[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+			[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
 			[Display(Name = "First Name")]
 			public string FirstName { get; set; }
 
@@ -101,7 +101,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 			/// </summary>
 
 
-			[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+			[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
 			[Display(Name = "Middle Name")]
 			public string MiddleName { get; set; }
 
@@ -111,7 +111,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 			///     directly from your code. This API may change or be removed in future releases.
 			/// </summary>
 			[Required(ErrorMessage = "Last Name is required.")]
-			[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+			[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
 			[Display(Name = "Last Name")]
 			public string LastName { get; set; }
 

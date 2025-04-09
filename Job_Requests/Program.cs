@@ -42,6 +42,8 @@ builder.Services.AddScoped<IJobTypeService, JobTypeService>();
 builder.Services.AddScoped<IJobPriorityService, JobPriorityService>();
 builder.Services.AddScoped<IJobRequestService, JobRequestService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IRoleManagementService, RoleManagementService>();
+
 
 
 var app = builder.Build();
