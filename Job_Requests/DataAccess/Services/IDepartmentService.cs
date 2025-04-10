@@ -13,11 +13,14 @@ namespace Job_Requests.DataAccess.Services
 
         Task<int> GetTotalDepartmentCountAsync();
 		Task<Department> GetDepartmentByIdAsync(int id);
+        Task<Department> GetDepartmentWithUserAsync(int id);
         Task AddDepartmentAsync(Department department);
         Task DeleteDepartmentAsync(Department department);
         Task UpdateDepartmentAsync(Department department);
         Task<bool> IsExistingDepartmentNameWithDifferentId(int id,string departmentName);
         Task<bool> IsExistingDepartmentId(int id);
+        Task<bool> IsChangesMade(Department department);
 
-    }
+
+	}
 }

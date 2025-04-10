@@ -37,7 +37,5 @@ namespace Job_Requests.Models
 		[DisplayName("Name")]
 		public string FullName { get; set; }
 
-		[ValidateNever]
-		public IEnumerable<JobPriority> JobPriority { get; set; }
-    }
+	}
 }

@@ -16,7 +16,15 @@ namespace Job_Requests.Configurations
             builder.Property(jp => jp.Status).HasDefaultValue(RecordStatusEnum.Active);
             builder.Property(jp => jp.CreatedDate).HasDefaultValueSql("GETDATE()");
 
-            builder.HasOne(a => a.JobPriorityAsCreatedByUser).WithMany(a => a.JobPriority).HasForeignKey(a => a.CreatedUserId);
-        }
+            // Create One to Many Relationship
+            builder.HasOne(a => a.JobPriorityAsCreatedByUser)
+                    .WithMany()
+                    .HasForeignKey(a => a.CreatedUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+			builder.HasOne(a => a.JobPriorityAsUpdatedByUser)
+                    .WithMany()
+                    .HasForeignKey(a => a.UpdatedUserId)
+				    .OnDelete(DeleteBehavior.Restrict);
+		}
     }
 }

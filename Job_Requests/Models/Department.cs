@@ -17,6 +17,15 @@ namespace Job_Requests.Models
 		[Required(ErrorMessage = "Description is required.")]
 		[StringLength(300, ErrorMessage = "Description cannot be longer than 300 characters.")]
         public string DepartmentDescription { get; set; }
+		[DisplayName("Created By")]
+		public string? CreatedUserId { get; set; }
+		[DisplayName("Updated By")]
+		public string? UpdatedUserId { get; set; }
+		[DisplayName("Date Created")]
+		public DateTime? CreatedDate { get; set; }
+		[DisplayName("Date Updated")]
+		public DateTime? UpdatedDate { get; set; }
+
 		public RecordStatusEnum Status { get; set; }
 
 		[ValidateNever]
@@ -27,5 +36,13 @@ namespace Job_Requests.Models
 
         [ValidateNever]
         public IEnumerable<Department> ApplicationUserDepartment { get; set; }
-    }
+
+		[ForeignKey("CreatedUserId")]
+		[ValidateNever]
+		public ApplicationUser DepartmentAsCreatedByUser { get; set; }
+
+        [ForeignKey("UpdatedUserId")]
+        [ValidateNever]
+		public ApplicationUser DepartmentAsUpdatedByUser { get; set; }
+	}
 }

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Job_Requests.Models.Consts;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using NuGet.Protocol.Core.Types;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
@@ -42,13 +43,7 @@ namespace Job_Requests.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var jobPriority = await _service.GetPriorityLevelByIdAsync(id);
-            var createdBy = await _userManager.GetUserAsync(User);
-
-            if (createdBy != null)
-            {
-                jobPriority.CreatedUserId = createdBy.Id;
-            }
+            var jobPriority = await _service.GetPriorityLevelWithUserAsync(id);
 
             if (jobPriority == null)
             {
@@ -79,12 +74,16 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return View(jobPriority);
                     }
 
-					var user = await _userManager.GetUserAsync(User);
+                    // Get User
+					var createdBy = await _userManager.GetUserAsync(User);
 
-					if (user != null)
+					if (createdBy == null)
 					{
-						jobPriority.CreatedUserId = user.Id;
+						TempData["error"] = "User not found.";
+						return View(jobPriority);
 					}
+
+					jobPriority.CreatedUserId = createdBy.Id;
 
 					await _service.AddPriorityLevelAsync(jobPriority);
 
@@ -136,9 +135,36 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return View(jobPriority);
                     }
 
-                    jobPriority.UpdatedDate = DateTime.Now;
+                    if (!await _service.IsChangesMade(jobPriority))
+                    {
+						TempData["error"] = "Unable to Update, no changes made.";
+                        return View(jobPriority);
+					}
 
-                    await _service.UpdatePriorityLevelAsync(jobPriority);
+					// Get User
+					var updatedBy = await _userManager.GetUserAsync(User);
+
+					if (updatedBy == null)
+					{
+						TempData["error"] = "User not found.";
+						return View(jobPriority);
+					}
+
+                    //Get Current Values
+					var jobPriorityFromDb = await _service.GetPriorityLevelByIdAsync(id);
+
+                    if (jobPriorityFromDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    //Assign New Values
+                    jobPriorityFromDb.PriorityDescription = jobPriority.PriorityDescription;
+                    jobPriorityFromDb.PriorityLevel = jobPriority.PriorityLevel;
+                    jobPriorityFromDb.UpdatedUserId = updatedBy.Id;
+					jobPriorityFromDb.UpdatedDate = DateTime.Now;
+
+                    await _service.UpdatePriorityLevelAsync(jobPriorityFromDb);
 
                     TempData["success"] = "Priority Level Updated Successfully.";
                 }

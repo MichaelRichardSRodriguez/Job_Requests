@@ -41,6 +41,34 @@
                                 <span class="badge bg-danger text-white"><strong>@Html.DisplayFor(model => model.Status)</strong></span>
                             }
                         </dd>
+
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.CreatedDate)
+                        </dd>
+                        <dt class="col-sm-3">
+                            @Html.DisplayNameFor(model => model.CreatedUserId)
+                        </dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.DepartmentAsCreatedByUser.FullName)
+                        </dd>
+                        @if(Model.UpdatedDate != null)
+                        {
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.UpdatedDate)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.UpdatedDate)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.UpdatedUserId)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.DepartmentAsUpdatedByUser.FullName)
+                            </dd>
+                        }
                     </dl>
 
                     <!-- Notice if Request Status is not Pending -->

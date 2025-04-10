@@ -23,10 +23,12 @@ namespace Job_Requests.Areas.Admin.Controllers
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DepartmentController(IDepartmentService service)
+        public DepartmentController(IDepartmentService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
 
         // GET: Departments
@@ -41,7 +43,7 @@ namespace Job_Requests.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var department = await _service.GetDepartmentByIdAsync(id);
+            var department = await _service.GetDepartmentWithUserAsync(id);
 
             if (department == null)
             {
@@ -74,7 +76,19 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return View(department);
                     }
 
-                    await _service.AddDepartmentAsync(department);
+
+					// Get User
+					var createdBy = await _userManager.GetUserAsync(User);
+
+					if (createdBy == null)
+					{
+						TempData["error"] = "User not found.";
+						return View(department);
+					}
+
+					department.CreatedUserId = createdBy.Id;
+
+					await _service.AddDepartmentAsync(department);
                     TempData["success"] = "Department Created Successfully.";
 
                     return RedirectToAction(nameof(Index));
@@ -127,7 +141,34 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return View(department);
                     }
 
-                    await _service.UpdateDepartmentAsync(department);
+					if (!await _service.IsChangesMade(department))
+					{
+						TempData["error"] = "Unable to Update, no changes made.";
+						return View(department);
+					}
+
+                    // Get User
+                    var updatedBy = await _userManager.GetUserAsync(User);
+
+                    if (updatedBy == null)
+                    {
+						TempData["error"] = "User not found.";
+						return View(department);
+					}
+
+                    var departmentFromDb = await _service.GetDepartmentByIdAsync(id);
+
+                    if (departmentFromDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    departmentFromDb.DepartmentName = department.DepartmentName;
+                    departmentFromDb.DepartmentDescription = department.DepartmentDescription;
+					departmentFromDb.UpdatedUserId = updatedBy.Id;
+					departmentFromDb.UpdatedDate = DateTime.Now;
+
+					await _service.UpdateDepartmentAsync(departmentFromDb);
                     TempData["success"] = "Department Updated Successfully.";
                 }
                 catch (DbUpdateConcurrencyException)

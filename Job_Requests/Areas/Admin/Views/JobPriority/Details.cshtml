@@ -56,11 +56,18 @@
 
 						@if (Model?.UpdatedDate != null)
 						{
+
 							<dt class="col-sm-3">
 								@Html.DisplayNameFor(model => model.UpdatedDate)
 							</dt>
 							<dd class="col-sm-9">
 								@Html.DisplayFor(model => model.UpdatedDate)
+							</dd>
+							<dt class="col-sm-3">
+								@Html.DisplayNameFor(model => model.UpdatedUserId)
+							</dt>
+							<dd class="col-sm-9">
+								@Html.DisplayFor(model => model.JobPriorityAsUpdatedByUser.FullName)
 							</dd>
 						}
 					</dl>

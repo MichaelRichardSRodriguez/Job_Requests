@@ -63,46 +63,59 @@
 										<td>
 											@Html.DisplayFor(modelItem => item.PriorityDescription)
 										</td>
+										<!-- Show Status -->
 										<td class="text-center">
+
 											@if (item.Status == RecordStatusEnum.Active)
 											{
-
-												<i class="bi bi-eye-fill fa-2x text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Active"></i>
+												<!-- Active -->
+												<i class="bi bi-eye-fill fa-2x text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Active"></i>
 
 											}
 											else
 											{
-
-												<i class="bi bi-eye-slash-fill fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Inactive"></i>
+												<!-- Inactive -->
+												<i class="bi bi-eye-slash-fill fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Inactive"></i>
 
 											}
 										</td>
+
+										<!-- Edit Record -->
 										<td class="text-center">
+
 											@if (item.Status == RecordStatusEnum.Active)
 											{
+												<!-- Active -->
 												<a asp-action="Edit" asp-route-id="@item.JobPriorityId" class="btn btn-outline-success shadow my-md-1 mt-sm-1 mb-sm-1 mb-1"
-												   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
-													<i class="bi bi-pencil-square"></i>
-												</a>
-											}
-											else
-											{
-												<a asp-action="Edit" asp-route-id="@item.JobPriorityId" class="btn btn-secondary disabled my-md-1 mb-sm-1 mb-1"
-												   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
+												   data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Record">
 													<i class="bi bi-pencil-square"></i>
 												</a>
 											}
 
+											else
+											{
+												<!-- Inactive -->
+												<a asp-action="Edit" asp-route-id="@item.JobPriorityId" class="btn btn-secondary disabled my-md-1 mb-sm-1 mb-1"
+												   data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Record">
+													<i class="bi bi-pencil-square"></i>
+												</a>
+											}
+
+											<!-- Show Details -->
 											<a asp-action="Details" asp-route-id="@item.JobPriorityId" class="btn btn-outline-primary shadow my-md-1 mb-sm-1 mb-1"
 											   data-bs-toggle="tooltip" data-bs-placement="top" title="Record Details">
 												<i class="bi bi-info-square"></i>
 											</a>
+
+											<!-- Manage Status -->
 											<a asp-action="Manage" asp-route-id="@item.JobPriorityId" class="btn btn-outline-warning shadow my-md-1 mb-sm-1 mb-1"
-											   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
+											   data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Status">
 												<i class="bi bi-gear"></i>
 											</a>
+
+											<!-- Delete Record-->
 											<a asp-action="Delete" asp-route-id="@item.JobPriorityId" class="btn btn-outline-danger shadow delete-btn my-md-1"
-											   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record" data-id="@item.JobPriorityId">
+											   data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Record" data-id="@item.JobPriorityId">
 												<i class="bi bi-trash"></i>
 											</a>
 										</td>

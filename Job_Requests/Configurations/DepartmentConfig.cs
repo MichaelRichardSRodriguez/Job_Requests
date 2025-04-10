@@ -15,6 +15,7 @@ namespace Job_Requests.Configurations
 			builder.HasIndex(d => d.DepartmentName).IsUnique();
 			builder.Property(d => d.DepartmentDescription).IsRequired().HasMaxLength(300);
             builder.Property(d => d.Status).HasDefaultValue(RecordStatusEnum.Active).ValueGeneratedOnAdd();
+            builder.Property(d => d.CreatedDate).HasDefaultValueSql("GETDATE()");
 
             // Assuming that Employee has a foreign key reference to Department
             builder.HasMany(jr => jr.JobRequestsAsRequestingDepartment)  // 'JobRequest' is a navigation property in Department
@@ -32,7 +33,16 @@ namespace Job_Requests.Configurations
                    .HasForeignKey(e => e.DepartmentId)
                    .OnDelete(DeleteBehavior.Restrict); // Prevents deletion if related records exist in Employee
 
-        }
+            builder.HasOne(d => d.DepartmentAsCreatedByUser)
+                    .WithMany()
+                    .HasForeignKey(a => a.CreatedUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+			builder.HasOne(d => d.DepartmentAsUpdatedByUser)
+                .WithMany()
+                .HasForeignKey(a => a.UpdatedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+		}
 
     }
 }

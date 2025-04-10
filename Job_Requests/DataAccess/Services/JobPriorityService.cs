@@ -1,4 +1,5 @@
-﻿using Job_Requests.DataAccess.Repositories;
+﻿using Job_Requests.DataAccess.Data;
+using Job_Requests.DataAccess.Repositories;
 using Job_Requests.Models;
 using Job_Requests.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,9 +11,11 @@ namespace Job_Requests.DataAccess.Services
 	public class JobPriorityService : IJobPriorityService
 	{
 		private readonly IRepository<JobPriority> _repository;
-        public JobPriorityService(IRepository<JobPriority> repository)
+		private readonly ApplicationDbContext _context;
+        public JobPriorityService(IRepository<JobPriority> repository, ApplicationDbContext context)
         {
             _repository = repository;
+			_context = context;
         }
         public async Task AddPriorityLevelAsync(JobPriority priority)
 		{
@@ -54,10 +57,18 @@ namespace Job_Requests.DataAccess.Services
 
 		public async Task<JobPriority> GetPriorityLevelByIdAsync(int id)
 		{
-			return await _repository.GetByIdAsync(id);
-		}
 
-		public async Task<IEnumerable<JobPriority>> GetPriorityLevelsAsync(Expression<Func<JobPriority, bool>>? filter = null,
+            return await _repository.GetByIdAsync(id);
+        }
+
+        public async Task<JobPriority> GetPriorityLevelWithUserAsync(int id)
+        {
+
+            return await _repository.GetRecordAsync(jr => jr.JobPriorityId == id,
+                                                    includeProperties: new string[] { "JobPriorityAsCreatedByUser", "JobPriorityAsUpdatedByUser" });
+        }
+
+        public async Task<IEnumerable<JobPriority>> GetPriorityLevelsAsync(Expression<Func<JobPriority, bool>>? filter = null,
 																			bool tracked = false, 
 																			params string[]? includeProperties)
 		{
@@ -67,6 +78,20 @@ namespace Job_Requests.DataAccess.Services
 		public async Task<int> GetTotalPriorityLevelCountAsync()
 		{
 			return await _repository.GetTotalCountAsync();
+		}
+
+		public async Task<bool> IsChangesMade(JobPriority priority)
+		{
+			var existingJobPriority = await _repository.GetRecordAsync(jp => jp.JobPriorityId == priority.JobPriorityId);
+
+			if (existingJobPriority.PriorityDescription != priority.PriorityDescription
+				|| existingJobPriority.PriorityLevel != priority.PriorityLevel)
+			{
+				return true;
+			}
+
+			return false;
+
 		}
 
 		public async Task<bool> IsExistingPriorityLevelId(int id)

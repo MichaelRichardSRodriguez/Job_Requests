@@ -31,13 +31,20 @@ namespace Job_Requests.Models
         [DisplayName("Created By")]
         public string? CreatedUserId { get; set; }
 
+		[DisplayName("Updated By")]
+		public string? UpdatedUserId { get; set; }
 
-        [ValidateNever]
+
+		[ValidateNever]
         public IEnumerable<JobRequest> JobRequests { get; set; }
 
         [ForeignKey("CreatedUserId")]
 		[ValidateNever]
 		public ApplicationUser JobPriorityAsCreatedByUser { get; set; }
+
+		[ForeignKey("UpdatedUserId")]
+		[ValidateNever]
+		public ApplicationUser JobPriorityAsUpdatedByUser { get; set; }
 
 
 

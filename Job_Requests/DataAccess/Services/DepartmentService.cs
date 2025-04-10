@@ -31,6 +31,12 @@ namespace Job_Requests.DataAccess.Services
             return await _repository.GetByIdAsync(id);
         }
 
+        public async Task<Department> GetDepartmentWithUserAsync(int id)
+        {
+            return await _repository.GetRecordAsync(jr => jr.DepartmentId == id,
+                                        includeProperties: new string[] { "DepartmentAsCreatedByUser", "DepartmentAsUpdatedByUser" });
+        }
+
         public async Task<IEnumerable<Department>> GetDepartmentsAsync(Expression<Func<Department, bool>>? filter = null,
                                                     bool tracked = false,
                                                     params string[]? includeProperties)
@@ -85,6 +91,20 @@ namespace Job_Requests.DataAccess.Services
 		public async Task<int> GetTotalDepartmentCountAsync()
 		{
 			return await _repository.GetTotalCountAsync();
+		}
+
+		public async Task<bool> IsChangesMade(Department department)
+		{
+			var existingDepartment = await _repository.GetRecordAsync(d => d.DepartmentId == department.DepartmentId);
+
+			if (existingDepartment.DepartmentName != department.DepartmentName
+				|| existingDepartment.DepartmentDescription != department.DepartmentDescription)
+			{
+				return true;
+			}
+
+			return false;
+
 		}
 	}
 }

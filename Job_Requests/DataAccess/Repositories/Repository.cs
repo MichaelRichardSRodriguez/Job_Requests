@@ -74,7 +74,6 @@ namespace Job_Requests.DataAccess.Repositories
 
 		public async Task<T> GetByIdAsync(int id)
 		{
-
 			return await _dbSet.FindAsync(id);
 		}
 

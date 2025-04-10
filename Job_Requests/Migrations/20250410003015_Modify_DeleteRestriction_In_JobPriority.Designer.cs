@@ -4,6 +4,7 @@ using Job_Requests.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Requests.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410003015_Modify_DeleteRestriction_In_JobPriority")]
+    partial class Modify_DeleteRestriction_In_JobPriority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,14 +122,6 @@ namespace Job_Requests.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
 
-                    b.Property<DateTime?>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("DepartmentDescription")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -142,20 +137,10 @@ namespace Job_Requests.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(1);
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("DepartmentId");
-
-                    b.HasIndex("CreatedUserId");
 
                     b.HasIndex("DepartmentName")
                         .IsUnique();
-
-                    b.HasIndex("UpdatedUserId");
 
                     b.ToTable("Departments");
                 });
@@ -449,25 +434,11 @@ namespace Job_Requests.Migrations
 
             modelBuilder.Entity("Job_Requests.Models.Department", b =>
                 {
-                    b.HasOne("Job_Requests.Models.ApplicationUser", "DepartmentAsCreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Job_Requests.Models.Department", null)
                         .WithMany("ApplicationUserDepartment")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Job_Requests.Models.ApplicationUser", "DepartmentAsUpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("DepartmentAsCreatedByUser");
-
-                    b.Navigation("DepartmentAsUpdatedByUser");
                 });
 
             modelBuilder.Entity("Job_Requests.Models.JobPriority", b =>
