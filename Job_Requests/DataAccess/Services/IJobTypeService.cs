@@ -16,10 +16,12 @@ namespace Job_Requests.DataAccess.Services
 												   params string[]? includeProperties);
 		Task<int> GetTotalJobTypeCountAsync();
 		Task<JobType> GetJobTypeByIdAsync(int id);
+        Task<JobType> GetJobTypeWithUserAsync(int id);
         Task AddJobTypeAsync(JobType jobType);
         Task DeleteJobTypeAsync(JobType jobType);
         Task UpdateJobTypeAsync(JobType jobType);
         Task<bool> IsExistingJobTypeWithDifferentId(int id, string jobTypeName);
         Task<bool> IsExistingJobTypeId(int id);
-    }
+		Task<bool> IsChangesMade(JobType jobType);
+	}
 }

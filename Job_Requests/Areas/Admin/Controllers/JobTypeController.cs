@@ -11,6 +11,7 @@ using Job_Requests.Models.Enums;
 using Job_Requests.DataAccess.Services;
 using Microsoft.AspNetCore.Authorization;
 using Job_Requests.Models.Consts;
+using Microsoft.AspNetCore.Identity;
 
 namespace Job_Requests.Areas.Admin.Controllers
 {
@@ -20,10 +21,12 @@ namespace Job_Requests.Areas.Admin.Controllers
     {
 
         private readonly IJobTypeService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public JobTypeController(IJobTypeService service)
+        public JobTypeController(IJobTypeService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
 
         // GET: JobType
@@ -39,7 +42,7 @@ namespace Job_Requests.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var jobType = await _service.GetJobTypeByIdAsync(id);
+            var jobType = await _service.GetJobTypeWithUserAsync(id);
 
             if (jobType == null)
             {
@@ -125,9 +128,33 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return View(jobType);
                     }
 
-                    jobType.UpdatedDate = DateTime.Now;
+                    if (!await _service.IsChangesMade(jobType))
+                    {
+                        TempData["error"] = "Unable to Update, no changes made.";
+                        return View(jobType);
+                    }
 
-                    await _service.UpdateJobTypeAsync(jobType);
+                    var updatedBy = await _userManager.GetUserAsync(User);
+
+                    if (updatedBy == null)
+                    {
+						TempData["error"] = "User not found.";
+						return View(jobType);
+					}
+
+                    var jobTypeFromDb = await _service.GetJobTypeByIdAsync(id);
+
+                    if (jobTypeFromDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    jobTypeFromDb.JobTypeName = jobType.JobTypeName;
+                    jobTypeFromDb.JobTypeDescription = jobType.JobTypeDescription;
+                    jobTypeFromDb.UpdatedDate = DateTime.UtcNow;
+                    jobTypeFromDb.UpdateUserId = updatedBy.Id;
+
+                    await _service.UpdateJobTypeAsync(jobTypeFromDb);
                     TempData["success"] = "Job Type Updated Successfully.";
                 }
                 catch (DbUpdateConcurrencyException)

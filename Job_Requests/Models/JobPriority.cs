@@ -38,11 +38,9 @@ namespace Job_Requests.Models
 		[ValidateNever]
         public IEnumerable<JobRequest> JobRequests { get; set; }
 
-        [ForeignKey("CreatedUserId")]
 		[ValidateNever]
 		public ApplicationUser JobPriorityAsCreatedByUser { get; set; }
 
-		[ForeignKey("UpdatedUserId")]
 		[ValidateNever]
 		public ApplicationUser JobPriorityAsUpdatedByUser { get; set; }
 

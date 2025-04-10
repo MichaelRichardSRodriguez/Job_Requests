@@ -38,6 +38,11 @@ namespace Job_Requests.DataAccess.Services
             return await _repository.GetByIdAsync(id);
         }
 
+        public async Task<JobType> GetJobTypeWithUserAsync(int id)
+        {
+            return await _repository.GetRecordAsync(jt => jt.JobTypeId == id, includeProperties: new string[] { "JobTypeAsCreatedByUser", "JobTypeAsUpdatedByUser" });
+        }
+
         public async Task<bool> IsExistingJobTypeId(int id)
         {
             return await _repository.AnyAsync(jt => jt.JobTypeId == id);
@@ -81,6 +86,19 @@ namespace Job_Requests.DataAccess.Services
 		public async Task<int> GetTotalJobTypeCountAsync()
 		{
 			return await _repository.GetTotalCountAsync();
+		}
+
+		public async Task<bool> IsChangesMade(JobType jobType)
+		{
+			var existingJobType = await _repository.GetRecordAsync(jt => jt.JobTypeId == jobType.JobTypeId);
+
+            if(existingJobType.JobTypeName != jobType.JobTypeName
+                || existingJobType.JobTypeDescription != jobType.JobTypeDescription)
+            {
+                return true;
+            }
+
+            return false;
 		}
 	}
 }

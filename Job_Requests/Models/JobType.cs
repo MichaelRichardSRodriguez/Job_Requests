@@ -21,6 +21,11 @@ namespace Job_Requests.Models
 
         public RecordStatusEnum Status { get; set; }
 
+        [DisplayName("Created By")]
+        public string? CreateUserId { get; set; }
+        [DisplayName("Updated By")]
+        public string? UpdateUserId { get; set; }
+
 		// Auditing fields
 		[DisplayName("Date Created")]
 		public DateTime? CreatedDate { get; set; }
@@ -29,6 +34,13 @@ namespace Job_Requests.Models
 
         [ValidateNever]
         public IEnumerable<JobRequest> JobRequests { get; set; }
+
+        [ValidateNever]
+        public ApplicationUser JobTypeAsCreatedByUser { get; set; }
+
+
+        [ValidateNever]
+        public ApplicationUser JobTypeAsUpdatedByUser { get; set; }
 
     }
 }

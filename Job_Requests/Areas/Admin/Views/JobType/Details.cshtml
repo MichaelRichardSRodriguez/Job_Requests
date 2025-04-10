@@ -47,6 +47,12 @@
 						<dd class="col-sm-9">
 							@Html.DisplayFor(model => model.CreatedDate)
 						</dd>
+						<dt class="col-sm-3">
+							@Html.DisplayNameFor(model => model.CreateUserId)
+						</dt>
+						<dd class="col-sm-9">
+							@Html.DisplayFor(model => model.JobTypeAsCreatedByUser.FullName)
+						</dd>
 
 						@if (Model?.UpdatedDate != null)
 						{
@@ -55,6 +61,12 @@
 							</dt>
 							<dd class="col-sm-9">
 								@Html.DisplayFor(model => model.UpdatedDate)
+							</dd>
+							<dt class="col-sm-3">
+								@Html.DisplayNameFor(model => model.UpdateUserId)
+							</dt>
+							<dd class="col-sm-9">
+								@Html.DisplayFor(model => model.JobTypeAsUpdatedByUser.FullName)
 							</dd>
 						}
 					</dl>

@@ -37,11 +37,9 @@ namespace Job_Requests.Models
         [ValidateNever]
         public IEnumerable<Department> ApplicationUserDepartment { get; set; }
 
-		[ForeignKey("CreatedUserId")]
 		[ValidateNever]
 		public ApplicationUser DepartmentAsCreatedByUser { get; set; }
 
-        [ForeignKey("UpdatedUserId")]
         [ValidateNever]
 		public ApplicationUser DepartmentAsUpdatedByUser { get; set; }
 	}
