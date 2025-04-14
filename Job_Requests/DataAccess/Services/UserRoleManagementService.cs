@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace Job_Requests.DataAccess.Services
 {
-	public class RoleManagementService : IRoleManagementService
+	public class UserRoleManagementService : IUserRoleManagementService
 	{
 
 		private readonly IRepository<ApplicationUser> _repository;
 
-        public RoleManagementService(IRepository<ApplicationUser> repository)
+        public UserRoleManagementService(IRepository<ApplicationUser> repository)
         {
 			_repository = repository;
         }

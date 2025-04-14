@@ -69,13 +69,13 @@
 											@if (item.Status == RecordStatusEnum.Active)
 											{
 
-												<i class="bi bi-eye-fill fa-2x text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Active"></i>
+												<i class="bi bi-eye-fill fa-2x text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Active"></i>
 
 											}
 											else
 											{
 
-												<i class="bi bi-eye-slash-fill fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="right" title="Inactive"></i>
+												<i class="bi bi-eye-slash-fill fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Inactive"></i>
 
 											}
 										</td>
@@ -83,14 +83,14 @@
 											@if (item.Status == RecordStatusEnum.Active)
 											{
 												<a asp-action="Edit" asp-route-id="@item.DepartmentId" class="btn btn-outline-success shadow my-md-1 mb-sm-1 mb-1"
-												   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
+												   data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Record">
 													<i class="bi bi-pencil-square"></i>
 												</a>
 											}
 											else
 											{
 												<a asp-action="Edit" asp-route-id="@item.DepartmentId" class="btn btn-secondary disabled my-md-1 mb-sm-1 mb-1"
-												   data-bs-toggle="tooltip" data-bs-placement="left" title="Edit Record">
+												   data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Record">
 													<i class="bi bi-pencil-square"></i>
 												</a>
 											}
@@ -101,12 +101,12 @@
 											</a>
 
 											<a asp-action="Manage" asp-route-id="@item.DepartmentId" class="btn btn-outline-warning shadow my-md-1 mb-sm-1 mb-1"
-											   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
+											   data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Status">
 												<i class="bi bi-gear"></i>
 											</a>
 
 											<a asp-action="Delete" asp-route-id="@item.DepartmentId" class="btn btn-outline-danger shadow delete-btn my-md-1"
-											   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record" data-id="@item.DepartmentId">
+											   data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Record" data-id="@item.DepartmentId">
 												<i class="bi bi-trash"></i>
 											</a>
 

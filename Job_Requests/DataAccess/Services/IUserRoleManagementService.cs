@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Job_Requests.DataAccess.Services
 {
-    public interface IRoleManagementService
+    public interface IUserRoleManagementService
     {
 
         Task<IEnumerable<ApplicationUser>> GetUsersWithRolesAsync(Expression<Func<ApplicationUser, bool>>? filter = null,

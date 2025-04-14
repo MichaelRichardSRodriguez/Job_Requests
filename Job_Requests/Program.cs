@@ -42,7 +42,7 @@ builder.Services.AddScoped<IJobTypeService, JobTypeService>();
 builder.Services.AddScoped<IJobPriorityService, JobPriorityService>();
 builder.Services.AddScoped<IJobRequestService, JobRequestService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
-builder.Services.AddScoped<IRoleManagementService, RoleManagementService>();
+builder.Services.AddScoped<IUserRoleManagementService, UserRoleManagementService>();
 
 
 
