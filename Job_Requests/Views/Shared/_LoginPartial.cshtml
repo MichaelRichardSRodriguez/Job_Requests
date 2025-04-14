@@ -8,11 +8,26 @@
     var currentUser = await UserManager.GetUserAsync(User);
 }
 
+<ul class="navbar-nav me-auto">
+    <!-- Bell Icon for Notifications -->
+    <li class="nav-item">
+        <a class="nav-link position-relative" href="#"> <!-- href="/Notifications"> -->
+            <i class="bi bi-bell" style="font-size: 1.5rem;"></i>
+            @*<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                 @Model.NotificationCount 
+                <span class="visually-hidden">unread notifications</span>
+            </span>
+            *@
+        </a>
+    </li>
+</ul>
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <!-- If user is signed in, show dropdown for account management -->
         <li class="nav-item dropdown">
+
             <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Hello, <strong> @currentUser?.FirstName </strong> <i class="bi bi-person-circle" style="font-size: 1.2rem;"></i>
             </a>
