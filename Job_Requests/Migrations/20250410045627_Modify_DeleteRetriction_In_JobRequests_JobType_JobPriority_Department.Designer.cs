@@ -4,6 +4,7 @@ using Job_Requests.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Requests.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410045627_Modify_DeleteRetriction_In_JobRequests_JobType_JobPriority_Department")]
+    partial class Modify_DeleteRetriction_In_JobRequests_JobType_JobPriority_Department
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,12 +220,6 @@ namespace Job_Requests.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobRequestId"));
 
-                    b.Property<string>("AssignedTo")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime?>("DateCompleted")
                         .HasColumnType("datetime2");
 
@@ -257,17 +254,7 @@ namespace Job_Requests.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(1);
 
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("JobRequestId");
-
-                    b.HasIndex("AssignedTo");
-
-                    b.HasIndex("CreatedUserId");
 
                     b.HasIndex("JobPriorityId");
 
@@ -276,8 +263,6 @@ namespace Job_Requests.Migrations
                     b.HasIndex("ReceivingDepartmentId");
 
                     b.HasIndex("RequestingDepartmentId");
-
-                    b.HasIndex("UpdatedUserId");
 
                     b.ToTable("JobRequests");
                 });
@@ -517,16 +502,6 @@ namespace Job_Requests.Migrations
 
             modelBuilder.Entity("Job_Requests.Models.JobRequest", b =>
                 {
-                    b.HasOne("Job_Requests.Models.ApplicationUser", "JobRequestAsAssignedToUser")
-                        .WithMany()
-                        .HasForeignKey("AssignedTo")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Job_Requests.Models.ApplicationUser", "JobRequestAsCreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Job_Requests.Models.JobPriority", "JobPriority")
                         .WithMany("JobRequests")
                         .HasForeignKey("JobPriorityId")
@@ -550,18 +525,7 @@ namespace Job_Requests.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Job_Requests.Models.ApplicationUser", "JobRequestAsUpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("JobPriority");
-
-                    b.Navigation("JobRequestAsAssignedToUser");
-
-                    b.Navigation("JobRequestAsCreatedByUser");
-
-                    b.Navigation("JobRequestAsUpdatedByUser");
 
                     b.Navigation("JobType");
 

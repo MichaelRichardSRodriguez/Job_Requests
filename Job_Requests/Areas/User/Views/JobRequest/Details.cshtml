@@ -41,6 +41,15 @@
 						<dd class="col-md-9 col-sm-8">
 							@Html.DisplayFor(model => model.JobRequests.RequestDate)
 						</dd>
+						@if (Model?.JobRequests.UpdateDate != null)
+						{
+							<dt class="col-md-3 col-sm-4 fw-bold">
+								@Html.DisplayNameFor(model => model.JobRequests.UpdateDate)
+							</dt>
+							<dd class="col-md-9 col-sm-8">
+								@Html.DisplayFor(model => model.JobRequests.UpdateDate)
+							</dd>
+						}
 						@if (Model?.JobRequests.DateCompleted != null)
 						{
 							<dt class="col-md-3 col-sm-4 fw-bold">
@@ -82,6 +91,32 @@
 						<dd class="col-md-9 col-sm-8">
 							@Html.DisplayFor(model => model.JobRequests.Remarks)
 						</dd>
+						<dt class="col-md-3 col-sm-4 fw-bold">
+							@Html.DisplayNameFor(model => model.JobRequests.CreatedUserId)
+						</dt>
+						<dd class="col-md-9 col-sm-8">
+							@Html.DisplayFor(model => model.JobRequests.JobRequestAsCreatedByUser.FullName)
+						</dd>
+
+						@if (Model?.JobRequests.UpdatedUserId != null)
+						{
+							<dt class="col-md-3 col-sm-4 fw-bold">
+								@Html.DisplayNameFor(model => model.JobRequests.UpdatedUserId)
+							</dt>
+							<dd class="col-md-9 col-sm-8">
+								@Html.DisplayFor(model => model.JobRequests.JobRequestAsUpdatedByUser.FullName)
+							</dd>
+						}
+
+						@if (Model.JobRequests.AssignedTo != null)
+						{
+							<dt class="col-md-3 col-sm-4 fw-bold">
+								@Html.DisplayNameFor(model => model.JobRequests.AssignedTo)
+							</dt>
+							<dd class="col-md-9 col-sm-8">
+								@Html.DisplayFor(model => model.JobRequests.JobRequestAsAssignedToUser.FullName)
+							</dd>
+						}
 					</dl>
 
 					<!-- Notice if Request Status is not Pending -->
@@ -120,4 +155,4 @@
 			</div>
 		</div>
 	</div>
-</div> 
+</div>

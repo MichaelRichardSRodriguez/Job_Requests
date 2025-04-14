@@ -26,11 +26,22 @@ namespace Job_Requests.DataAccess.Services
 
         public async Task<JobRequest> GetJobRequestByIdAsync(int id)
         {
-            return await _repository.GetRecordAsync(j => j.JobRequestId == id, 
-                                                    includeProperties: new string[] { "RequestingDepartment","ReceivingDepartment","JobType" });
+            return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<JobRequest>> GetJobRequestsAsync()
+		public async Task<JobRequest> GetJobRequestWithUserAsync(int id)
+		{
+			return await _repository.GetRecordAsync(j => j.JobRequestId == id,
+													includeProperties: new string[] {
+														"RequestingDepartment",
+														"ReceivingDepartment",
+														"JobType",
+														"JobRequestAsCreatedByUser",
+														"JobRequestAsUpdatedByUser",
+														"JobRequestAsAssignedToUser"});
+		}
+
+		public async Task<IEnumerable<JobRequest>> GetJobRequestsAsync()
         {
             return await _repository.GetAllAsync(includeProperties: new string[]{ "RequestingDepartment", "ReceivingDepartment", "JobType" });
         }
@@ -73,6 +84,23 @@ namespace Job_Requests.DataAccess.Services
 		{
             return await _repository.GetTotalCountAsync();
 		}
+
+		public async Task<bool> IsChangesMade(JobRequest jobRequest)
+		{
+			var existingJobRequest = await _repository.GetRecordAsync(d => d.JobRequestId == jobRequest.JobRequestId);
+
+			if (existingJobRequest.ReceivingDepartmentId != jobRequest.ReceivingDepartmentId
+				|| existingJobRequest.JobDescription != jobRequest.JobDescription
+                || existingJobRequest.JobTypeId != jobRequest.JobTypeId)
+			{
+				return true;
+			}
+
+			return false;
+
+		}
+
+
 	}
 
 }

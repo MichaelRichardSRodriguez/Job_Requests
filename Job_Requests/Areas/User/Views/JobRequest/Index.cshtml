@@ -107,6 +107,22 @@
 											   data-bs-toggle="tooltip" data-bs-placement="top" title="Show Details">
 												<i class="bi bi-info-square"></i>
 											</a>
+
+@* 											@if (User.IsInRole(StaticDetails.ROLE_MANAGER) || User.IsInRole(StaticDetails.ROLE_ADMIN))
+											{
+												<a asp-action="Manage" asp-route-id="@item.JobRequestId" class="btn btn-outline-warning shadow my-md-1 mb-sm-1 mb-1"
+												   data-bs-toggle="tooltip" data-bs-placement="bottom" title="Manage Status">
+													<i class="bi bi-gear"></i>
+												</a>
+											} *@
+
+											@if (User.IsInRole(StaticDetails.ROLE_ADMIN))
+											{
+												<a asp-area="Admin" asp-action="Delete" asp-route-id="@item.JobRequestId" class="btn btn-outline-danger shadow my-md-1"
+												   data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Record">
+													<i class="bi bi-trash"></i>
+												</a>
+											}
 										</td>
 									</tr>
 								}

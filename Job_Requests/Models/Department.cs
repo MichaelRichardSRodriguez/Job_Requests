@@ -21,8 +21,10 @@ namespace Job_Requests.Models
 		public string? CreatedUserId { get; set; }
 		[DisplayName("Updated By")]
 		public string? UpdatedUserId { get; set; }
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
 		[DisplayName("Date Created")]
 		public DateTime? CreatedDate { get; set; }
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
 		[DisplayName("Date Updated")]
 		public DateTime? UpdatedDate { get; set; }
 

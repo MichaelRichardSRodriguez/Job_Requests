@@ -9,7 +9,9 @@ namespace Job_Requests.Models.ViewModels
         [ValidateNever]
         public IEnumerable<SelectListItem> Departments { get; set; }
         [ValidateNever]
-        public IEnumerable<SelectListItem> JobTypes { get; set; }
+		public IEnumerable<SelectListItem> ReceivingDepartments { get; set; }
+		[ValidateNever]
+		public IEnumerable<SelectListItem> JobTypes { get; set; }
         [ValidateNever]
         public IEnumerable<SelectListItem> JobPriorityLevels { get; set; }
 

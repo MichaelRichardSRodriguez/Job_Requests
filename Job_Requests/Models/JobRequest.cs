@@ -29,13 +29,24 @@ namespace Job_Requests.Models
 		[Required(ErrorMessage = "Description is required.")]
 		public string JobDescription { get; set; }
 
-		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
 		[DisplayName("Date Requested")]
         public DateTime? RequestDate { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm tt}")]
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
+		[DisplayName("Date Updated")]
+		public DateTime? UpdateDate { get; set; }
+
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
 		[DisplayName("Date Completed")]
         public DateTime? DateCompleted { get; set; }
+
+        [DisplayName("Created By")]
+        public string? CreatedUserId { get; set; }
+		[DisplayName("Updated By")]
+		public string? UpdatedUserId { get; set; }
+		[DisplayName("Assigned To")]
+		public string? AssignedTo {  get; set; }
 
         // Enum for Status
         public JobStatusEnum Status { get; set; }
@@ -64,7 +75,13 @@ namespace Job_Requests.Models
         [ValidateNever]
         public JobPriority? JobPriority { get; set; }
 
+		[ValidateNever]
+		public ApplicationUser JobRequestAsCreatedByUser { get; set; }
 
-        //public Employee Employee { get; set; }
-    }
+		[ValidateNever]
+		public ApplicationUser JobRequestAsUpdatedByUser { get; set; }
+
+		[ValidateNever]
+		public ApplicationUser JobRequestAsAssignedToUser { get; set; }
+	}
 }

@@ -22,11 +22,14 @@ namespace Job_Requests.Models
 
         public RecordStatusEnum Status { get; set; }
 
-        // Auditing fields
-        [DisplayName("Date Created")]
+		// Auditing fields
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
+		[DisplayName("Date Created")]
         public DateTime? CreatedDate { get; set; }
 
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
 		[DisplayName("Date Updated")]
+
 		public DateTime? UpdatedDate { get; set; }
         [DisplayName("Created By")]
         public string? CreatedUserId { get; set; }
