@@ -1,7 +1,9 @@
 ﻿using Job_Requests.DataAccess.Services;
 using Job_Requests.Models;
 using Job_Requests.Models.Consts;
+using Job_Requests.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -40,7 +42,8 @@ namespace Job_Requests.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AssignRole(string id, string role)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignRole(string id, string role)
 		{
 			// Step 1: Get the user by ID
 			var user = await _userManager.FindByIdAsync(id);
@@ -67,15 +70,67 @@ namespace Job_Requests.Areas.Admin.Controllers
 
 				TempData["success"] = "User Role updated successfully.";
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 
-				throw;
-			}
+                TempData["error"] = $"Updating Failed. An unexpected error occured: {ex.Message}";
+            }
 
 
 			return RedirectToAction("Index");
 		}
 
-	}
+
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateUserStatus(string id)
+		{
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["error"] = "Invalid user ID.";
+                return RedirectToAction("Index");
+            }
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                TempData["error"] = "Unable to determine current user.";
+                return RedirectToAction("Index");
+            }
+
+            if (currentUserId == id)
+			{
+                TempData["error"] = "Modifying your own status is not allowed.";
+                return RedirectToAction("Index");
+            }
+
+
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                TempData["error"] = "Target user not found.";
+                return RedirectToAction("Index");
+            }
+
+			user.Status = user.Status == UserStatusEnum.Active 
+							? UserStatusEnum.Inactive 
+							: UserStatusEnum.Active;
+
+			try
+			{
+                await _userManager.UpdateAsync(user);
+                TempData["success"] = $"User Status updated {user.Status.ToString().ToUpper()} successfully.";
+            }
+			catch (Exception ex)
+			{
+
+                TempData["error"] = $"Updating Failed. An unexpected error occured: {ex.Message}";
+            }
+
+		
+			return RedirectToAction("Index");
+        }
+    }
 }

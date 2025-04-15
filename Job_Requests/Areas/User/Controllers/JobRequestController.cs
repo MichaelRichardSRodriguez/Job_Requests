@@ -159,7 +159,7 @@ namespace Job_Requests.Controllers
 				}
 				catch (Exception ex)
 				{
-					TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
+					TempData["error"] = $"Saving Failed. An unexpected error occured: {ex.Message}";
 				}
 			}
 

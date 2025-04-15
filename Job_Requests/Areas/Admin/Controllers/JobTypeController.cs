@@ -84,7 +84,7 @@ namespace Job_Requests.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
 
-                    TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
+                    TempData["error"] = $"Saving Failed. An unexpected error occured: {ex.Message}";
 
                 }
             }
@@ -230,24 +230,20 @@ namespace Job_Requests.Areas.Admin.Controllers
                 {
                     var jobTypeFromDb = await _service.GetJobTypeByIdAsync(id);
 
-                    if (jobTypeFromDb.Status == RecordStatusEnum.Active)
-                    {
-                        //jobType.Status = RecordStatusEnum.Inactive;
-                        jobTypeFromDb.Status = RecordStatusEnum.Inactive;
-                        TempData["success"] = "Department Deactivated Successfully.";
-                    }
-                    else
-                    {
-                        //jobType.Status = RecordStatusEnum.Active;
-                        jobTypeFromDb.Status = RecordStatusEnum.Active;
-                        TempData["success"] = "Department Activated Successfully.";
-                    }
+
+                    jobTypeFromDb.Status = jobType.Status == RecordStatusEnum.Active
+                                            ? RecordStatusEnum.Inactive
+                                            : RecordStatusEnum.Active;
+
+                    TempData["success"] = jobType.Status == RecordStatusEnum.Active
+                                        ? "Job Type Deactivated Successfully."
+                                        : "Job Type Activated Successfully.";
 
                     await _service.UpdateJobTypeAsync(jobTypeFromDb);
                 }
                 catch (Exception ex)
                 {
-                    TempData["error"] = $"Update Failed. \n{ex.Message}";
+                    TempData["error"] = $"Update Failed. An unexpected error occured: \n{ex.Message}";
                     return View(jobType);
 
                 }

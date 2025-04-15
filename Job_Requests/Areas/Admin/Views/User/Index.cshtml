@@ -1,5 +1,4 @@
-﻿@using Job_Requests.Models.Consts
-@model IEnumerable<ApplicationUser>
+﻿@model IEnumerable<ApplicationUser>
 
 @{
 	ViewData["Title"] = "User Role Management";
@@ -52,8 +51,6 @@
 											@if (item.Role == StaticDetails.ROLE_ADMIN)
 											{
 												<i class="bi bi-shield-lock fa-2x text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Admin"></i>
-
-
 											}
 											else if (item.Role == StaticDetails.ROLE_USER)
 											{
@@ -67,23 +64,40 @@
 
 										<!-- Action Buttons -->
 										<td class="text-center">
-@* 											<a asp-action="Assign" asp-route-id="@item.Id" class="btn btn-outline-success shadow my-md-1 mb-sm-1 mb-1"
+											@* 											<a asp-action="Assign" asp-route-id="@item.Id" class="btn btn-outline-success shadow my-md-1 mb-sm-1 mb-1"
 											   data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Role">
 												<i class="bi bi-pencil-square"></i>
 											</a> *@
 
-											<a href="#"
-											   class="btn btn-outline-success shadow my-md-1 mb-sm-1 mb-1 open-role-modal"
-											   data-bs-toggle="tooltip"
-											   data-bs-placement="top"
-											   title="Manage Role"
-											   data-user-id="@item.Id"
+											<a href="#" class="btn btn-outline-success shadow my-md-1 mt-sm-1 mb-sm-1 mb-1 open-role-modal"
+											   data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Role" data-user-id="@item.Id"
 											   data-user-role="@item.Role">
 												<i class="bi bi-pencil-square"></i>
 											</a>
 
-											<a asp-action="Delete" asp-route-id="@item.DepartmentId" class="btn btn-outline-danger shadow delete-btn my-md-1"
-											   data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Record" data-id="@item.DepartmentId">
+											<form method="post" asp-action="UpdateUserStatus" asp-route-id="@item.Id" class="d-inline">
+
+												<!-- Lock / Unlock User -->
+												@if (item.Status == UserStatusEnum.Active)
+												{
+													<button type="submit" class="btn btn-outline-success shadow my-md-1 mt-sm-1 mb-sm-1 mb-1"
+															data-bs-toggle="tooltip" data-bs-placement="top" title="Unlocked">
+														<i class="bi bi-unlock"></i>
+													</button>
+												}
+												else
+												{
+													<button type="submit" class="btn btn-outline-danger shadow my-md-1 mt-sm-1 mb-sm-1 mb-1"
+															data-bs-toggle="tooltip" data-bs-placement="top" title="Locked">
+														<i class="bi bi-lock"></i>
+													</button>
+												}
+
+											</form>
+
+											<!-- Delete User -->
+											<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger shadow delete-btn my-md-1 mt-sm-1 mb-sm-1 mb-1"
+											   data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Record" data-id="@item.Id">
 												<i class="bi bi-trash"></i>
 											</a>
 
@@ -189,24 +203,24 @@
 
 
 @section Scripts {
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		var roleModal = new bootstrap.Modal(document.getElementById('editRoleModal'));
-		const buttons = document.querySelectorAll('.open-role-modal');
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var roleModal = new bootstrap.Modal(document.getElementById('editRoleModal'));
+			const buttons = document.querySelectorAll('.open-role-modal');
 
-		buttons.forEach(btn => {
-			btn.addEventListener('click', function (e) {
-				e.preventDefault();
+			buttons.forEach(btn => {
+				btn.addEventListener('click', function (e) {
+					e.preventDefault();
 
-				const userId = this.getAttribute('data-user-id');
-				const userRole = this.getAttribute('data-user-role');
+					const userId = this.getAttribute('data-user-id');
+					const userRole = this.getAttribute('data-user-role');
 
-				document.getElementById('userId').value = userId;
-				document.getElementById('roleSelect').value = userRole;
+					document.getElementById('userId').value = userId;
+					document.getElementById('roleSelect').value = userRole;
 
-				roleModal.show();
+					roleModal.show();
+				});
 			});
 		});
-	});
-</script>
+	</script>
 }

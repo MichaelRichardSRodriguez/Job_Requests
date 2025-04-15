@@ -96,7 +96,7 @@ namespace Job_Requests.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
 
-                    TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
+                    TempData["error"] = $"Saving Failed. An unexpected error occured: {ex.Message}";
 
                 }
 
@@ -217,22 +217,20 @@ namespace Job_Requests.Areas.Admin.Controllers
                 try
                 {
 
-                    if (department.Status == RecordStatusEnum.Active)
-                    {
-                        department.Status = RecordStatusEnum.Inactive;
-                        TempData["success"] = "Department Deactivated Successfully.";
-                    }
-                    else
-                    {
-                        department.Status = RecordStatusEnum.Active;
-                        TempData["success"] = "Department Activated Successfully.";
-                    }
+                    department.Status = department.Status == RecordStatusEnum.Active 
+                                    ? RecordStatusEnum.Inactive 
+                                    : RecordStatusEnum.Active;
+
+                    TempData["success"] = department.Status == RecordStatusEnum.Active
+                                        ? "Department Deactivated Successfully."
+                                        : "Department Activated Successfully.";
+
 
                     await _service.UpdateDepartmentAsync(department);
                 }
                 catch (Exception ex)
                 {
-                    TempData["error"] = $"Update Failed. \n{ex.Message}";
+                    TempData["error"] = $"Update Failed. An unexpected error occured: \n{ex.Message}";
                     return View(department);
 
                     throw;
@@ -290,7 +288,7 @@ namespace Job_Requests.Areas.Admin.Controllers
                     }
                     else
                     {
-                        TempData["error"] = $"Unable to Delete.\n {ex.Message}";
+                        TempData["error"] = $"Deletion Failed. An unexpected error occured:\n {ex.Message}";
                     }
 
                 }

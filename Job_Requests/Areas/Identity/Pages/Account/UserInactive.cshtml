@@ -1,0 +1,64 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "User Inactive";
+}
+
+    <style>
+        .error-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .error-code {
+            font-size: 100px;
+            color: #e74c3c;
+            margin: 0;
+        }
+
+        .error-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .error-description {
+            font-size: 16px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+            .btn-home:hover {
+                background-color: #2980b9;
+            }
+
+    </style>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+        <div class="error-box col-lg-6 col-md-8 col-sm-12 col-12">
+            <h1 class="error-code">403</h1>
+            <p class="error-message">User Inactive</p>
+            <p class="error-description">
+                You do not have permission to use this Account. Please contact your administrator if you believe this is an error.
+            </p>
+            <a asp-page="/Account/Login" class="btn-home">Go to Login Page</a>
+        </div>
+    </div>
+</div>

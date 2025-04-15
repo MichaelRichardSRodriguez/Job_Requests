@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Job_Requests.Models.Enums;
 
 namespace Job_Requests.Areas.Identity.Pages.Account
 {
@@ -120,6 +121,7 @@ namespace Job_Requests.Areas.Identity.Pages.Account
                 // Try to find the user by Email first
                 var user = await _userManager.FindByEmailAsync(Input.UserNameorEmail);
 
+                // If Email Not Found, find UserName
                 if (user == null)
                 {
                     user = await _userManager.FindByNameAsync(Input.UserNameorEmail);
@@ -127,6 +129,13 @@ namespace Job_Requests.Areas.Identity.Pages.Account
 
                 if (user != null)
                 {
+                    // Check if Active before allowing log-in
+                    if (user.Status == UserStatusEnum.Inactive)
+                    {
+                        _logger.LogWarning("User account is Inactive.");
+                        return RedirectToPage("./UserInactive");
+                    }
+
 
                     // This doesn't count login failures towards account lockout
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true

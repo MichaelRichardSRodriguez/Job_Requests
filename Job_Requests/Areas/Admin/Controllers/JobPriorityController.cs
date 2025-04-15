@@ -94,7 +94,7 @@ namespace Job_Requests.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
 
-                    TempData["error"] = $"Saving Failed. Error Encountered. {ex.Message}";
+                    TempData["error"] = $"Saving Failed. An unexpected error occured: {ex.Message}";
 
                 }
             }
@@ -168,7 +168,7 @@ namespace Job_Requests.Areas.Admin.Controllers
 
                     TempData["success"] = "Priority Level Updated Successfully.";
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
                     if (!await _service.IsExistingPriorityLevelId(jobPriority.JobPriorityId))
                     {
@@ -176,7 +176,7 @@ namespace Job_Requests.Areas.Admin.Controllers
                     }
                     else
                     {
-                        throw;
+                        TempData["error"] = $"Updating Failed. An unexpected error occured: {ex.Message}"; ;
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -247,25 +247,22 @@ namespace Job_Requests.Areas.Admin.Controllers
                         return NotFound();
                     }
 
-                    if (jobPriority.Status == RecordStatusEnum.Active)
-                    {
-                        jobPriorityFromDb.Status = RecordStatusEnum.Inactive;
-                        TempData["success"] = "Priority Level Deactivated Successfully.";
-                    }
-                    else
-                    {
-                        jobPriorityFromDb.Status = RecordStatusEnum.Active;
-                        TempData["success"] = "Priority Level Activated Successfully.";
-                    }
+                    jobPriorityFromDb.Status = jobPriority.Status == RecordStatusEnum.Active
+                                            ? RecordStatusEnum.Inactive
+                                            : RecordStatusEnum.Active;
+
+                    TempData["success"] = jobPriority.Status == RecordStatusEnum.Active
+                                        ? "Priority Level Deactivated Successfully."
+                                        : "Priority Level Activated Successfully.";
 
                     await _service.UpdatePriorityLevelAsync(jobPriorityFromDb);
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
-                    throw;
+                    TempData["error"] = $"Updating Failed. An unexpected error occured: {ex.Message}"; ;
                 }
             }
 

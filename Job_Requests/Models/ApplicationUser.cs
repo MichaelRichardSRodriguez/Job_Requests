@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Job_Requests.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -37,5 +38,7 @@ namespace Job_Requests.Models
 		[DisplayName("Name")]
 		public string FullName { get; set; }
 
-	}
+		public UserStatusEnum Status { get; set; }
+
+    }
 }
