@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="icon" type="image/x-icon" href="~/JobRequest.png" />
 	<title>@ViewData["Title"] - Job Requests</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/Job_Requests.styles.css" asp-append-version="true" />
@@ -22,7 +23,10 @@
 		<!-- USING NAV BAR-->
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm  bg-light border-bottom box-shadow mb-3" data-bs-theme="light">
 			<div class="container-fluid">
-				<a class="navbar-brand" asp-area="Guest" asp-controller="Home" asp-action="Index">Job Requests</a>
+				<a class="navbar-brand" asp-area="Guest" asp-controller="Home" asp-action="Index"><img src="~/JobRequest.png" alt="Job Request Icon"
+						style="height: 27px; margin-right: 3px;"/>
+					Job Requests
+					</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
